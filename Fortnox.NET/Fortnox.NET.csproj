@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Title>Fortnox API SDK</Title>
+        <Authors>Zenta</Authors>
+        <PackageProjectUrl>www.github.com/????</PackageProjectUrl>
+        <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+        <RepositoryUrl>www.github.com/???</RepositoryUrl>
+        <RepositoryType>GIT</RepositoryType>
+        <LangVersion>7.1</LangVersion>
+        <TargetFrameworks>net47;net48;netstandard2.0</TargetFrameworks>
+        <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+        <Version>1.0.0</Version>
+        <ApplicationIcon />
+        <OutputType>Library</OutputType>
+        <StartupObject />
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Net" />
+      <Reference Include="System.Net.Http" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='net47'">
+      <Reference Include="System.Net" />
+      <Reference Include="System.Net.Http" />
+    </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  
+</Project>
