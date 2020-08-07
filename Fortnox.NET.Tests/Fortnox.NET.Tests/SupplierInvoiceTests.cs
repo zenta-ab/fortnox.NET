@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FortnoxNET.Communication;
 using FortnoxNET.Constants.Search;
+using FortnoxNET.Models.SupplierInvoice;
 using FortnoxNET.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -36,13 +37,14 @@ namespace FortnoxNET.Tests
         public async Task GetSupplierInvoicesFromDateToDateTest()
         {
             var request = new SupplierInvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                          {
-                              SearchParameters = new Dictionary<SupplierInvoiceSearchParameters, object>()
-                                                 {
-                                                     {SupplierInvoiceSearchParameters.FromDate, "2018-02-18"}, {SupplierInvoiceSearchParameters.ToDate, "2018-12-31"},
-                                                 }
-                          };
-            request.SearchParameters[SupplierInvoiceSearchParameters.FinancialYearDate] = DateTime.UtcNow.AddYears(-1).ToShortDateString();
+                {
+                    SearchParameters = new Dictionary<SupplierInvoiceSearchParameters, object>()
+                        {
+                            {SupplierInvoiceSearchParameters.FromDate, "2018-02-18"}, 
+                            {SupplierInvoiceSearchParameters.ToDate, "2030-12-31"},
+                        }
+                };
+            request.SearchParameters[SupplierInvoiceSearchParameters.FinancialYearDate] = DateTime.UtcNow.ToString("yyyy-MM-dd");
 
             var invoiceList = await SupplierInvoiceService.GetSupplierInvoicesAsync(request);
 
@@ -52,10 +54,26 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public async Task GetSupplierInvoice()
         {
+            var invoices = await GetSupplierInvoices();
+
+            if (!invoices.Data.Any())
+            {
+                return;
+            }
+            
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = await SupplierInvoiceService.GetSupplierInvoiceAsync(request, 4, 33);
+            var response = await SupplierInvoiceService.GetSupplierInvoiceAsync(
+                request, 
+                Convert.ToInt32(invoices.Data.First().GivenNumber)
+            );
 
             Assert.IsNotNull(response);
+        }
+
+        private async Task<ListedResourceResponse<SupplierInvoiceSubset>> GetSupplierInvoices()
+        {
+            var request = new SupplierInvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            return await SupplierInvoiceService.GetSupplierInvoicesAsync(request);
         }
     }
 }
