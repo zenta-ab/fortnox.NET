@@ -32,6 +32,7 @@ namespace FortnoxNET.Tests
 
             if (!allEntitiesResponse.Data.Any())
             { 
+                Assert.Inconclusive("No TaxReductions exist in the system");
                 return;
             }
             
