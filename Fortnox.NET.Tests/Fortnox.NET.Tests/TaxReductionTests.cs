@@ -27,10 +27,9 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public async Task GetTaxReductionTest()
         {
-            var allEntitiesRequest = new TaxReductionListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var allEntitiesResponse = await TaxReductionService.GetTaxReductionsAsync(allEntitiesRequest);
+            var taxReductions = await GetTaxReductions();
 
-            if (!allEntitiesResponse.Data.Any())
+            if (!taxReductions.Data.Any())
             { 
                 Assert.Inconclusive("No TaxReductions exist in the system");
                 return;
@@ -39,10 +38,16 @@ namespace FortnoxNET.Tests
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var response = await TaxReductionService.GetTaxReductionAsync(
                 request, 
-                allEntitiesResponse.Data.First().Id
+                taxReductions.Data.First().Id
             );
 
-            Assert.IsTrue(response.Id == allEntitiesResponse.Data.First().Id);
+            Assert.IsTrue(response.Id == taxReductions.Data.First().Id);
+        }
+
+        private async Task<ListedResourceResponse<TaxReduction>> GetTaxReductions()
+        {
+            var request = new TaxReductionListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            return await TaxReductionService.GetTaxReductionsAsync(request);
         }
 
         // [TestMethod]
