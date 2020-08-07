@@ -48,7 +48,7 @@ namespace FortnoxNET.Tests
         public void CreateEmployee()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var employeeName = $"TestAnställd {DateTime.Now.ToShortDateString()}";
+            var employeeName = $"TestAnställd {DateTime.Now.ToString("yyyy-MM-dd")}";
             
             var response = EmployeeService.CreateEmployeeAsync(request, 
                 new Employee 

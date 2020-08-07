@@ -42,7 +42,7 @@ namespace FortnoxNET.Tests
                                                      {SupplierInvoiceSearchParameters.FromDate, "2018-02-18"}, {SupplierInvoiceSearchParameters.ToDate, "2018-12-31"},
                                                  }
                           };
-            request.SearchParameters[SupplierInvoiceSearchParameters.FinancialYearDate] = DateTime.UtcNow.AddYears(-1).ToShortDateString();
+            request.SearchParameters[SupplierInvoiceSearchParameters.FinancialYearDate] = DateTime.UtcNow.AddYears(-1).ToString("yyyy-MM-dd");
 
             var invoiceList = await SupplierInvoiceService.GetSupplierInvoicesAsync(request);
 

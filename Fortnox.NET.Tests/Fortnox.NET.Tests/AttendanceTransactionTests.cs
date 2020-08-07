@@ -47,7 +47,7 @@ namespace FortnoxNET.Tests
 
             Assert.AreEqual(2, response.Hours);
 
-            await AttendanceTransactionService.DeleteAttendanceTransactionAsync(request, "1593082874", today.ToShortDateString(), "TID");
+            await AttendanceTransactionService.DeleteAttendanceTransactionAsync(request, "1593082874", today.ToString("yyyy-MM-dd"), "TID");
         }
 
         //[TestMethod]

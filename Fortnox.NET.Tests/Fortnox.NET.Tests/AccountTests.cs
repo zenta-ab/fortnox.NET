@@ -30,7 +30,7 @@ namespace FortnoxNET.Tests
                               SearchParameters = new Dictionary<AccountSearchParameters, object>() {{AccountSearchParameters.SRU, 1}}
                           };
             
-            request.SearchParameters.Add(AccountSearchParameters.FinancialYearDate, DateTime.Parse("2016-01-01").ToShortDateString());
+            request.SearchParameters.Add(AccountSearchParameters.FinancialYearDate, DateTime.Parse("2016-01-01").ToString("yyyy-MM-dd"));
 
             var accountList = await AccountService.GetAccountsAsync(request);
 
@@ -41,7 +41,7 @@ namespace FortnoxNET.Tests
         public void GetCustomerInvoicesPaginationTest()
         {
             var request = new AccountListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            request.SearchParameters.Add(AccountSearchParameters.FinancialYearDate, DateTime.UtcNow.ToShortDateString());
+            request.SearchParameters.Add(AccountSearchParameters.FinancialYearDate, DateTime.UtcNow.ToString("yyyy-MM-dd"));
             request.Limit = 50;
             request.Page = 1;
             
