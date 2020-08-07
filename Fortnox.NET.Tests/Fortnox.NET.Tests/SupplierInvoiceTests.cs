@@ -56,7 +56,7 @@ namespace FortnoxNET.Tests
         {
             var invoices = await GetSupplierInvoices();
 
-            if (invoices.Data.Any())
+            if (!invoices.Data.Any())
             {
                 Assert.Inconclusive("No SupplierInvoices exist in the system");
                 return;
