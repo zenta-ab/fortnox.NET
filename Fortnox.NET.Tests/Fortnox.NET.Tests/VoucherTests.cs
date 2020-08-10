@@ -16,7 +16,7 @@ namespace FortnoxNET.Tests
         public async Task GetVouchersTest()
         {
             var request = new VoucherListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            request.SearchParameters[VoucherSearchParameters.FinancialYearDate] = DateTime.UtcNow.ToShortDateString();
+            request.SearchParameters[VoucherSearchParameters.FinancialYearDate] = DateTime.UtcNow.ToString("yyyy-MM-dd");
             var voucherList = await VoucherService.GetVouchersAsync(request);
 
             Assert.IsTrue(voucherList.Data.ToList().Count > 0);
@@ -26,7 +26,7 @@ namespace FortnoxNET.Tests
         public async Task GetVouchersFromDateToDateTest()
         {
             var request = new VoucherListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            request.SearchParameters[VoucherSearchParameters.FinancialYearDate] = DateTime.UtcNow.ToShortDateString();
+            request.SearchParameters[VoucherSearchParameters.FinancialYearDate] = DateTime.UtcNow.ToString("yyyy-MM-dd");
 
             var voucherList = await VoucherService.GetVouchersAsync(request);
 

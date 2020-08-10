@@ -44,9 +44,9 @@ namespace FortnoxNET.Tests
                 DepreciationMethod = "0",
                 AcquisitionValue = 13000,
                 DepreciateToResidualValue = 1300,
-                AcquisitionDate = currentDate.ToShortDateString(),
-                AcquisitionStart = currentDate.AddMonths(1).ToShortDateString(),
-                DepreciationFinal = currentDate.AddYears(1).ToShortDateString(),
+                AcquisitionDate = currentDate.ToString("yyyy-MM-dd"),
+                AcquisitionStart = currentDate.AddMonths(1).ToString("yyyy-MM-dd"),
+                DepreciationFinal = currentDate.AddYears(1).ToString("yyyy-MM-dd"),
             };
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);

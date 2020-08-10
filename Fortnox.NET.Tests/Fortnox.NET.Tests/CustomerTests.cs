@@ -93,7 +93,7 @@ namespace FortnoxNET.Tests
         public void CreateCustomer()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var customerName = $"TestKund {DateTime.Now.ToShortDateString()}";
+            var customerName = $"TestKund {DateTime.Now.ToString("yyyy-MM-dd")}";
             var response = CustomerService.CreateCustomerAsync(request, 
                 new Customer 
                 { 

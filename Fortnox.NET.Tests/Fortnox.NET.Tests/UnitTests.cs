@@ -60,7 +60,7 @@ namespace FortnoxNET.Tests
         {
             var request = new UnitListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
                           {
-                              SearchParameters = new Dictionary<UnitSearchParameters, object> {{UnitSearchParameters.LastModified, DateTime.Today.ToShortDateString()}}
+                              SearchParameters = new Dictionary<UnitSearchParameters, object> {{UnitSearchParameters.LastModified, DateTime.Today.ToString("yyyy-MM-dd")}}
                           };
 
             var units = UnitService.GetUnitsAsync(request).GetAwaiter().GetResult();

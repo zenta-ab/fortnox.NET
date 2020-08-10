@@ -49,7 +49,7 @@ namespace FortnoxNET.Tests
         {
             var request = new ProjectListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
             {
-                SearchParameters = new Dictionary<ProjectSearchParameters, object> {{ProjectSearchParameters.LastModified, DateTime.UtcNow.ToShortDateString()}}
+                SearchParameters = new Dictionary<ProjectSearchParameters, object> {{ProjectSearchParameters.LastModified, DateTime.UtcNow.ToString("yyyy-MM-dd")}}
             };
 
             var projects = ProjectService.GetProjectsAsync(request).GetAwaiter().GetResult();
