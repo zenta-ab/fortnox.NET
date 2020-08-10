@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
@@ -24,12 +25,29 @@ namespace FortnoxNET.Tests
         }
 
         [TestMethod]
-        public void GetTaxReductionTest()
+        public async Task GetTaxReductionTest()
         {
-            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = TaxReductionService.GetTaxReductionAsync(request, "12").GetAwaiter().GetResult();
+            var taxReductions = await GetTaxReductions();
 
-            Assert.IsTrue(response.Id == "12");
+            if (!taxReductions.Data.Any())
+            { 
+                Assert.Inconclusive("No TaxReductions exist in the system");
+                return;
+            }
+            
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = await TaxReductionService.GetTaxReductionAsync(
+                request, 
+                taxReductions.Data.First().Id
+            );
+
+            Assert.IsTrue(response.Id == taxReductions.Data.First().Id);
+        }
+
+        private async Task<ListedResourceResponse<TaxReduction>> GetTaxReductions()
+        {
+            var request = new TaxReductionListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            return await TaxReductionService.GetTaxReductionsAsync(request);
         }
 
         // [TestMethod]

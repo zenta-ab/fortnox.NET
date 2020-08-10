@@ -32,10 +32,10 @@ namespace FortnoxNET.Services
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }
         
-        public static async Task<SupplierInvoice> GetSupplierInvoiceAsync(FortnoxApiRequest request, int financialYear, int SupplierInvoiceNumber)
+        public static async Task<SupplierInvoice> GetSupplierInvoiceAsync(FortnoxApiRequest request, int givenNumber)
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
-                                                                                          $"{ApiEndpoints.SupplierInvoices}/{SupplierInvoiceNumber}?financialyear={financialYear}");
+                                                                                          $"{ApiEndpoints.SupplierInvoices}/{givenNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -43,7 +43,7 @@ namespace FortnoxNET.Services
         public static async Task<SupplierInvoice> GetSupplierInvoiceAsync(FortnoxApiRequest request, string url)
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,url);
-
+        
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
     }
