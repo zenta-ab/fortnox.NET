@@ -2,6 +2,6 @@
 {
   public class Inbox
     {      
-        public Folder Folder {get; set; }
+        public Folder Folder { get; set; }
     }
 }

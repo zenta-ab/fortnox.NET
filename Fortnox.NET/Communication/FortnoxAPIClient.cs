@@ -61,6 +61,44 @@ namespace FortnoxNET.Communication
                 return await GetResponseAsync<T>(response);
             }
         }
+        
+        internal static async Task<TResponse> CallAsync<T, TResponse>(FortnoxApiClientRequest<T> request) 
+            where T : class
+            where TResponse: class
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Access-Token", request.AccessToken);
+                client.DefaultRequestHeaders.Add("Client-Secret", request.ClientSecret);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response;
+
+                switch (request.HttpMethod)
+                {
+                    case HttpMethod m when m == Get:
+                        response = await client.GetAsync(request.GetEndpoint());
+                        break;
+
+                    case HttpMethod m when m == Delete:
+                        response = await client.DeleteAsync(request.GetEndpoint());
+                        break;
+
+                    case HttpMethod m when m == Post:
+                        response = await client.PostAsync(request.GetEndpoint(), request.GetStringContent());
+                        break;
+
+                    case HttpMethod m when m == Put:
+                        response = await client.PutAsync(request.GetEndpoint(), request.GetStringContent());
+                        break;
+
+                    default:
+                        throw new NotSupportedException();
+                }
+
+                return await GetResponseAsync<TResponse>(response);
+            }
+        }
 
         internal static async Task<T> UploadAsync<T>(FortnoxApiClientRequest<T> request, string fileName, byte[] filedata) where T : class
         {
