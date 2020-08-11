@@ -1,4 +1,3 @@
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FortnoxNET.Communication;
@@ -74,20 +73,22 @@ namespace FortnoxNET.Services
 
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }
-
-        public static async Task<File> CreateFileAsync(FortnoxApiRequest request, byte[] fileContents, string folderId = "root")
+        
+        public static async Task<File> CreateFileAsync(
+            FortnoxApiRequest request, 
+            byte[] fileData, 
+            string fileName, 
+            string folderId)
         {
+
             var apiRequest =
-                new FortnoxApiClientRequest<byte[]>(
+                new FortnoxApiClientRequest<SingleResource<File>>(
                     HttpMethod.Post,
                     request.AccessToken,
                     request.ClientSecret,
-                    $"{ApiEndpoints.Archive}/?folderid={folderId}")
-                {
-                    Data = fileContents
-                };
+                    $"{ApiEndpoints.Archive}/?folderid={folderId}");
 
-            return await FortnoxAPIClient.CallAsync<byte[], File>(apiRequest);
+            return (await FortnoxAPIClient.UploadAsync(apiRequest, fileName, fileData)).Data;
         }
         
         public static async Task DeleteArchiveAsync(FortnoxApiRequest request, string archiveId)
