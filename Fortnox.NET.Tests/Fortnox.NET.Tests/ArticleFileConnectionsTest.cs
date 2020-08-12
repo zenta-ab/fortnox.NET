@@ -49,7 +49,7 @@ namespace FortnoxNET.Tests
         {
             var fileId = await CreateFile();
             var articles = await GetArticles();
-            var article = !articles.Any() ? await CreateArticle() : articles.First();
+            var article = articles.FirstOrDefault() ?? await CreateArticle();
             var request = new FortnoxApiRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
 
             try
@@ -118,7 +118,7 @@ namespace FortnoxNET.Tests
         {
             var fileId = await CreateFile();
             var articles = await GetArticles();
-            var article = !articles.Any() ? await CreateArticle() : articles.First();
+            var article = articles.FirstOrDefault() ?? await CreateArticle();
             var request = new FortnoxApiRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
             
             return await ArticleFileConnectionService.CreateArticleFileConnection(
