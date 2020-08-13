@@ -1,5 +1,7 @@
+using FortnoxNET.Models.Assets;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using System;
 
 namespace FortnoxNET.Communication
 {
