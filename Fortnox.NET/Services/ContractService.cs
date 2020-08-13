@@ -58,5 +58,29 @@ namespace FortnoxNET.Services
                 };
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
+
+        public static async Task<Contract> FinishContractAsync(FortnoxApiRequest request, Contract contract)
+        {
+            var apiRequest =
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                    $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}/finish");
+            return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
+        }
+
+        public static async Task<Contract> CreateInvoiceFromContractAsync(FortnoxApiRequest request, Contract contract)
+        {
+            var apiRequest =
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                    $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}/createinvoice");
+            return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
+        }
+
+        public static async Task<Contract> IncreaseInvoiceCountForContractAsync(FortnoxApiRequest request, Contract contract)
+        {
+            var apiRequest =
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                    $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}/increaseinvoicecount");
+            return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
+        }
     }
 }
