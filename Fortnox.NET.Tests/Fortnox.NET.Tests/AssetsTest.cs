@@ -124,10 +124,10 @@ namespace FortnoxNET.Tests
             var scrapAsset = new AssetScrap { Percentage = 5, Comment = "Scrap comment", Date = currentDate.AddMonths(1).ToString("yyyy-MM-dd") };
             var scrappedAsset = await AssetsService.ScrapAssetAsync(request, $"{result.Id}", scrapAsset);
 
+            await AssetsService.DeleteAssetAsync(request, result.Id.ToString());
+            
             var latestHistoryEntry = scrappedAsset.History.Last();
             Assert.IsTrue(latestHistoryEntry.Notes.Contains(scrapAsset.Comment));
-
-            await AssetsService.DeleteAssetAsync(request, result.Id.ToString());
         }
 
         [TestMethod]
