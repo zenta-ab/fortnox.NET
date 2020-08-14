@@ -60,5 +60,17 @@ namespace FortnoxNET.Services
             
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
+
+        public static async Task DeleteArticleAsync(FortnoxApiRequest request, string articleNumber)
+        {
+            var apiRequest =
+                new FortnoxApiClientRequest<object>(
+                    HttpMethod.Delete,
+                    request.AccessToken,
+                    request.ClientSecret,
+                    $"{ApiEndpoints.Articles}/{articleNumber}");
+
+            await FortnoxAPIClient.CallAsync(apiRequest);
+        }
     }
 }

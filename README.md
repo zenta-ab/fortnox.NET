@@ -35,48 +35,50 @@ var response = await ArticleService.GetArticleAsync(request, "100370");
 ## Features
 Bellow is a list of the supported API endpoints within the SDK.
  
-* Absence transactions
-* Account charts
+* Absence Transactions
+* Account Charts
 * Accounts
+* Archive
+* Article File Connections
 * Articles
-* Assert types
+* Assert Types
 * Assets
-* Attendance transactions
-* Company information
-* Company settings
+* Attendance Transactions
+* Company Information
+* Company Settings
 * Contracts
-* Cost centers
+* Cost Centers
 * Currencies
 * Customers
 * Employees
 * Expenses
-* Finnancial years
+* Finnancial Years
 * Inbox
-* Invoice payments
+* Invoice Payments
 * Invoices
 * Labels
-* Locked period
-* Modes of payments
+* Locked Period
+* Modes of Payments
 * Offers
 * Orders
-* Price lists
+* Price Lists
 * Prices
-* Print templates
+* Print Templates
 * Projects
-* Salary transactions
+* Salary Transactions
 * SIE
-* Supplier invoice external URL connections
-* Supplier invoice payments
-* Supplier invoices
+* Supplier Invoice External URL Connections
+* Supplier Invoice Payments
+* Supplier Invoices
 * Suppliers
-* Tax reductions
-* Terms of deliveries
-* Terms of payments
-* Trusted email domains
+* Tax Reductions
+* Terms of Deliveries
+* Terms of Payments
+* Trusted Email Domains
 * Units
-* Voucher series
+* Voucher Series
 * Vouchers
-* Way of deliveries
+* Way of Deliveries
  
 ## Contributing
 Thank you for considering contributing to Fortnox.NET. This part of the document provides information on how to get the project to run and build the project. 
