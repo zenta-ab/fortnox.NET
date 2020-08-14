@@ -56,5 +56,6 @@ namespace FortnoxNET.Constants
         public static readonly string ModesOfPayments = $"{_baseUri}/modesofpayments";
         public static readonly string PrintTemplates = $"{_baseUri}/printtemplates";
         public static readonly string Archive = $"{_baseUri}/archive";
+        public static readonly string PredefinedAccounts = $"{_baseUri}/predefinedaccounts";
     }
 }
