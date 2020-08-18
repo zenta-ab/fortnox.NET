@@ -57,5 +57,6 @@ namespace FortnoxNET.Constants
         public static readonly string PrintTemplates = $"{_baseUri}/printtemplates";
         public static readonly string Archive = $"{_baseUri}/archive";
         public static readonly string ArticleFileConnections = $"{_baseUri}/articlefileconnections";
+        public static readonly string ContractTemplates = $"{_baseUri}/contracttemplates";
     }
 }
