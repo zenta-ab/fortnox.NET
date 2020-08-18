@@ -107,15 +107,8 @@ namespace FortnoxNET.WebSockets
                 }
             }
 
-            try
-            {
-                var deserializedResult = JsonConvert.DeserializeObject<T>(resultString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                return deserializedResult;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            var deserializedResult = JsonConvert.DeserializeObject<T>(resultString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return deserializedResult;
         }
 
         /// <summary>
@@ -180,13 +173,13 @@ namespace FortnoxNET.WebSockets
         /// <returns>The current instance of <see cref="FortnoxWebSocketClient"/></returns>
         public FortnoxWebSocketClient AddTopic(WebSocketTopic topic)
         {
-            Type type = topic.GetType();
-            FieldInfo fi = type.GetField(topic.ToString());
+            var type = topic.GetType();
+            var fieldInfo = type.GetField(topic.ToString());
             
-            WebSocketTopicStringValueAttribute attr = 
-                fi.GetCustomAttribute(typeof(WebSocketTopicStringValueAttribute), false) as WebSocketTopicStringValueAttribute;
+            var attribute =
+                fieldInfo.GetCustomAttribute(typeof(WebSocketTopicStringValueAttribute), false) as WebSocketTopicStringValueAttribute;
 
-            this._topics.Add(attr.Value);
+            this._topics.Add(attribute.Value);
 
             return this;
         }
@@ -219,6 +212,7 @@ namespace FortnoxNET.WebSockets
         ///         {
         ///             (await client.Connect()).Listen(async (socket) =>
         ///             {
+        ///                 // GetNextEvent returns an enumeration and is iterated asyncrounusly as new events are yielded
         ///                 foreach (var response in client.GetNextEvent(socket))
         ///                 {
         ///                     if (response != null)

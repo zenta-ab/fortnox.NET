@@ -55,6 +55,7 @@ var task = new Task(async () =>
     {
         (await client.Connect()).Listen(async (socket) =>
         {
+            // GetNextEvent returns an enumeration and is iterated asyncrounusly as new events are yielded
             foreach (var response in client.GetNextEvent(socket))
             {
                 if (response != null)
