@@ -32,7 +32,6 @@ namespace FortnoxNET.Tests
             if (!accounts.Any())
             {
                 Assert.Inconclusive("No predefined accounts exist in the system");
-                return;
             }
             
             var request = new PredefinedAccountListRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
@@ -55,13 +54,11 @@ namespace FortnoxNET.Tests
             if (!predefinedAccounts.Any())
             {
                 Assert.Inconclusive("No predefined accounts exist in the system");
-                return;
             }
 
             if (!accounts.Any())
             {
                 Assert.Inconclusive("No accounts exist in the system");
-                return;
             }
 
             var predefinedAccount = await GetPredefinedAccount(predefinedAccounts.First().Name);
