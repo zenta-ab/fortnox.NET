@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using FortnoxNET.Models.Invoice;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
 

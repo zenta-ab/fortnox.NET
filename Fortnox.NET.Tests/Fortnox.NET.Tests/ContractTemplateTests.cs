@@ -31,7 +31,6 @@ namespace FortnoxNET.Tests
             if (!templates.Any())
             {
                 Assert.Inconclusive("No contract templates exist in the system");
-                return;
             }
             
             var request = new ContractTemplateListRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
@@ -45,22 +44,23 @@ namespace FortnoxNET.Tests
             Assert.AreEqual(templates.First().ContractTemplate, response.Data.TemplateNumber);
         }
 
-        // WARNING: Contract Templates have no DELETE endpoint, so running this can add extraneous data to the system
-        // [TestMethod]
-        // public async Task ItCanCreateAContractTemplate()
-        // {
-        //     var template = GenerateTemplate();
-        //     
-        //     var request = new FortnoxApiRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
-        //     var response = await ContractTemplateService.CreateContractTemplateAsync(
-        //         request,
-        //         template
-        //     );
-        //     
-        //     Assert.IsNotNull(response);
-        //     Assert.IsNotNull(response.Data);
-        //     Assert.AreEqual(template.TemplateName, response.Data.TemplateName);
-        // }
+        //WARNING: Contract Templates have no DELETE endpoint, so running this can add extraneous data to the system
+        [TestMethod]
+        public async Task ItCanCreateAContractTemplate()
+        {
+            Assert.Inconclusive("Skipping this test as it can add extraneous data to the system");
+            var template = GenerateTemplate();
+            
+            var request = new FortnoxApiRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
+            var response = await ContractTemplateService.CreateContractTemplateAsync(
+                request,
+                template
+            );
+            
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Data);
+            Assert.AreEqual(template.TemplateName, response.Data.TemplateName);
+        }
 
         [TestMethod]
         public async Task ItCanUpdateAContractTemplate()
