@@ -5,7 +5,10 @@ namespace FortnoxNET.Constants
         private const string _apiVersion = "3";
         private static readonly string _baseUri = $"https://api.fortnox.se/{_apiVersion}";
 
-		public static readonly string AbsenceTransactions = $"{_baseUri}/absencetransactions";
+        private const string _webSocketApiVersion = "v1";
+        public static readonly string WebSocketURI = $"wss://ws.fortnox.se/topics-{_webSocketApiVersion}";
+
+        public static readonly string AbsenceTransactions = $"{_baseUri}/absencetransactions";
 		public static readonly string CustomerInvoices = $"{_baseUri}/invoices";
         public static readonly string Vouchers = $"{_baseUri}/vouchers";
         public static readonly string VoucherSublist = $"{_baseUri}/vouchers/sublist";
@@ -57,6 +60,7 @@ namespace FortnoxNET.Constants
         public static readonly string PrintTemplates = $"{_baseUri}/printtemplates";
         public static readonly string Archive = $"{_baseUri}/archive";
         public static readonly string ArticleFileConnections = $"{_baseUri}/articlefileconnections";
+        public static readonly string ContractTemplates = $"{_baseUri}/contracttemplates";
         public static readonly string PredefinedAccounts = $"{_baseUri}/predefinedaccounts";
     }
 }
