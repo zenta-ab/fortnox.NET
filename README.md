@@ -93,6 +93,7 @@ Bellow is a list of the supported API endpoints within the SDK.
 * Company Information
 * Company Settings
 * Contracts
+* Contract Templates
 * Cost Centers
 * Currencies
 * Customers
@@ -107,6 +108,7 @@ Bellow is a list of the supported API endpoints within the SDK.
 * Modes of Payments
 * Offers
 * Orders
+* Predefined Accounts
 * Price Lists
 * Prices
 * Print Templates

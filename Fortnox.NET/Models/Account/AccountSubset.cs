@@ -18,5 +18,6 @@ namespace FortnoxNET.Models.Account
         public string TransactionInformationSettings { get; set; }
         public string VATCode { get; set; }
         public int Year { get; set; }
+        public int Number { get; set; }
     }
 }
