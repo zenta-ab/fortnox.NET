@@ -32,14 +32,21 @@ namespace FortnoxNET.Tests.WebSocket
                 {
                     (await client.Connect()).Listen(async (socket) =>
                     {
+                        var numberOfEvents = 0;
                         foreach (var response in client.GetNextEvent(socket))
                         {
                             if (response != null)
                             {
+                                numberOfEvents++;
+
                                 Assert.IsTrue(response.Topic == "articles");
                                 Assert.IsTrue(response.Type == "article-updated-v1");
                                 Assert.IsTrue(response.EntityId == "100370");
+                            }
 
+                            // NOTE(Oskar): Expecting 5 events due to article being updated 5 times.
+                            if (numberOfEvents >= 5)
+                            {
                                 return;
                             }
                         }
@@ -52,11 +59,15 @@ namespace FortnoxNET.Tests.WebSocket
             }, TaskCreationOptions.LongRunning);
             listeningTask.Start();
 
-            var updatedDescription = $"TestArtikel {DateTime.UtcNow}";
-            var article = new Article { Description = updatedDescription, ArticleNumber = "100370" };
-            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
-            Assert.AreEqual(updatedDescription, updatedArticle.Description);
+            // NOTE(Oskar): Update an article 5 times to trigger multiple events.
+            for (var x = 0; x <= 5; ++x)
+            {
+                var updatedDescription = $"TestArtikel {DateTime.UtcNow}";
+                var article = new Article { Description = updatedDescription, ArticleNumber = "100370" };
+                var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+                var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
+                Assert.AreEqual(updatedDescription, updatedArticle.Description);
+            }
 
             await listeningTask;
         }
