@@ -4,6 +4,10 @@
 
 .NET bindings for the <a href="https://developer.fortnox.se/documentation/">Fortnox</a> API.
 
+We at Zenta have worked with Fortnox integrations since 2017. During this time we have helped several companies connect their systems with Fortnox and their API. During this time we've gathered a lot of knowledge and established a good relation with Fortnox. Because of our good relaiton with Fortnox we have the opportunity to be first out with the latest technology and updates that Fortnox offers.
+
+This SDK makes working with the Fortnox API much easier and allows the community to work together to help improve it.
+
 ## Usage
 
 To access the Fortnox API you need an Access Token and Client Secret: <a href="https://developer.fortnox.se/general/authentication/">https://developer.fortnox.se/general/authentication/</a>.
