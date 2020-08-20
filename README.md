@@ -1,3 +1,5 @@
+<img src=".github/Banner.png" style="width:100%;">
+
 # Fortnox.NET
 
 .NET bindings for the <a href="https://developer.fortnox.se/documentation/">Fortnox</a> API.
