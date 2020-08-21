@@ -123,6 +123,7 @@ Bellow is a list of the supported API endpoints within the SDK.
 * Salary Transactions
 * SIE
 * Supplier Invoice External URL Connections
+* Supplier Invoice File Connections
 * Supplier Invoice Payments
 * Supplier Invoices
 * Suppliers
