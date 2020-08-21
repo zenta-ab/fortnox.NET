@@ -93,7 +93,8 @@ Bellow is a list of the supported API endpoints within the SDK.
 * Archive
 * Article File Connections
 * Articles
-* Assert Types
+* Asset File Connections
+* Asset Types
 * Assets
 * Attendance Transactions
 * Company Information

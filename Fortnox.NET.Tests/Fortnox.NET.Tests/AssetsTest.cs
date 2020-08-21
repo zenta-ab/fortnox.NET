@@ -53,10 +53,10 @@ namespace FortnoxNET.Tests
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var result = await AssetsService.CreateAssetAsync(request, asset);
-            
-            Assert.AreEqual(asset.Number, result.Number);
 
             await AssetsService.DeleteAssetAsync(request, result.Id.ToString());
+            
+            Assert.AreEqual(asset.Number, result.Number);
         }
         
         [TestMethod]

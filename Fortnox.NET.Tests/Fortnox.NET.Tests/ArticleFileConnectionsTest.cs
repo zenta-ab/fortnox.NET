@@ -80,6 +80,7 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public async Task ItCanDeleteAConnectionForAFile()
         {
+            var initialConnections = await GetConnections();
             var articleFileConnection = await CreateConnection();
 
             try
@@ -91,9 +92,21 @@ namespace FortnoxNET.Tests
                     connectionSettings.AccessToken, 
                     connectionSettings.ClientSecret
                 );
-                await Assert.ThrowsExceptionAsync<Exception>(async () =>
-                    await ArticleFileConnectionService.GetArticleFileConnectionAsync(getConnectionRequest, articleFileConnection.FileId)
-                );
+
+                if (initialConnections.Count < 1)
+                {
+                    await Assert.ThrowsExceptionAsync<Exception>(async () =>
+                        await ArticleFileConnectionService.GetArticleFileConnectionAsync(
+                            getConnectionRequest, 
+                            articleFileConnection.FileId
+                        )
+                    );    
+                }
+                else
+                {
+                    var currentConnections = await GetConnections();
+                    Assert.AreEqual(initialConnections.Count, currentConnections.Count);
+                }
             }
             finally
             {
