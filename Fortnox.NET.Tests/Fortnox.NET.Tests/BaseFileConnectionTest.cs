@@ -34,6 +34,18 @@ namespace FortnoxNET.Tests
 
             return response.Id;
         }
+
+        protected async Task<string> CreateInboxFile(string inboxFolder)
+        {
+            var tempFile = CreateTempFile(out var tempFileName);
+            var fileBytes = await File.ReadAllBytesAsync(tempFile);
+            File.Delete(tempFile);
+            
+            var request = new FortnoxApiRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
+            var response = await InboxService.UploadFileAsync(request, inboxFolder, tempFileName, fileBytes);
+
+            return response.Id;
+        }
         
         protected string CreateTempFile(out string tempFileName)
         {

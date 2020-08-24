@@ -63,5 +63,6 @@ namespace FortnoxNET.Constants
         public static readonly string ContractTemplates = $"{_baseUri}/contracttemplates";
         public static readonly string PredefinedAccounts = $"{_baseUri}/predefinedaccounts";
         public static readonly string AssetFileConnections = $"{_baseUri}/assetfileconnections";
+        public static readonly string SupplierInvoiceFileConnections = $"{_baseUri}/supplierinvoicefileconnections";
     }
 }

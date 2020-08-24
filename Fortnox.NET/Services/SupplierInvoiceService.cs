@@ -46,5 +46,23 @@ namespace FortnoxNET.Services
         
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
+
+        public static async Task<SupplierInvoice> CreateSupplierInvoiceAsync(FortnoxApiRequest request,
+            SupplierInvoice invoice)
+        {
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(
+                HttpMethod.Post, 
+                request.AccessToken, 
+                request.ClientSecret,
+                $"{ApiEndpoints.SupplierInvoices}")
+            {
+                Data = new SingleResource<SupplierInvoice>()
+                {
+                    Data = invoice
+                }
+            };
+
+            return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
+        }
     }
 }
