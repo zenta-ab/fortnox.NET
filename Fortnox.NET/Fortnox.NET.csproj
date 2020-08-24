@@ -2,12 +2,11 @@
 
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.2.0</PackageVersion>
+        <PackageVersion>1.0.0</PackageVersion>
         <Title>Fortnox API SDK</Title>
-        <Authors>Zenta</Authors>
-        <PackageProjectUrl>www.github.com/????</PackageProjectUrl>
+        <Authors>Zenta AB</Authors>
         <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-        <RepositoryUrl>www.github.com/???</RepositoryUrl>
+        <RepositoryUrl>https://github.com/zenta-ab/fortnox.NET</RepositoryUrl>
         <RepositoryType>GIT</RepositoryType>
         <LangVersion>7.1</LangVersion>
         <TargetFrameworks>net47;net48;netstandard2.0</TargetFrameworks>

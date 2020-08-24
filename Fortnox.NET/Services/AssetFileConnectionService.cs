@@ -1,7 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using FortnoxNET.Communication;
-using FortnoxNET.Communication.AssetFileConnections;
 using FortnoxNET.Communication.FileConnection;
 using FortnoxNET.Constants;
 using FortnoxNET.Models.FileConnections;

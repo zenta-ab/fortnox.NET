@@ -1,4 +1,4 @@
-namespace FortnoxNET.Communication.AssetFileConnections
+namespace FortnoxNET.Communication.FileConnection
 {
     public class AssetFileConnectionListRequest : FortnoxApiListedResourceRequest
     {
