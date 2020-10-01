@@ -1,4 +1,4 @@
-﻿namespace FortnoxNET.WebSockets
+﻿namespace FortnoxNET.WebSockets.Models
 {
     public static class WebSocketCommands
     {
