@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Communication;
+﻿using Fortnox.NET.WebSockets.Models;
+using FortnoxNET.Communication;
 using FortnoxNET.Communication.Order;
 using FortnoxNET.Models.Article;
 using FortnoxNET.Models.Order;
@@ -21,63 +22,39 @@ namespace FortnoxNET.Tests.WebSocket
         private const int DEFAULT_BUFFER_SIZE = 2048;
 
         [TestMethod]
-        public async Task CanListenUsingEnumerable()
+        public async Task CanHandleCommandResponses()
         {
-            var client = new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                .AddTopic(WebSocketTopic.Articles);
+            var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+            await client.Connect();
+            
+            await client.AddTenant(this.connectionSettings.AccessToken);
+            var addTenantResponse = await client.Recieve();
+            Assert.IsTrue(addTenantResponse.Type == WebSocketResponseType.CommandResponse);
+            Assert.IsTrue(addTenantResponse.Result.Equals("ok"));
+            Assert.IsTrue(addTenantResponse.Response == WebSocketCommands.AddTenants);
 
-            var listeningTask = new Task(async () =>
-            {
-                try
-                {
-                    (await client.Connect()).Listen(async (socket) =>
-                    {
-                        var numberOfEvents = 0;
-                        foreach (var response in client.GetNextEvent(socket))
-                        {
-                            if (response != null)
-                            {
-                                numberOfEvents++;
 
-                                Assert.IsTrue(response.Topic == "articles");
-                                Assert.IsTrue(response.Type == "article-updated-v1");
-                                Assert.IsTrue(response.EntityId == "100370");
-                            }
-
-                            // NOTE(Oskar): Expecting 5 events due to article being updated 5 times.
-                            if (numberOfEvents >= 5)
-                            {
-                                return;
-                            }
-                        }
-                    }).GetAwaiter().GetResult();
-                }
-                catch (Exception e)
-                {
-                    Assert.Fail(e.Message);
-                }
-            }, TaskCreationOptions.LongRunning);
-            listeningTask.Start();
-
-            // NOTE(Oskar): Update an article 5 times to trigger multiple events.
-            for (var x = 0; x <= 5; ++x)
-            {
-                var updatedDescription = $"TestArtikel {DateTime.UtcNow}";
-                var article = new Article { Description = updatedDescription, ArticleNumber = "100370" };
-                var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-                var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
-                Assert.AreEqual(updatedDescription, updatedArticle.Description);
-            }
-
-            await listeningTask;
+            await client.AddTopic(WebSocketTopic.Articles);
+            var addTopicResponse = await client.Recieve();
+            Assert.IsTrue(addTopicResponse.Type == WebSocketResponseType.CommandResponse);
+            Assert.IsTrue(addTopicResponse.Result.Equals("ok"));
+            Assert.IsTrue(addTopicResponse.Response == WebSocketCommands.AddTopics);
+            
+            await client.Subscribe();
+            var subscribeResponse = await client.Recieve();
+            Assert.IsTrue(subscribeResponse.Type == WebSocketResponseType.CommandResponse);
+            Assert.IsTrue(subscribeResponse.Result.Equals("ok"));
+            Assert.IsTrue(subscribeResponse.Response == WebSocketCommands.Subscribe);
         }
 
         [TestMethod]
         public async Task CanConnectAndListen()
         {
-            var client = await new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                .AddTopic(WebSocketTopic.Articles)
-                .Connect();
+            var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+            await client.Connect();
+            await client.AddTenant(this.connectionSettings.AccessToken);
+            await client.AddTopic(WebSocketTopic.Articles);
+            await client.Subscribe();
 
             var updatedDescription = $"TestArtikel {DateTime.UtcNow}";
             var article = new Article { Description = updatedDescription, ArticleNumber = "100370" };
@@ -85,132 +62,23 @@ namespace FortnoxNET.Tests.WebSocket
             var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
             Assert.AreEqual(updatedDescription, updatedArticle.Description);
 
-            await client.Listen(async (socket) =>
+            var response = await client.Recieve();
+            while (response.Type != WebSocketResponseType.EventResponse)
             {
-                var finished = false;
-                var resultString = "";
-                while (!finished)
-                {
-                    if (socket.State == WebSocketState.Open)
-                    {
-                        var buffer = new byte[DEFAULT_BUFFER_SIZE];
-                        var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                        if (result.MessageType == WebSocketMessageType.Close)
-                        {
-                            await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                            Assert.Fail("Socket closed unexpectedly.");
-                            return;
-                        }
-                        else
-                        {
-                            resultString += Encoding.ASCII.GetString(buffer);
-                            finished = result.EndOfMessage;
-                        }
-                    }
-                    else
-                    {
-                        Assert.Fail("Socket unexpectedly closed.");
-                    }
-                }
+                response = await client.Recieve();
+            }
 
-                try
-                {
-                    var response = JsonConvert.DeserializeObject<WebSocketEvent>(resultString);
-                    Assert.IsTrue(response.Topic == "articles");
-                    Assert.IsTrue(response.Type == "article-updated-v1");
-                    Assert.IsTrue(response.EntityId == "100370");
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return;
-            });
-        }
-
-        [TestMethod]
-        public async Task CanListenInNonblockingThread()
-        {
-            var client = new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                .AddTopic(WebSocketTopic.Articles);
-
-            var listeningTask = new Task(() => { WebsocketListenerHelper(client); }, TaskCreationOptions.LongRunning);
-            listeningTask.Start();
-
-            var updatedDescription = $"TestArtikel {DateTime.UtcNow}";
-            var article = new Article { Description = updatedDescription, ArticleNumber = "100370" };
-            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
-            Assert.AreEqual(updatedDescription, updatedArticle.Description);
-
-            await listeningTask;
-        }
-
-        public void WebsocketListenerHelper(FortnoxWebSocketClient client)
-        {
-            var task = new Task(async () =>
-            {
-                try
-                {
-                    (await client.Connect()).Listen(async (socket) =>
-                    {
-                        var buffer = new byte[DEFAULT_BUFFER_SIZE];
-                        while (socket.State == WebSocketState.Open)
-                        {
-                            var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                            if (result.MessageType == WebSocketMessageType.Close)
-                            {
-                                await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                                Assert.Fail("Socket closed unexpectedly.");
-                                return;
-                            }
-                            else
-                            {
-                                var response = JsonConvert.DeserializeObject<WebSocketEvent>(Encoding.ASCII.GetString(buffer));
-
-                                Assert.IsTrue(response.Topic == "articles");
-                                Assert.IsTrue(response.Type == "article-updated-v1");
-                                Assert.IsTrue(response.EntityId == "100370");
-
-                                return;
-                            }
-                        }
-                    }).GetAwaiter().GetResult();
-                }
-                catch (Exception e)
-                {
-                    Assert.Fail("");
-                }
-            }, TaskCreationOptions.LongRunning);
-
-            task.RunSynchronously();
+            Assert.IsTrue(response.Topic == "articles");
+            Assert.IsTrue(response.EventType == "article-updated-v1");
+            Assert.IsTrue(response.EntityId == "100370");   
         }
 
         [TestMethod]
         public async Task CannotConnectTwice()
         {
-            var client = new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                .AddTopic(WebSocketTopic.Articles);
-
+            var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
             await client.Connect();
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => client.Connect());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(WebSocketException))]
-        public async Task UserHasToSpecifyTopicsOrThrowsException()
-        {
-            var client = await new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                .Connect();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(WebSocketException))]
-        public async Task InvalidCredentialsThrowsException()
-        {
-            var client = await new FortnoxWebSocketClient("NotAnAccessToken", "NotASecret")
-                .Connect();
         }
 
         [TestMethod]
@@ -218,40 +86,41 @@ namespace FortnoxNET.Tests.WebSocket
         {
             var listeningTask = new Task(async () =>
             {
-                var client = new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-                    .AddTopic(WebSocketTopic.Articles)
-                    .AddTopic(WebSocketTopic.Orders);
+                var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+                await client.Connect();
+                await client.AddTenant(this.connectionSettings.AccessToken);
+                await client.AddTopic(WebSocketTopic.Articles);
+                await client.AddTopic(WebSocketTopic.Orders);
+                await client.Subscribe();
 
-                await client.ConnectAndListen(async (socket) =>
+                var recievedArticleUpdate = false;
+                var recievedOrderUpdate = false;
+
+                while (!recievedArticleUpdate && !recievedOrderUpdate)
                 {
-                    var recievedArticleUpdate = false;
-                    var recievedOrderUpdate = false;
-
-                    foreach (var response in client.GetNextEvent(socket))
+                    var response = await client.Recieve();
+                    if (response.Type == WebSocketResponseType.EventResponse)
                     {
-                        if (response != null)
+                        Assert.IsTrue(response.Topic == "articles" || response.Topic == "orders");
+
+                        if (response.Topic == "articles")
                         {
-                            Assert.IsTrue(response.Topic == "articles" || response.Topic == "orders");
-                            
-                            if (response.Topic == "articles")
-                            {
-                                recievedArticleUpdate = true;
-                            }
-                            else if (response.Topic == "orders")
-                            {
-                                recievedOrderUpdate = true;
-                            }
+                            recievedArticleUpdate = true;
+                        }
+                        else if (response.Topic == "orders")
+                        {
+                            recievedOrderUpdate = true;
+                        }
 
-                            Assert.IsTrue(response.Type == "article-updated-v1" || response.Type == "order-updated-v1");
-                            Assert.IsTrue(response.EntityId == "100370" || response.EntityId == "1");
+                        Assert.IsTrue(response.EventType == "article-updated-v1" || response.EventType == "order-updated-v1");
+                        Assert.IsTrue(response.EntityId == "100370" || response.EntityId == "1");
 
-                            if (recievedArticleUpdate && recievedOrderUpdate)
-                            {
-                                return;
-                            }
+                        if (recievedArticleUpdate && recievedOrderUpdate)
+                        {
+                            return;
                         }
                     }
-                });
+                }
             }, TaskCreationOptions.LongRunning);
             listeningTask.Start();
 
@@ -260,7 +129,7 @@ namespace FortnoxNET.Tests.WebSocket
             var order = new Order { DocumentNumber = 1, Comments = comment };
             var updatedOrder = OrderService.UpdateOrderAsync(request, order).GetAwaiter().GetResult();
             Assert.AreEqual(comment, updatedOrder.Comments);
-            
+
             var updatedDescription = $"TestArtikel {DateTime.UtcNow}";
             var article = new Article { Description = updatedDescription, ArticleNumber = "100370" };
             var articleRequest = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);

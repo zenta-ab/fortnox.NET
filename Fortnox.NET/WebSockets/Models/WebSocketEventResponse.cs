@@ -3,7 +3,7 @@ using System;
 
 namespace FortnoxNET.WebSockets.Models
 {
-    public class WebSocketEvent
+    public class WebSocketEventResponse
     {
         [JsonProperty(PropertyName = "offset")]
         public string Offset { get; set; }

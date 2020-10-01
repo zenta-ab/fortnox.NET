@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace FortnoxNET.WebSockets.Models
@@ -12,7 +13,7 @@ namespace FortnoxNET.WebSockets.Models
         public string Result { get; set; }
 
         [JsonProperty(PropertyName = "tenantIds")]
-        public dynamic TenantIDs { get; set; } // TODO(Oskar): Don't use dynamic.
+        public JObject TenantIDs { get; set; }
 
         [JsonProperty(PropertyName = "invalidTokens")]
         public List<string> InvalidTokens { get; set; }
