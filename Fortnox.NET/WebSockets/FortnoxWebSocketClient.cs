@@ -52,18 +52,35 @@ namespace FortnoxNET.WebSockets
             this.AccessTokenTenantId = new Dictionary<string, long>();
         }
 
-        public async Task Connect()
+        public async Task Connect(CancellationToken cancellationToken = default)
         {
-            await _webSocket.ConnectAsync(_fortnoxWebSocketURI, CancellationToken.None);
+            await _webSocket.ConnectAsync(_fortnoxWebSocketURI, cancellationToken);
         }
 
-        private async Task Send(string message)
+        public async Task Close(CancellationToken cancellationToken = default)
+        {
+            var validStates = new List<WebSocketState> 
+            { 
+                WebSocketState.Open, 
+                WebSocketState.CloseReceived, 
+                WebSocketState.CloseSent 
+            };
+
+            if (validStates.Contains(_webSocket.State))
+            {
+                await _webSocket.CloseAsync(WebSocketCloseStatus.Empty, null, cancellationToken);
+            }
+
+            _webSocket.Dispose();
+        }
+
+        private async Task Send(string message, CancellationToken cancellationToken = default)
         {
             var messageBuffer = new ArraySegment<byte>(Encoding.ASCII.GetBytes(message));
-            await _webSocket.SendAsync(messageBuffer, WebSocketMessageType.Text, true, CancellationToken.None);
+            await _webSocket.SendAsync(messageBuffer, WebSocketMessageType.Text, true, cancellationToken);
         }
 
-        public async Task<WebSocketResponse> Recieve()
+        public async Task<WebSocketResponse> Recieve(CancellationToken cancellationToken = default)
         {
             var finished = false;
             var resultString = "";
@@ -73,11 +90,11 @@ namespace FortnoxNET.WebSockets
                 if (_webSocket.State == WebSocketState.Open)
                 {
                     var resultBuffer = new byte[this._bufferSize];
-                    var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(resultBuffer), CancellationToken.None);
+                    var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(resultBuffer), cancellationToken);
 
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
-                        await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                        await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cancellationToken);
                         throw new WebSocketException($"Websocket connection closed unexpectedly. Reason: {result.CloseStatus}");
                     }
                     else
@@ -112,32 +129,31 @@ namespace FortnoxNET.WebSockets
             return deserializedResult;
         }
 
-        public async Task AddTenant(string accessToken)
+        public async Task AddTenant(string accessToken, CancellationToken cancellationToken = default)
         {
-            var AddTenantsObject = new 
+            var addTenantsObject = new 
             { 
                 command = WebSocketCommands.AddTenants, 
                 clientSecret = _clientSecret, 
-                accessTokens = new List<string>() 
+                accessTokens = new List<string>() { accessToken }
             };
-            AddTenantsObject.accessTokens.Add(accessToken);
 
-            await Send(JsonConvert.SerializeObject(AddTenantsObject));
+            await Send(JsonConvert.SerializeObject(addTenantsObject), cancellationToken);
         }
 
-        public async Task AddTenant(List<string> accessTokens)
+        public async Task AddTenant(List<string> accessTokens, CancellationToken cancellationToken = default)
         {
-            var AddTenantsObject = new
+            var addTenantsObject = new
             {
                 command = WebSocketCommands.AddTenants,
                 clientSecret = _clientSecret,
-                accessTokens = new List<string>(accessTokens)
+                accessTokens
             };
 
-            await Send(JsonConvert.SerializeObject(AddTenantsObject));
+            await Send(JsonConvert.SerializeObject(addTenantsObject), cancellationToken);
         }
 
-        public async Task AddTopic(WebSocketTopic topic)
+        public async Task AddTopic(WebSocketTopic topic, CancellationToken cancellationToken = default)
         {
             var type = topic.GetType();
             var fieldInfo = type.GetField(topic.ToString());
@@ -147,15 +163,18 @@ namespace FortnoxNET.WebSockets
 
             Topics.Add(attribute.Value);
 
-            var AddTopicObject = new { command = WebSocketCommands.AddTopics, topics = new List<object>() };
-            AddTopicObject.topics.Add(new { topic = attribute.Value });
+            var addTopicObject = new 
+            { 
+                command = WebSocketCommands.AddTopics, 
+                topics = new List<object>() { new { topic = attribute.Value } } 
+            };
 
-            await Send(JsonConvert.SerializeObject(AddTopicObject));
+            await Send(JsonConvert.SerializeObject(addTopicObject), cancellationToken);
         }
 
-        public async Task AddTopic(List<WebSocketTopic> topics)
+        public async Task AddTopic(List<WebSocketTopic> topics, CancellationToken cancellationToken = default)
         {
-            var AddTopicObject = new { command = WebSocketCommands.AddTopics, topics = new List<object>() };
+            var addTopicObject = new { command = WebSocketCommands.AddTopics, topics = new List<object>() };
             foreach (var topic in topics)
             {
                 var type = topic.GetType();
@@ -165,16 +184,16 @@ namespace FortnoxNET.WebSockets
                     fieldInfo.GetCustomAttribute(typeof(WebSocketTopicStringValueAttribute), false) as WebSocketTopicStringValueAttribute;
 
                 Topics.Add(attribute.Value);
-                AddTopicObject.topics.Add(new { topic = attribute.Value });
+                addTopicObject.topics.Add(new { topic = attribute.Value });
             }
 
-            await Send(JsonConvert.SerializeObject(AddTopicObject));
+            await Send(JsonConvert.SerializeObject(addTopicObject), cancellationToken);
         }
 
-        public async Task Subscribe()
+        public async Task Subscribe(CancellationToken cancellationToken = default)
         {
-            var SubscribeObject = new { command = WebSocketCommands.Subscribe };
-            await Send(JsonConvert.SerializeObject(SubscribeObject));
+            var subscribeObject = new { command = WebSocketCommands.Subscribe };
+            await Send(JsonConvert.SerializeObject(subscribeObject), cancellationToken);
         }
     }
 }

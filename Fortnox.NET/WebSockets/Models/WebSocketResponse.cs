@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -43,9 +44,9 @@ namespace Fortnox.NET.WebSockets.Models
         [JsonProperty(PropertyName = "entityId")]
         public string EntityId { get; set; }
 
-        // TODO(Oskar): Make this some sort of enum type users can do something with.
         [JsonProperty(PropertyName = "type")]
-        public string EventType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public WebSocketEventType EventType { get; set; }
 
         [JsonProperty(PropertyName = "timestamp")]
         public DateTime Timestamp { get; set; }

@@ -7,10 +7,8 @@ using FortnoxNET.Services;
 using FortnoxNET.WebSockets;
 using FortnoxNET.WebSockets.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +17,6 @@ namespace FortnoxNET.Tests.WebSocket
     [TestClass]
     public class FortnoxWebSocketClientTest : TestBase
     {
-        private const int DEFAULT_BUFFER_SIZE = 2048;
 
         [TestMethod]
         public async Task CanHandleCommandResponses()
@@ -45,6 +42,8 @@ namespace FortnoxNET.Tests.WebSocket
             Assert.IsTrue(subscribeResponse.Type == WebSocketResponseType.CommandResponse);
             Assert.IsTrue(subscribeResponse.Result.Equals("ok"));
             Assert.IsTrue(subscribeResponse.Response == WebSocketCommands.Subscribe);
+
+            await client.Close();
         }
 
         [TestMethod]
@@ -68,9 +67,11 @@ namespace FortnoxNET.Tests.WebSocket
                 response = await client.Recieve();
             }
 
-            Assert.IsTrue(response.Topic == "articles");
-            Assert.IsTrue(response.EventType == "article-updated-v1");
-            Assert.IsTrue(response.EntityId == "100370");   
+            Assert.IsTrue(response.Topic == WebSocketTopic.Articles.ToString());
+            Assert.IsTrue(response.EventType == WebSocketEventType.ArticleUpdated);
+            Assert.IsTrue(response.EntityId == "100370");
+
+            await client.Close();
         }
 
         [TestMethod]
@@ -79,6 +80,32 @@ namespace FortnoxNET.Tests.WebSocket
             var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
             await client.Connect();
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => client.Connect());
+            await client.Close();
+        }
+
+        [TestMethod]
+        public async Task CancellationTokenTest()
+        {
+            var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+            await client.Connect();
+            await client.AddTenant(this.connectionSettings.AccessToken);
+            await client.Recieve();
+            await client.AddTopic(WebSocketTopic.Articles);
+            await client.Recieve();
+            await client.Subscribe();
+            await client.Recieve();
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.CancelAfter(2500);
+            CancellationToken token = cancellationTokenSource.Token;
+            
+            // Recieve that will be cancelled after 2,5 seconds.
+            await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => client.Recieve(token));
+
+            // Underlying ClientWebSocket state will be set to "Aborted" once cancelled so we cannot re-use the socket now.
+            await Assert.ThrowsExceptionAsync<WebSocketException>(() => client.Recieve(token));
+
+            await client.Close();
         }
 
         [TestMethod]
@@ -101,18 +128,18 @@ namespace FortnoxNET.Tests.WebSocket
                     var response = await client.Recieve();
                     if (response.Type == WebSocketResponseType.EventResponse)
                     {
-                        Assert.IsTrue(response.Topic == "articles" || response.Topic == "orders");
+                        Assert.IsTrue(response.Topic == WebSocketTopic.Articles.ToString() || response.Topic == WebSocketTopic.Orders.ToString());
 
-                        if (response.Topic == "articles")
+                        if (response.Topic == WebSocketTopic.Articles.ToString())
                         {
                             recievedArticleUpdate = true;
                         }
-                        else if (response.Topic == "orders")
+                        else if (response.Topic == WebSocketTopic.Orders.ToString())
                         {
                             recievedOrderUpdate = true;
                         }
 
-                        Assert.IsTrue(response.EventType == "article-updated-v1" || response.EventType == "order-updated-v1");
+                        Assert.IsTrue(response.EventType == WebSocketEventType.ArticleUpdated || response.EventType == WebSocketEventType.OrderUpdated);
                         Assert.IsTrue(response.EntityId == "100370" || response.EntityId == "1");
 
                         if (recievedArticleUpdate && recievedOrderUpdate)
@@ -121,6 +148,8 @@ namespace FortnoxNET.Tests.WebSocket
                         }
                     }
                 }
+
+                await client.Close();
             }, TaskCreationOptions.LongRunning);
             listeningTask.Start();
 
@@ -137,6 +166,7 @@ namespace FortnoxNET.Tests.WebSocket
             Assert.AreEqual(updatedDescription, updatedArticle.Description);
 
             await listeningTask;
+
         }
     }
 }
