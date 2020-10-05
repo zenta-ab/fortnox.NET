@@ -45,7 +45,7 @@ var response = await ArticleService.GetArticleAsync(request, "100370");
 ### WebSocket
 
 If you want to subscribe to changes instead of having to poll for new information you can use the Fortnox WebSocket API.
-You start by creating a FortnoxWebSocketClient with your ClientSecret. Proceed with calling `Connect` to initiate the connection with Fortnox followed by adding the desired topics and tenants to your connection and once you're ready call `Subscribe` to start recieving events.
+You start by creating a FortnoxWebSocketClient with your ClientSecret. Proceed with calling `Connect` to initiate the connection with Fortnox followed by adding the desired topics and tenants to your connection and once you're ready call `Subscribe` to start receiving events.
 
 ```CSharp
 var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
@@ -55,24 +55,24 @@ await client.AddTopic(WebSocketTopic.Articles);
 await client.Subscribe();
 ```
 
-Once you're subscribed you can call `Recieve` to recieve incoming messages. Performing actions such as `AddTenant`, `AddTopic` and `Subscribe` also results in a message being returned, if you wish you can handle those as well. In the following snippet we see an example which stores all action responses in their own variables followed by a while loop listening for incoming events.
+Once you're subscribed you can call `Receive` to receive incoming messages. Performing actions such as `AddTenant`, `AddTopic` and `Subscribe` also results in a message being returned, if you wish you can handle those as well. In the following snippet we see an example which stores all action responses in their own variables followed by a while loop listening for incoming events.
 
 ```CSharp
 var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
 await client.Connect();
 
 await client.AddTenant(this.connectionSettings.AccessToken);
-var addTenantResponse = await client.Recieve();
+var addTenantResponse = await client.Receive();
 
 await client.AddTopic(WebSocketTopic.Articles);
-var addTopicResponse = await client.Recieve();
+var addTopicResponse = await client.Receive();
 
 await client.Subscribe();
-var subscribeResponse = await client.Recieve();
+var subscribeResponse = await client.Receive();
 
 while (ListenToIncomingEvents)
 {
-    var response = await client.Recieve();
+    var response = await client.Receive();
     if (response.Type == WebSocketResponseType.EventResponse)
     {
         // Handle events

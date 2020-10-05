@@ -25,20 +25,20 @@ namespace FortnoxNET.Tests.WebSocket
             await client.Connect();
             
             await client.AddTenant(this.connectionSettings.AccessToken);
-            var addTenantResponse = await client.Recieve();
+            var addTenantResponse = await client.Receive();
             Assert.IsTrue(addTenantResponse.Type == WebSocketResponseType.CommandResponse);
             Assert.IsTrue(addTenantResponse.Result.Equals("ok"));
             Assert.IsTrue(addTenantResponse.Response == WebSocketCommands.AddTenants);
 
 
             await client.AddTopic(WebSocketTopic.Articles);
-            var addTopicResponse = await client.Recieve();
+            var addTopicResponse = await client.Receive();
             Assert.IsTrue(addTopicResponse.Type == WebSocketResponseType.CommandResponse);
             Assert.IsTrue(addTopicResponse.Result.Equals("ok"));
             Assert.IsTrue(addTopicResponse.Response == WebSocketCommands.AddTopics);
             
             await client.Subscribe();
-            var subscribeResponse = await client.Recieve();
+            var subscribeResponse = await client.Receive();
             Assert.IsTrue(subscribeResponse.Type == WebSocketResponseType.CommandResponse);
             Assert.IsTrue(subscribeResponse.Result.Equals("ok"));
             Assert.IsTrue(subscribeResponse.Response == WebSocketCommands.Subscribe);
@@ -61,10 +61,10 @@ namespace FortnoxNET.Tests.WebSocket
             var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
             Assert.AreEqual(updatedDescription, updatedArticle.Description);
 
-            var response = await client.Recieve();
+            var response = await client.Receive();
             while (response.Type != WebSocketResponseType.EventResponse)
             {
-                response = await client.Recieve();
+                response = await client.Receive();
             }
 
             Assert.IsTrue(response.Topic == WebSocketTopic.Articles.ToString());
@@ -89,21 +89,21 @@ namespace FortnoxNET.Tests.WebSocket
             var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
             await client.Connect();
             await client.AddTenant(this.connectionSettings.AccessToken);
-            await client.Recieve();
+            await client.Receive();
             await client.AddTopic(WebSocketTopic.Articles);
-            await client.Recieve();
+            await client.Receive();
             await client.Subscribe();
-            await client.Recieve();
+            await client.Receive();
 
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSource.CancelAfter(2500);
             CancellationToken token = cancellationTokenSource.Token;
-            
-            // Recieve that will be cancelled after 2,5 seconds.
-            await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => client.Recieve(token));
+
+            // Receive that will be cancelled after 2,5 seconds.
+            await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => client.Receive(token));
 
             // Underlying ClientWebSocket state will be set to "Aborted" once cancelled so we cannot re-use the socket now.
-            await Assert.ThrowsExceptionAsync<WebSocketException>(() => client.Recieve(token));
+            await Assert.ThrowsExceptionAsync<WebSocketException>(() => client.Receive(token));
 
             await client.Close();
         }
@@ -120,29 +120,29 @@ namespace FortnoxNET.Tests.WebSocket
                 await client.AddTopic(WebSocketTopic.Orders);
                 await client.Subscribe();
 
-                var recievedArticleUpdate = false;
-                var recievedOrderUpdate = false;
+                var receivedArticleUpdate = false;
+                var receivedOrderUpdate = false;
 
-                while (!recievedArticleUpdate && !recievedOrderUpdate)
+                while (!receivedArticleUpdate && !receivedOrderUpdate)
                 {
-                    var response = await client.Recieve();
+                    var response = await client.Receive();
                     if (response.Type == WebSocketResponseType.EventResponse)
                     {
                         Assert.IsTrue(response.Topic == WebSocketTopic.Articles.ToString() || response.Topic == WebSocketTopic.Orders.ToString());
 
                         if (response.Topic == WebSocketTopic.Articles.ToString())
                         {
-                            recievedArticleUpdate = true;
+                            receivedArticleUpdate = true;
                         }
                         else if (response.Topic == WebSocketTopic.Orders.ToString())
                         {
-                            recievedOrderUpdate = true;
+                            receivedOrderUpdate = true;
                         }
 
                         Assert.IsTrue(response.EventType == WebSocketEventType.ArticleUpdated || response.EventType == WebSocketEventType.OrderUpdated);
                         Assert.IsTrue(response.EntityId == "100370" || response.EntityId == "1");
 
-                        if (recievedArticleUpdate && recievedOrderUpdate)
+                        if (receivedArticleUpdate && receivedOrderUpdate)
                         {
                             return;
                         }

@@ -35,7 +35,7 @@ namespace FortnoxNET.WebSockets
         /// </summary>
         /// <param name="accessToken">The Fortnox passkey.</param>
         /// <param name="clientSecret">The integrators key for making requests to Fortnox.</param>
-        /// <param name="bufferSize">Optional target buffer size when recieving messages from the socket connection.</param>
+        /// <param name="bufferSize">Optional target buffer size when receiving messages from the socket connection.</param>
         public FortnoxWebSocketClient(string clientSecret, int bufferSize = DEFAULT_BUFFER_SIZE)
         {
             this._accessTokens = new List<string>();
@@ -80,7 +80,7 @@ namespace FortnoxNET.WebSockets
             await _webSocket.SendAsync(messageBuffer, WebSocketMessageType.Text, true, cancellationToken);
         }
 
-        public async Task<WebSocketResponse> Recieve(CancellationToken cancellationToken = default)
+        public async Task<WebSocketResponse> Receive(CancellationToken cancellationToken = default)
         {
             var finished = false;
             var resultString = "";
@@ -105,7 +105,7 @@ namespace FortnoxNET.WebSockets
                 }
                 else
                 {
-                    throw new WebSocketException("Unable to recieve as Websocket is closed.");
+                    throw new WebSocketException("Unable to receive as Websocket is closed.");
                 }
             }
 
