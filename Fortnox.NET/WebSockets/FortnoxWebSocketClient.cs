@@ -110,7 +110,7 @@ namespace FortnoxNET.WebSockets
             }
 
             var deserializedResult = JsonConvert.DeserializeObject<WebSocketResponse>(resultString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            if (deserializedResult.TenantId.HasValue)
+            if (deserializedResult.TenantId != null)
             {
                 deserializedResult.Type = WebSocketResponseType.EventResponse;
             }
