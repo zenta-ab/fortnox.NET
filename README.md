@@ -44,41 +44,47 @@ var response = await ArticleService.GetArticleAsync(request, "100370");
 
 ### WebSocket
 
-If you want to subscribe to changes instead of having to poll for new information you can use the Fortnox WebSocket API. 
-You start by creating a FortnoxWebSocketClient with your AccessToken and ClientSecret. You can then add the desired topics to your connection and once you're ready call `Connect` to initiate the connection.
+If you want to subscribe to changes instead of having to poll for new information you can use the Fortnox WebSocket API.
+You start by creating a FortnoxWebSocketClient with your ClientSecret. Proceed with calling `Connect` to initiate the connection with Fortnox followed by adding the desired topics and tenants to your connection and once you're ready call `Subscribe` to start recieving events.
 
 ```CSharp
-var client = await new FortnoxWebSocketClient(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-    .AddTopic(WebSocketTopic.Articles);
+var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+await client.Connect();
+await client.AddTenant(this.connectionSettings.AccessToken);
+await client.AddTopic(WebSocketTopic.Articles);
+await client.Subscribe();
 ```
 
-Once you're connected you can call `Listen` and specify your callback function, in order for this to not block your current thread you can run this within a Task like in the following snippet. Inside your listener callback you can make use of the `GetNextEvent` helper method to process messages as they come.
+Once you're subscribed you can call `Recieve` to recieve incoming messages. Performing actions such as `AddTenant`, `AddTopic` and `Subscribe` also results in a message being returned, if you wish you can handle those as well. In the following snippet we see an example which stores all action responses in their own variables followed by a while loop listening for incoming events.
 
 ```CSharp
-var task = new Task(async () =>
+var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+await client.Connect();
+
+await client.AddTenant(this.connectionSettings.AccessToken);
+var addTenantResponse = await client.Recieve();
+
+await client.AddTopic(WebSocketTopic.Articles);
+var addTopicResponse = await client.Recieve();
+
+await client.Subscribe();
+var subscribeResponse = await client.Recieve();
+
+while (ListenToIncomingEvents)
 {
-    try
+    var response = await client.Recieve();
+    if (response.Type == WebSocketResponseType.EventResponse)
     {
-        (await client.Connect()).Listen(async (socket) =>
-        {
-            // GetNextEvent returns an enumeration and is iterated asyncrounusly as new events are yielded
-            foreach (var response in client.GetNextEvent(socket))
-            {
-                if (response != null)
-                {
-                    // Process messages here.
-                    return;
-                }
-            }
-        }).GetAwaiter().GetResult();
+        // Handle events
     }
-    catch (Exception e)
+
+    if (response.Type == WebSocketResponseType.CommandResponse)
     {
-        // Handle errors.
-        throw e;
+        // Handle commands
     }
-}, TaskCreationOptions.LongRunning);
-task.Start();
+}
+
+await client.Close();
 ```
 
 More examples of how to use the Fortnox WebSocket API exists within the unit tests for the `FortnoxWebSocketClient` class.
