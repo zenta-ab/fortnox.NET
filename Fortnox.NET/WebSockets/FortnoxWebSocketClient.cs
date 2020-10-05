@@ -35,7 +35,7 @@ namespace FortnoxNET.WebSockets
         /// </summary>
         /// <param name="accessToken">The Fortnox passkey.</param>
         /// <param name="clientSecret">The integrators key for making requests to Fortnox.</param>
-        /// <param name="bufferSize">Optional target buffer size when recieving messages from the socket connection.</param>
+        /// <param name="bufferSize">Optional target buffer size when receiving messages from the socket connection.</param>
         public FortnoxWebSocketClient(string clientSecret, int bufferSize = DEFAULT_BUFFER_SIZE)
         {
             this._accessTokens = new List<string>();
