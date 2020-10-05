@@ -80,7 +80,7 @@ namespace FortnoxNET.WebSockets
             await _webSocket.SendAsync(messageBuffer, WebSocketMessageType.Text, true, cancellationToken);
         }
 
-        public async Task<WebSocketResponse> Recieve(CancellationToken cancellationToken = default)
+        public async Task<WebSocketResponse> Receive(CancellationToken cancellationToken = default)
         {
             var finished = false;
             var resultString = "";
