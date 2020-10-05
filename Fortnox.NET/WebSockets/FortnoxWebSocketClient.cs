@@ -105,7 +105,7 @@ namespace FortnoxNET.WebSockets
                 }
                 else
                 {
-                    throw new WebSocketException("Unable to recieve as Websocket is closed.");
+                    throw new WebSocketException("Unable to receive as Websocket is closed.");
                 }
             }
 

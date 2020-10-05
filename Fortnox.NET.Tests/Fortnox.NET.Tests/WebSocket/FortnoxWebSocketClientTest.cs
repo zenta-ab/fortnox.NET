@@ -98,8 +98,8 @@ namespace FortnoxNET.Tests.WebSocket
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSource.CancelAfter(2500);
             CancellationToken token = cancellationTokenSource.Token;
-            
-            // Recieve that will be cancelled after 2,5 seconds.
+
+            // Receive that will be cancelled after 2,5 seconds.
             await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => client.Receive(token));
 
             // Underlying ClientWebSocket state will be set to "Aborted" once cancelled so we cannot re-use the socket now.
@@ -120,10 +120,10 @@ namespace FortnoxNET.Tests.WebSocket
                 await client.AddTopic(WebSocketTopic.Orders);
                 await client.Subscribe();
 
-                var recievedArticleUpdate = false;
-                var recievedOrderUpdate = false;
+                var receivedArticleUpdate = false;
+                var receivedOrderUpdate = false;
 
-                while (!recievedArticleUpdate && !recievedOrderUpdate)
+                while (!receivedArticleUpdate && !receivedOrderUpdate)
                 {
                     var response = await client.Receive();
                     if (response.Type == WebSocketResponseType.EventResponse)
@@ -132,17 +132,17 @@ namespace FortnoxNET.Tests.WebSocket
 
                         if (response.Topic == WebSocketTopic.Articles.ToString())
                         {
-                            recievedArticleUpdate = true;
+                            receivedArticleUpdate = true;
                         }
                         else if (response.Topic == WebSocketTopic.Orders.ToString())
                         {
-                            recievedOrderUpdate = true;
+                            receivedOrderUpdate = true;
                         }
 
                         Assert.IsTrue(response.EventType == WebSocketEventType.ArticleUpdated || response.EventType == WebSocketEventType.OrderUpdated);
                         Assert.IsTrue(response.EntityId == "100370" || response.EntityId == "1");
 
-                        if (recievedArticleUpdate && recievedOrderUpdate)
+                        if (receivedArticleUpdate && receivedOrderUpdate)
                         {
                             return;
                         }
