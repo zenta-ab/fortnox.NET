@@ -47,6 +47,30 @@ namespace FortnoxNET.Tests.WebSocket
         }
 
         [TestMethod]
+        public async Task CanRemoveTenant()
+        {
+            var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
+            await client.Connect();
+
+            await client.AddTenant(this.connectionSettings.AccessToken);
+            var addTenantResponse = await client.Receive();
+            Assert.IsTrue(addTenantResponse.Type == WebSocketResponseType.CommandResponse);
+            Assert.IsTrue(addTenantResponse.Result.Equals("ok"));
+            Assert.IsTrue(addTenantResponse.Response == WebSocketCommands.AddTenants);
+            Assert.IsTrue(client.AccessTokenTenantId.Keys.Count == 1);
+            Assert.IsTrue(client.AccessTokenTenantId.Values.Count == 1);
+
+            await client.RemoveTenant(client.AccessTokenTenantId[this.connectionSettings.AccessToken]);
+            var removeTenantResponse = await client.Receive();
+            Assert.IsTrue(removeTenantResponse.Type == WebSocketResponseType.CommandResponse);
+            Assert.IsTrue(removeTenantResponse.Result.Equals("ok"));
+            Assert.IsTrue(client.AccessTokenTenantId.Keys.Count == 0);
+            Assert.IsTrue(client.AccessTokenTenantId.Values.Count == 0);
+
+            await client.Close();
+        }
+
+        [TestMethod]
         public async Task CanConnectAndListen()
         {
             var client = new FortnoxWebSocketClient(this.connectionSettings.ClientSecret);
@@ -67,7 +91,7 @@ namespace FortnoxNET.Tests.WebSocket
                 response = await client.Receive();
             }
 
-            Assert.IsTrue(response.Topic == WebSocketTopic.Articles.ToString());
+            Assert.IsTrue(response.Topic == WebSocketTopic.Articles.ToString().ToLower());
             Assert.IsTrue(response.EventType == WebSocketEventType.ArticleUpdated);
             Assert.IsTrue(response.EntityId == "100370");
 
