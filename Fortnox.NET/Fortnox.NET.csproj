@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>2.1.0</PackageVersion>
-        <Version>2.1.0</Version>
+        <PackageVersion>2.2.0</PackageVersion>
+        <Version>2.2.0</Version>
         <Title>Fortnox API SDK</Title>
         <Authors>Zenta AB</Authors>
         <Description>.NET bindings for the Fortnox API.</Description>
