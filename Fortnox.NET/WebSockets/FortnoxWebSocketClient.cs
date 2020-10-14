@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
 using System.Text;
@@ -30,6 +31,8 @@ namespace FortnoxNET.WebSockets
 
         public Dictionary<string, long> AccessTokenTenantId { get; private set; }
 
+        private List<long> _pendingRemoveTenants { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FortnoxWebSocketClient"/> class with the specified AccessToken, ClientSecret and optional BufferSize.
         /// </summary>
@@ -50,6 +53,8 @@ namespace FortnoxNET.WebSockets
             this._bufferSize = bufferSize;
 
             this.AccessTokenTenantId = new Dictionary<string, long>();
+
+            this._pendingRemoveTenants = new List<long>();
         }
 
         public async Task Connect(CancellationToken cancellationToken = default)
@@ -124,6 +129,19 @@ namespace FortnoxNET.WebSockets
                         AccessTokenTenantId.Add(item.Key, item.Value);
                     }
                 }
+                else if (deserializedResult.Result.Equals("ok") && deserializedResult.Response.Equals(WebSocketCommands.RemoveTenants))
+                {
+                    foreach (var tenantId in _pendingRemoveTenants)
+                    {
+                        var key = AccessTokenTenantId.FirstOrDefault(x => x.Value == tenantId).Key;
+                        if (!string.IsNullOrEmpty(key) && AccessTokenTenantId.ContainsKey(key))
+                        {
+                            AccessTokenTenantId.Remove(key);
+                        }
+                    }
+                    
+                    _pendingRemoveTenants.Clear();
+                }
             }
 
             return deserializedResult;
@@ -151,6 +169,32 @@ namespace FortnoxNET.WebSockets
             };
 
             await Send(JsonConvert.SerializeObject(addTenantsObject), cancellationToken);
+        }
+
+        public async Task RemoveTenant(long tenantId, CancellationToken cancellationToken = default)
+        {
+            var removeTenantObject = new
+            {
+                command = WebSocketCommands.RemoveTenants,
+                tenants = new List<long>() { tenantId },
+            };
+
+            _pendingRemoveTenants.Add(tenantId);
+
+            await Send(JsonConvert.SerializeObject(removeTenantObject), cancellationToken);
+        }
+
+        public async Task RemoveTenant(List<long> tenantIds, CancellationToken cancellationToken = default)
+        {
+            var removeTenantObject = new
+            {
+                command = WebSocketCommands.RemoveTenants,
+                tenants = tenantIds,
+            };
+
+            _pendingRemoveTenants.AddRange(tenantIds);
+
+            await Send(JsonConvert.SerializeObject(removeTenantObject), cancellationToken);
         }
 
         public async Task AddTopic(WebSocketTopic topic, CancellationToken cancellationToken = default)
