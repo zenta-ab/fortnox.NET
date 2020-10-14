@@ -134,7 +134,7 @@ namespace FortnoxNET.WebSockets
                     foreach (var tenantId in _pendingRemoveTenants)
                     {
                         var key = AccessTokenTenantId.FirstOrDefault(x => x.Value == tenantId).Key;
-                        if (AccessTokenTenantId.ContainsKey(key))
+                        if (!string.IsNullOrEmpty(key) && AccessTokenTenantId.ContainsKey(key))
                         {
                             AccessTokenTenantId.Remove(key);
                         }
