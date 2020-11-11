@@ -8,8 +8,10 @@ using FortnoxNET.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FortnoxNET.Tests
 {
@@ -78,6 +80,232 @@ namespace FortnoxNET.Tests
             var updatedInvoice = InvoiceService.UpdateInvoiceAsync(request, response).GetAwaiter().GetResult();
 
             Assert.AreEqual(comment, updatedInvoice.Comments);
+        }
+
+        [TestMethod]
+        public async Task BookkeepInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows = 
+                    new List<InvoiceRow> 
+                    {
+                        new InvoiceRow 
+                        {
+                            ArticleNumber = "100029", 
+                            DeliveredQuantity = "10.00", 
+                            AccountNumber = 1010, 
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var bookkeeptInvoice = await InvoiceService.BookkeepInvoiceAsync(request, response.DocumentNumber);
+            
+            Assert.AreEqual(false, response.Booked);
+            Assert.AreEqual(true, bookkeeptInvoice.Booked);
+        }
+
+        [TestMethod]
+        public async Task CancelInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var cancelledInvoice = await InvoiceService.CancelInvoiceAsync(request, response.DocumentNumber);
+
+            Assert.AreEqual(false, response.Cancelled);
+            Assert.AreEqual(true, cancelledInvoice.Cancelled);
+        }
+
+        [TestMethod]
+        public async Task CreditInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                            AccountNumber = 1010,
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var bookkeeptInvoice = await InvoiceService.BookkeepInvoiceAsync(request, response.DocumentNumber);
+            Assert.IsTrue(bookkeeptInvoice.Booked);
+
+            var creditedInvoice = await InvoiceService.CreditInvoiceAsync(request, response.DocumentNumber);
+
+            Assert.AreEqual("0", response.CreditInvoiceReference);
+            Assert.IsTrue(!string.IsNullOrEmpty(creditedInvoice.CreditInvoiceReference));
+        }
+
+        [TestMethod]
+        public async Task EmailInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                            AccountNumber = 1010,
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var emailedInvoice = await InvoiceService.SendInvoiceEmailAsync(request, response.DocumentNumber);
+            
+            Assert.AreEqual(false, response.Sent);
+            Assert.AreEqual(true, emailedInvoice.Sent);
+        }
+
+        [TestMethod]
+        public async Task PrintInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                            AccountNumber = 1010,
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var pdfBytes = await InvoiceService.PrintInvoiceAsync(request, response.DocumentNumber);
+
+            // NOTE(Oskar): Assert that the PDF magic number exists in the recieved bytes.
+            Assert.IsTrue(pdfBytes[0] == 0x25); // %
+            Assert.IsTrue(pdfBytes[1] == 0x50); // P
+            Assert.IsTrue(pdfBytes[2] == 0x44); // D
+            Assert.IsTrue(pdfBytes[3] == 0x46); // F
+        }
+
+        [TestMethod]
+        public async Task PrintInvoiceReminderTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                            AccountNumber = 1010,
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var pdfBytes = await InvoiceService.PrintInvoiceReminderAsync(request, response.DocumentNumber);
+
+            // NOTE(Oskar): Assert that the PDF magic number exists in the recieved bytes.
+            Assert.IsTrue(pdfBytes[0] == 0x25); // %
+            Assert.IsTrue(pdfBytes[1] == 0x50); // P
+            Assert.IsTrue(pdfBytes[2] == 0x44); // D
+            Assert.IsTrue(pdfBytes[3] == 0x46); // F
+        }
+
+        [TestMethod]
+        public async Task ExternalPrintInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                            AccountNumber = 1010,
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var externallyPrintedInvoice = await InvoiceService.ExternalPrintInvoiceAsync(request, response.DocumentNumber);
+
+            Assert.IsFalse(response.Sent);
+            Assert.IsTrue(externallyPrintedInvoice.Sent);
+        }
+
+        [TestMethod]
+        public async Task PreviewInvoiceAsync()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                    new List<InvoiceRow>
+                    {
+                        new InvoiceRow
+                        {
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = "10.00",
+                            AccountNumber = 1010,
+                            CostCenter = "TEST"
+                        }
+                    }
+                }).GetAwaiter().GetResult();
+
+            var pdfBytes = await InvoiceService.PreviewInvoiceAsync(request, response.DocumentNumber);
+
+            // NOTE(Oskar): Assert that the PDF magic number exists in the recieved bytes.
+            Assert.IsTrue(pdfBytes[0] == 0x25); // %
+            Assert.IsTrue(pdfBytes[1] == 0x50); // P
+            Assert.IsTrue(pdfBytes[2] == 0x44); // D
+            Assert.IsTrue(pdfBytes[3] == 0x46); // F
         }
     }
 }

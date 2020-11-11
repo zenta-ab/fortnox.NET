@@ -63,9 +63,9 @@ namespace FortnoxNET.Models.Invoice
         
         public string Currency { get; set; }
         
-        public int CurrencyRate { get; set; }
+        public int? CurrencyRate { get; set; }
         
-        public int CurrencyUnit { get; set; }
+        public int? CurrencyUnit { get; set; }
         
         public string CustomerName { get; set; }
         
@@ -139,6 +139,7 @@ namespace FortnoxNET.Models.Invoice
         
         public bool NotCompleted { get; set; }
         
+        [JsonReadOnly]
         public bool NoxFinans { get; set; }
         
         public string OCR { get; set; }
