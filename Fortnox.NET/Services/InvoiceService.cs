@@ -3,7 +3,6 @@ using FortnoxNET.Communication.Invoice;
 using FortnoxNET.Constants;
 using FortnoxNET.Models.Invoice;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace FortnoxNET.Services
