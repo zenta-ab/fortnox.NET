@@ -111,10 +111,10 @@ namespace FortnoxNET.Tests
         public void GetOrder()
         {
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = OrderService.GetOrderAsync(request, "10").GetAwaiter().GetResult();
+            var response = OrderService.GetOrderAsync(request, "3").GetAwaiter().GetResult();
 
-            Assert.IsTrue(response.DocumentNumber == 10);
-            Assert.IsTrue(response.OrderRows.Count() == 3);
+            Assert.IsTrue(response.DocumentNumber == 3);
+            Assert.IsTrue(response.OrderRows.Count() == 1);
         }
 
         [TestMethod]
@@ -170,6 +170,29 @@ namespace FortnoxNET.Tests
             Assert.IsTrue(response.DocumentNumber == 1);
             Assert.IsTrue(response.Labels.Count() == 1);
             Assert.IsTrue(response.Labels.ElementAt(0).Id == 1);
+        }
+
+
+        [TestMethod]
+        public void CreateOrderTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows = 
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 10
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(1, response.OrderRows.Count);
         }
     }
 }
