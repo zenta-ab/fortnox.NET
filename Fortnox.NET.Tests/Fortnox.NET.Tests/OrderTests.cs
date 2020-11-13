@@ -172,7 +172,6 @@ namespace FortnoxNET.Tests
             Assert.IsTrue(response.Labels.ElementAt(0).Id == 1);
         }
 
-
         [TestMethod]
         public void CreateOrderTest()
         {
@@ -181,7 +180,7 @@ namespace FortnoxNET.Tests
                 new Order
                 {
                     CustomerNumber = "1",
-                    OrderRows = 
+                    OrderRows =
                         new List<OrderRow>
                         {
                             new OrderRow
@@ -193,6 +192,86 @@ namespace FortnoxNET.Tests
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual(1, response.OrderRows.Count);
+        }
+
+        [TestMethod]
+        public void CreateInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var createOrderResponse = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1,
+                                AccountNumber = 3001
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+            var createInvoiceResponse = OrderService.CreateInvoiceAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.AreEqual("1", createInvoiceResponse.CustomerNumber);
+            Assert.AreEqual(1, createInvoiceResponse.OrderRows.Count);
+        }
+
+        [TestMethod]
+        public void PrintTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var createOrderResponse = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(false, createOrderResponse.Sent);
+
+            var cancelResponse = OrderService.PrintAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.AreEqual(true, cancelResponse.Sent);
+        }
+
+        [TestMethod]
+        public void CancelTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var createOrderResponse = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(false, createOrderResponse.Cancelled);
+
+            var cancelResponse = OrderService.CancelAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.AreEqual(true, cancelResponse.Cancelled);
         }
     }
 }
