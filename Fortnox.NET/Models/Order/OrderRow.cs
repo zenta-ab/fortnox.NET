@@ -1,7 +1,9 @@
 ﻿using FortnoxNET.Utils;
+using Newtonsoft.Json;
 
 namespace FortnoxNET.Models.Order
 {
+    [JsonConverter(typeof(CustomJsonConverter))]
     public class OrderRow
     {
         public int AccountNumber { get; set; }

@@ -50,5 +50,16 @@ namespace FortnoxNET.Services
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
+
+        public static async Task<Order> CreateOrderAsync(FortnoxApiRequest request, Order order)
+        {
+            var apiRequest =
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Orders}")
+                {
+                    Data = new SingleResource<Order> { Data = order }
+                };
+
+            return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
+        }
     }
  }
