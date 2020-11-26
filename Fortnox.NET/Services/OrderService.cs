@@ -126,5 +126,20 @@ namespace FortnoxNET.Services
                     $"{ApiEndpoints.Orders}/{orderNumber}/createinvoice");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
+
+        /// <summary>
+        /// Used for marking a document as ready in the warehouse module.
+        /// DeliveryState needs to be set to "delivery"
+        /// </summary>
+        /// <param name="request">FortnoxApiRequest object</param>
+        /// <param name="orderNumber">Fortnox Order Number</param>
+        /// <returns>Fortnox order object</returns>
+        public static async Task<Order> WarehouseReadyAsync(FortnoxApiRequest request, int orderNumber)
+        {
+            var apiRequest =
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                    $"{ApiEndpoints.Orders}/{orderNumber}/warehouseready");
+            return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
+        }
     }
  }

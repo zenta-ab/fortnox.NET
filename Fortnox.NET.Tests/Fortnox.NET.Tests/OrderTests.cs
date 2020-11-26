@@ -276,5 +276,67 @@ namespace FortnoxNET.Tests
 
             Assert.AreEqual(true, cancelResponse.Cancelled);
         }
+
+        // Warehouse Resource specific tests
+
+        [TestMethod]
+        public void UpdateDeliveryStateTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var order = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual("reservation", order.DeliveryState.ToLower());
+
+            order.DeliveryState = "delivery";
+
+            var updatedOrder = OrderService.UpdateOrderAsync(request, order).GetAwaiter().GetResult();
+
+            Assert.AreEqual("delivery", updatedOrder.DeliveryState.ToLower());
+        }
+
+
+        [TestMethod]
+        public void WarehouseReadyTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var order = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    DeliveryState = "delivery",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.IsTrue(order.WarehouseReady.HasValue);
+            Assert.IsTrue(!order.WarehouseReady.Value);
+
+            var updatedOrder = OrderService.WarehouseReadyAsync(request, order.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.IsTrue(updatedOrder.WarehouseReady.HasValue);
+            Assert.IsTrue(updatedOrder.WarehouseReady.Value);
+        }
     }
 }
