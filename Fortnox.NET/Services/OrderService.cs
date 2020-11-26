@@ -67,8 +67,8 @@ namespace FortnoxNET.Services
         /// </summary>
         /// <param name="request">FortnoxApiRequest object</param>
         /// <param name="orderNumber">Fortnox Order Number</param>
-        /// <returns></returns>
-        public static async Task<Order> PrintAsync(FortnoxApiRequest request, int orderNumber)
+        /// <returns>Fortnox order object</returns>
+        public static async Task<Order> ExternalPrintAsync(FortnoxApiRequest request, int orderNumber)
         {
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,

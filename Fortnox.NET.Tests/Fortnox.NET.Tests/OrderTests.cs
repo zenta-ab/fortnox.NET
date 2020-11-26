@@ -221,7 +221,7 @@ namespace FortnoxNET.Tests
         }
 
         [TestMethod]
-        public void PrintTest()
+        public void ExternalPrintTest()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
 
@@ -242,7 +242,7 @@ namespace FortnoxNET.Tests
 
             Assert.AreEqual(false, createOrderResponse.Sent);
 
-            var cancelResponse = OrderService.PrintAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+            var cancelResponse = OrderService.ExternalPrintAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
 
             Assert.AreEqual(true, cancelResponse.Sent);
         }
