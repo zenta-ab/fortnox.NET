@@ -214,8 +214,11 @@ namespace FortnoxNET.Tests
                             }
                         }
                 }).GetAwaiter().GetResult();
-            var createInvoiceResponse = OrderService.CreateInvoiceAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
 
+            var createInvoiceResponse = OrderService.CreateInvoiceAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+            var invoicedOrder = OrderService.GetOrderAsync(request, createOrderResponse.DocumentNumber.ToString()).GetAwaiter().GetResult();
+
+            Assert.IsTrue(invoicedOrder.InvoiceReference > 0);
             Assert.AreEqual("1", createInvoiceResponse.CustomerNumber);
             Assert.AreEqual(1, createInvoiceResponse.OrderRows.Count);
         }
