@@ -10,6 +10,6 @@ namespace FortnoxNET.Models.Assets
 
         public string Comment { get; set; }
 
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

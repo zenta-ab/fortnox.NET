@@ -1,4 +1,5 @@
 using FortnoxNET.Utils;
+using System;
 
 namespace FortnoxNET.Models.Assets
 {
@@ -7,7 +8,7 @@ namespace FortnoxNET.Models.Assets
         [JsonReadOnly]
         public int Id { get; set; }
         [JsonReadOnly]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         [JsonReadOnly]
         public int EventId { get; set; }
         [JsonReadOnly]
