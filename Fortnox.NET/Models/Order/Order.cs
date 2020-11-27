@@ -156,5 +156,29 @@ namespace FortnoxNET.Models.Order
         // NOTE(Oskar): Labels are not documented within the Order documentation on fortnox
         // but supported as you can read here: https://developer.fortnox.se/documentation/resources/labels/
         public List<OrderLabel> Labels { get; set; }
+
+        // Warehouse Resource specific fields
+        // When the Warehouse module is activated new fields are available
+        // https://developer.fortnox.se/documentation/resources/warehouse-resourse-specific-fields/
+
+        /// <summary>
+        /// Document delivery state 
+        /// Valid values:
+        /// registration    When the document is in this state no items will be reserved or delivered.
+        /// reservation     When the document is in this state items will be reserved when possible.
+        /// delivery        When the document is in this state items will be delivered when possible.
+        /// </summary>
+        public string DeliveryState { get; set; }
+
+        /// <summary>
+        /// Used to see if the document has been marked as ready in warehouse
+        /// </summary>
+        [JsonReadOnly]
+        public bool? WarehouseReady { get; set; }
+
+        /// <summary>
+        /// The date that the document was marked as ready in warehouse
+        /// </summary>
+        public DateTime? OutboundDate { get; set; }
     }
 }

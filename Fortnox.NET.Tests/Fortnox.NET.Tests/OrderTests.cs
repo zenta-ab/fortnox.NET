@@ -172,7 +172,6 @@ namespace FortnoxNET.Tests
             Assert.IsTrue(response.Labels.ElementAt(0).Id == 1);
         }
 
-
         [TestMethod]
         public void CreateOrderTest()
         {
@@ -181,7 +180,7 @@ namespace FortnoxNET.Tests
                 new Order
                 {
                     CustomerNumber = "1",
-                    OrderRows = 
+                    OrderRows =
                         new List<OrderRow>
                         {
                             new OrderRow
@@ -193,6 +192,151 @@ namespace FortnoxNET.Tests
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual(1, response.OrderRows.Count);
+        }
+
+        [TestMethod]
+        public void CreateInvoiceTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var createOrderResponse = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1,
+                                AccountNumber = 3001
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            var createInvoiceResponse = OrderService.CreateInvoiceAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+            var invoicedOrder = OrderService.GetOrderAsync(request, createOrderResponse.DocumentNumber.ToString()).GetAwaiter().GetResult();
+
+            Assert.IsTrue(invoicedOrder.InvoiceReference > 0);
+            Assert.AreEqual("1", createInvoiceResponse.CustomerNumber);
+            Assert.AreEqual(1, createInvoiceResponse.OrderRows.Count);
+        }
+
+        [TestMethod]
+        public void ExternalPrintTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var createOrderResponse = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(false, createOrderResponse.Sent);
+
+            var cancelResponse = OrderService.ExternalPrintAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.AreEqual(true, cancelResponse.Sent);
+        }
+
+        [TestMethod]
+        public void CancelTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var createOrderResponse = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(false, createOrderResponse.Cancelled);
+
+            var cancelResponse = OrderService.CancelAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.AreEqual(true, cancelResponse.Cancelled);
+        }
+
+        // Warehouse Resource specific tests
+
+        [TestMethod]
+        public void UpdateDeliveryStateTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var order = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual("reservation", order.DeliveryState.ToLower());
+
+            order.DeliveryState = "delivery";
+
+            var updatedOrder = OrderService.UpdateOrderAsync(request, order).GetAwaiter().GetResult();
+
+            Assert.AreEqual("delivery", updatedOrder.DeliveryState.ToLower());
+        }
+
+
+        [TestMethod]
+        public void WarehouseReadyTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+
+            var order = OrderService.CreateOrderAsync(request,
+                new Order
+                {
+                    CustomerNumber = "1",
+                    DeliveryState = "delivery",
+                    OrderRows =
+                        new List<OrderRow>
+                        {
+                            new OrderRow
+                            {
+                                ArticleNumber = "1",
+                                OrderedQuantity = 1
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.IsTrue(order.WarehouseReady.HasValue);
+            Assert.IsTrue(!order.WarehouseReady.Value);
+
+            var updatedOrder = OrderService.WarehouseReadyAsync(request, order.DocumentNumber).GetAwaiter().GetResult();
+
+            Assert.IsTrue(updatedOrder.WarehouseReady.HasValue);
+            Assert.IsTrue(updatedOrder.WarehouseReady.Value);
         }
     }
 }
