@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
@@ -28,9 +29,9 @@ namespace FortnoxNET.Models.Assets
         public string DepreciationMethod { get; set; }
         public double? AcquisitionValue { get; set; }
         public double? DepreciateToResidualValue { get; set; }
-        public string AcquisitionDate { get; set; }
-        public string AcquisitionStart { get; set; }
-        public string DepreciationFinal { get; set; }
+        public DateTime? AcquisitionDate { get; set; }
+        public DateTime? AcquisitionStart { get; set; }
+        public DateTime? DepreciationFinal { get; set; }
         [JsonReadOnly]
         public string DepreciatedTo { get; set; }
         [JsonReadOnly]

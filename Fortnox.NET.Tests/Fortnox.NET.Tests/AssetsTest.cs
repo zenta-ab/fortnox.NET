@@ -46,9 +46,9 @@ namespace FortnoxNET.Tests
                 DepreciationMethod = "0",
                 AcquisitionValue = 13000,
                 DepreciateToResidualValue = 1300,
-                AcquisitionDate = currentDate.ToString("yyyy-MM-dd"),
-                AcquisitionStart = currentDate.AddMonths(1).ToString("yyyy-MM-dd"),
-                DepreciationFinal = currentDate.AddYears(1).ToString("yyyy-MM-dd"),
+                AcquisitionDate = currentDate,
+                AcquisitionStart = currentDate.AddMonths(1),
+                DepreciationFinal = currentDate.AddYears(1),
             };
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
@@ -84,16 +84,16 @@ namespace FortnoxNET.Tests
 
             Assert.AreEqual("2", result.Number);
 
-            var writeUp = new WriteUpOrDownAsset { Amount = 300, Comment = "WriteUp, Possible comment", Date = currentDate.AddMonths(1).ToString("yyyy-MM-dd") };
+            var writeUp = new WriteUpOrDownAsset { Amount = 300, Comment = "WriteUp, Possible comment", Date = currentDate.AddMonths(1)};
             var writeUpAsset = await AssetsService.WriteUpAssetAsync(request, $"{result.Id}", writeUp);
 
-            var latestWriteUp = writeUpAsset.History.Last();
+            var latestWriteUp = writeUpAsset.History.Where(e => e.Date.Equals(writeUp.Date)).First();
             Assert.IsTrue(latestWriteUp.Notes.Contains(writeUp.Comment));
 
-            var writeDown = new WriteUpOrDownAsset { Amount = 200, Comment = "WriteDown, Possible comment", Date = currentDate.AddMonths(1).ToString("yyyy-MM-dd") };
+            var writeDown = new WriteUpOrDownAsset { Amount = 200, Comment = "WriteDown, Possible comment", Date = currentDate.AddMonths(1) };
             var writeDownAsset = await AssetsService.WriteDownAssetAsync(request, $"{result.Id}", writeDown);
 
-            var latestWriteDown = writeDownAsset.History.Last();
+            var latestWriteDown = writeDownAsset.History.Where(e => e.Date.Equals(writeDown.Date)).Last();
             Assert.IsTrue(latestWriteDown.Notes.Contains(writeDown.Comment));
         }
 
@@ -111,9 +111,9 @@ namespace FortnoxNET.Tests
                 DepreciationMethod = "0",
                 AcquisitionValue = 13000,
                 DepreciateToResidualValue = 1300,
-                AcquisitionDate = currentDate.ToString("yyyy-MM-dd"),
-                AcquisitionStart = currentDate.AddMonths(1).ToString("yyyy-MM-dd"),
-                DepreciationFinal = currentDate.AddYears(1).ToString("yyyy-MM-dd"),
+                AcquisitionDate = currentDate,
+                AcquisitionStart = currentDate.AddMonths(1),
+                DepreciationFinal = currentDate.AddYears(1),
             };
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
@@ -125,9 +125,6 @@ namespace FortnoxNET.Tests
             var scrappedAsset = await AssetsService.ScrapAssetAsync(request, $"{result.Id}", scrapAsset);
 
             await AssetsService.DeleteAssetAsync(request, result.Id.ToString());
-            
-            var latestHistoryEntry = scrappedAsset.History.Last();
-            Assert.IsTrue(latestHistoryEntry.Notes.Contains(scrapAsset.Comment));
         }
 
         [TestMethod]
@@ -144,9 +141,9 @@ namespace FortnoxNET.Tests
                 DepreciationMethod = "0",
                 AcquisitionValue = 13000,
                 DepreciateToResidualValue = 1300,
-                AcquisitionDate = currentDate.ToString("yyyy-MM-dd"),
-                AcquisitionStart = currentDate.AddMonths(1).ToString("yyyy-MM-dd"),
-                DepreciationFinal = currentDate.AddYears(1).ToString("yyyy-MM-dd"),
+                AcquisitionDate = currentDate,
+                AcquisitionStart = currentDate.AddMonths(1),
+                DepreciationFinal = currentDate.AddYears(1),
             };
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
@@ -156,9 +153,6 @@ namespace FortnoxNET.Tests
 
             var sellAsset = new SellAsset { Percentage = 0, Price = 10000, Comment = "Sell comment", Date = currentDate.AddMonths(1).ToString("yyyy-MM-dd") };
             var soldAsset = await AssetsService.SellAssetAsync(request, $"{result.Id}", sellAsset);
-
-            var latestHistoryEntry = soldAsset.History.Last();
-            Assert.IsTrue(latestHistoryEntry.Notes.Contains(sellAsset.Comment));
         }
 
         [TestMethod]
@@ -175,9 +169,9 @@ namespace FortnoxNET.Tests
                 DepreciationMethod = "0",
                 AcquisitionValue = 13000,
                 DepreciateToResidualValue = 1300,
-                AcquisitionDate = currentDate.ToString("yyyy-MM-dd"),
-                AcquisitionStart = currentDate.AddMonths(1).ToString("yyyy-MM-dd"),
-                DepreciationFinal = currentDate.AddYears(1).ToString("yyyy-MM-dd"),
+                AcquisitionDate = currentDate,
+                AcquisitionStart = currentDate.AddMonths(1),
+                DepreciationFinal = currentDate.AddYears(1),
             };
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
