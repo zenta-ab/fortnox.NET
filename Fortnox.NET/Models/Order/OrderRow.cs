@@ -28,7 +28,7 @@ namespace FortnoxNET.Models.Order
 
         public bool HouseWork { get; set; }
 
-        public int HouseWorkHoursToReport { get; set; }
+        public int? HouseWorkHoursToReport { get; set; }
 
         public string HouseWorkType { get; set; }
 

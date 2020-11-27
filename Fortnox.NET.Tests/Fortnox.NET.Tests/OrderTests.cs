@@ -111,10 +111,10 @@ namespace FortnoxNET.Tests
         public void GetOrder()
         {
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = OrderService.GetOrderAsync(request, "3").GetAwaiter().GetResult();
+            var response = OrderService.GetOrderAsync(request, "1").GetAwaiter().GetResult();
 
-            Assert.IsTrue(response.DocumentNumber == 3);
-            Assert.IsTrue(response.OrderRows.Count() == 1);
+            Assert.IsTrue(response.DocumentNumber == 1);
+            Assert.IsTrue(response.OrderRows.Count() == 2);
         }
 
         [TestMethod]

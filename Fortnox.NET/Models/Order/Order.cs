@@ -17,32 +17,32 @@ namespace FortnoxNET.Models.Order
         [JsonProperty(PropertyName = "@urlTaxReductionList")]
         public string UrlTaxReductionList { get; set; }
 
-        public float AdministrationFee { get; set; }
+        public float? AdministrationFee { get; set; }
 
         [JsonReadOnly]
-        public float AdministrationFeeVAT { get; set; }
+        public float? AdministrationFeeVAT { get; set; }
 
         public string Address1 { get; set; }
 
         public string Address2 { get; set; }
 
         [JsonReadOnly]
-        public float BasisTaxReduction { get; set; }
+        public float? BasisTaxReduction { get; set; }
 
         [JsonReadOnly]
-        public bool Cancelled { get; set; }
+        public bool? Cancelled { get; set; }
 
         public string City { get; set; }
 
         public string Comments { get; set; }
 
         [JsonReadOnly]
-        public float ContributionPercent { get; set; }
+        public float? ContributionPercent { get; set; }
 
         [JsonReadOnly]
-        public float ContributionValue { get; set; }
+        public float? ContributionValue { get; set; }
 
-        public bool CopyRemarks { get; set; }
+        public bool? CopyRemarks { get; set; }
 
         public string Country { get; set; }
 
@@ -78,29 +78,29 @@ namespace FortnoxNET.Models.Order
 
         public string ExternalInvoiceReference2 { get; set; }
 
-        public float Freight { get; set; }
+        public float? Freight { get; set; }
 
         [JsonReadOnly]
         public float FreightVAT { get; set; }
 
         [JsonReadOnly]
-        public float Gross { get; set; }
+        public float? Gross { get; set; }
 
         [JsonReadOnly]
-        public bool HouseWork { get; set; }
+        public bool? HouseWork { get; set; }
 
         [JsonReadOnly]
-        public int InvoiceReference { get; set; }
+        public int? InvoiceReference { get; set; }
 
         [JsonReadOnly]
-        public float Net { get; set; }
+        public float? Net { get; set; }
 
-        public bool NotCompleted { get; set; }
+        public bool? NotCompleted { get; set; }
 
         public DateTime? OrderDate { get; set; }
 
         [JsonReadOnly]
-        public int OfferReference { get; set; }
+        public int? OfferReference { get; set; }
 
         public List<OrderRow> OrderRows { get; set; }
 
@@ -125,10 +125,10 @@ namespace FortnoxNET.Models.Order
         public string Remarks { get; set; }
 
         [JsonReadOnly]
-        public float RoundOff { get; set; }
+        public float? RoundOff { get; set; }
 
         [JsonReadOnly]
-        public bool Sent { get; set; }
+        public bool? Sent { get; set; }
 
         [JsonReadOnly]
         public float? TaxReduction { get; set; }
@@ -138,12 +138,12 @@ namespace FortnoxNET.Models.Order
         public string TermsOfPayment { get; set; }
 
         [JsonReadOnly]
-        public float Total { get; set; }
+        public float? Total { get; set; }
 
         [JsonReadOnly]
-        public float TotalVAT { get; set; }
+        public float? TotalVAT { get; set; }
 
-        public bool VATIncluded { get; set; }
+        public bool? VATIncluded { get; set; }
 
         public string WayOfDelivery { get; set; }
 
