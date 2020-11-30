@@ -1,7 +1,9 @@
 using FortnoxNET.Utils;
+using Newtonsoft.Json;
 
 namespace FortnoxNET.Models.Invoice
 {
+    [JsonConverter(typeof(CustomJsonConverter))]
     public class InvoiceRow
     {
         /// <summary>
