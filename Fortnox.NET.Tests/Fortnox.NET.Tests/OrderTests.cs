@@ -111,7 +111,7 @@ namespace FortnoxNET.Tests
         public void GetOrder()
         {
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = OrderService.GetOrderAsync(request, "1").GetAwaiter().GetResult();
+            var response = OrderService.GetOrderAsync(request, 1).GetAwaiter().GetResult();
 
             Assert.IsTrue(response.DocumentNumber == 1);
             Assert.IsTrue(response.OrderRows.Count() == 2);
@@ -133,7 +133,7 @@ namespace FortnoxNET.Tests
         public void GetOrderWithLabel()
         {
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = OrderService.GetOrderAsync(request, "56503").GetAwaiter().GetResult();
+            var response = OrderService.GetOrderAsync(request, 56503).GetAwaiter().GetResult();
 
             Assert.IsTrue(response.DocumentNumber == 56503);
             Assert.IsTrue(response.Labels.Count == 1);
@@ -144,7 +144,7 @@ namespace FortnoxNET.Tests
         public void GetOrderWithMultipleLabels()
         {
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = OrderService.GetOrderAsync(request, "56077").GetAwaiter().GetResult();
+            var response = OrderService.GetOrderAsync(request, 56077).GetAwaiter().GetResult();
 
             Assert.IsTrue(response.DocumentNumber == 56077);
             Assert.IsTrue(response.Labels.Count > 1);
@@ -157,7 +157,7 @@ namespace FortnoxNET.Tests
             var order = new Order { DocumentNumber = 1, Labels = new List<OrderLabel> { } };
             OrderService.UpdateOrderAsync(request, order).GetAwaiter().GetResult();
 
-            var response = OrderService.GetOrderAsync(request, "1").GetAwaiter().GetResult();
+            var response = OrderService.GetOrderAsync(request, 1).GetAwaiter().GetResult();
             Assert.IsTrue(response.DocumentNumber == 1);
             Assert.IsTrue(!response.Labels.Any());
 
@@ -166,7 +166,7 @@ namespace FortnoxNET.Tests
             order.Labels.Add(orderLabel);
             OrderService.UpdateOrderAsync(request, order).GetAwaiter().GetResult();
 
-            response = OrderService.GetOrderAsync(request, "1").GetAwaiter().GetResult();
+            response = OrderService.GetOrderAsync(request, 1).GetAwaiter().GetResult();
             Assert.IsTrue(response.DocumentNumber == 1);
             Assert.IsTrue(response.Labels.Count() == 1);
             Assert.IsTrue(response.Labels.ElementAt(0).Id == 1);
@@ -216,7 +216,7 @@ namespace FortnoxNET.Tests
                 }).GetAwaiter().GetResult();
 
             var createInvoiceResponse = OrderService.CreateInvoiceAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
-            var invoicedOrder = OrderService.GetOrderAsync(request, createOrderResponse.DocumentNumber.ToString()).GetAwaiter().GetResult();
+            var invoicedOrder = OrderService.GetOrderAsync(request, createOrderResponse.DocumentNumber).GetAwaiter().GetResult();
 
             Assert.IsTrue(invoicedOrder.InvoiceReference > 0);
             Assert.AreEqual("1", createInvoiceResponse.CustomerNumber);

@@ -42,7 +42,7 @@ namespace FortnoxNET.Services
         /// <param name="request">FortnoxApiRequest object</param>
         /// <param name="orderNumber">Fortnox order number</param>
         /// <returns>Fortnox order object</returns>
-        public static async Task<Order> GetOrderAsync(FortnoxApiRequest request, string orderNumber)
+        public static async Task<Order> GetOrderAsync(FortnoxApiRequest request, int orderNumber)
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
                                                                                 $"{ApiEndpoints.Orders}/{orderNumber}");
