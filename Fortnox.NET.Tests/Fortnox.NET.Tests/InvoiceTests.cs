@@ -61,9 +61,9 @@ namespace FortnoxNET.Tests
         public void GetInvoice()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = InvoiceService.GetInvoiceAsync(request, "12").GetAwaiter().GetResult();
+            var response = InvoiceService.GetInvoiceAsync(request, 12).GetAwaiter().GetResult();
 
-            Assert.IsTrue(response.DocumentNumber == "12");
+            Assert.IsTrue(response.DocumentNumber == 12);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace FortnoxNET.Tests
             var comment = $"Comment: {DateTime.Now}";
             var request = new InvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
 
-            var response = InvoiceService.GetInvoiceAsync(request, "12").GetAwaiter().GetResult();
+            var response = InvoiceService.GetInvoiceAsync(request, 12).GetAwaiter().GetResult();
             response.Comments = comment;
 
             var updatedInvoice = InvoiceService.UpdateInvoiceAsync(request, response).GetAwaiter().GetResult();
@@ -88,14 +88,15 @@ namespace FortnoxNET.Tests
                 new Invoice
                 {
                     CustomerNumber = "1",
-                    InvoiceRows = 
-                    new List<InvoiceRow> 
+
+                    InvoiceRows =
+                    new List<InvoiceRow>
                     {
-                        new InvoiceRow 
+                        new InvoiceRow
                         {
-                            ArticleNumber = "100029", 
-                            DeliveredQuantity = "10.00", 
-                            AccountNumber = 1010, 
+                            ArticleNumber = "100029",
+                            DeliveredQuantity = 10,
+                            AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
                     }
@@ -121,7 +122,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                         }
                     }
                 }).GetAwaiter().GetResult();
@@ -146,7 +147,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                             AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
@@ -157,9 +158,11 @@ namespace FortnoxNET.Tests
             Assert.IsTrue(bookkeeptInvoice.Booked);
 
             var creditedInvoice = await InvoiceService.CreditInvoiceAsync(request, response.DocumentNumber);
+            var updatedDebitInvoice = await InvoiceService.GetInvoiceAsync(request, response.DocumentNumber);
 
-            Assert.AreEqual("0", response.CreditInvoiceReference);
-            Assert.IsTrue(!string.IsNullOrEmpty(creditedInvoice.CreditInvoiceReference));
+            Assert.IsTrue(creditedInvoice.CreditInvoiceReference.HasValue);
+            Assert.IsTrue(updatedDebitInvoice.CreditInvoiceReference.HasValue);
+            Assert.AreEqual(updatedDebitInvoice.CreditInvoiceReference.Value, creditedInvoice.CreditInvoiceReference.Value);
         }
 
         [TestMethod]
@@ -176,7 +179,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                             AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
@@ -203,7 +206,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                             AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
@@ -233,7 +236,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                             AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
@@ -263,7 +266,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                             AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
@@ -290,7 +293,7 @@ namespace FortnoxNET.Tests
                         new InvoiceRow
                         {
                             ArticleNumber = "100029",
-                            DeliveredQuantity = "10.00",
+                            DeliveredQuantity = 10,
                             AccountNumber = 1010,
                             CostCenter = "TEST"
                         }
@@ -304,6 +307,32 @@ namespace FortnoxNET.Tests
             Assert.IsTrue(pdfBytes[1] == 0x50); // P
             Assert.IsTrue(pdfBytes[2] == 0x44); // D
             Assert.IsTrue(pdfBytes[3] == 0x46); // F
+        }
+
+
+        [TestMethod]
+        public async Task CreateInvoiceTest()
+        {
+            // This test needs rounding set to 'Nearest 0.50'
+
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoiceService.CreateInvoiceAsync(request,
+                new Invoice
+                {
+                    CustomerNumber = "1",
+                    InvoiceRows =
+                        new List<InvoiceRow>
+                        {
+                            new InvoiceRow
+                            {
+                                ArticleNumber = "1",
+                                DeliveredQuantity = 1,
+                                Price = 99.5m
+                            }
+                        }
+                }).GetAwaiter().GetResult();
+
+            Assert.AreEqual(99.5m, response.Total);
         }
     }
 }
