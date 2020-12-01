@@ -27,7 +27,7 @@ jobs:
     - name: Variable substitution
       uses: microsoft/variable-substitution@v1 
       with:
-        files: 'appsettings.json'
+        files: 'Fortnox.NET.Tests\Fortnox.NET.Tests\appsettings.json'
       env:
         AccessToken: ${{ secrets.ACCESSTOKEN }}
         ClientSecret: ${{ secrets.CLIENTSECRET }}
