@@ -54,3 +54,4 @@ jobs:
       run: |
         cd Fortnox.NET.Tests\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AbsenceTransactionsTests
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountChartTests
