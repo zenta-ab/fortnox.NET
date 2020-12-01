@@ -64,7 +64,7 @@ jobs:
         {
           $CurrentTest = $Tests[$Index]
           VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:$CurrentTest
-          if ($?)
+          if (!($?))
           {
             ErrorOut
           }
