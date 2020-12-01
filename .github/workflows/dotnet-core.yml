@@ -1,4 +1,4 @@
-name: .NET Core
+name: .NET Tests
 
 on:
   push:
@@ -15,7 +15,7 @@ on:
     - patch/*
 
 jobs:
-  build:
+  netcore:
     runs-on: windows-latest
 
     steps:
@@ -53,10 +53,55 @@ jobs:
       shell: cmd
       run: |
         cd Fortnox.NET.Tests\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AbsenceTransactionsTests
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountChartTests
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountTests
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArchiveTest
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArticleFileConnectionsTest
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArticleTests
-        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AssetFileConnectionsTests
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AbsenceTransactionsTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountChartTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArchiveTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArticleFileConnectionsTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArticleTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AssetFileConnectionsTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AssetsTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AssetTypeTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AttendanceTransactionTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.BaseFileConnectionTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.CompanyInformationTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.CompanySettingsTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ContractTemplateTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ContractTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.CostCenterTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.CurrencyTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.CustomerInvoiceTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.CustomerTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.EmployeeTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ExpenseTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.FinancialYearTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.InboxTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.InvoicePaymentTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.InvoiceTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.LabelTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.LockedPeriodTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ModesOfPaymentsTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.OfferTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.OrderTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.PredefinedAccountsTest.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.PriceListTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.PriceTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.PrintTemplatesTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ProjectTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SalaryTransactionTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SIETests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SupplierInvoiceExternalURLConnectionsServiceTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SupplierInvoiceFileConnectionsTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SupplierInvoicePaymentTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SupplierInvoiceTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.SupplierTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.TaxReductionTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.TermsOfDeliveryTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.TermsOfPaymentTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.TestBase.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.TrustedEmailDomainTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.UnitTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.VoucherSeriesTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.VoucherTests.cs
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.WayOfDeliveryTests.cs
+
