@@ -313,10 +313,11 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public async Task CreateInvoiceTest()
         {
-            // This test needs rounding set to 'Nearest 0.50'
+            // This test needs the following setting:
+            // Fortnox: Settings / Invoicing / Registration view / Round-off = Nearest femtioöring
 
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = InvoiceService.CreateInvoiceAsync(request,
+            var response = await InvoiceService.CreateInvoiceAsync(request,
                 new Invoice
                 {
                     CustomerNumber = "1",
@@ -330,7 +331,7 @@ namespace FortnoxNET.Tests
                                 Price = 99.5m
                             }
                         }
-                }).GetAwaiter().GetResult();
+                });
 
             Assert.AreEqual(99.5m, response.Total);
         }
