@@ -16,10 +16,13 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -27,16 +30,19 @@ jobs:
         dotnet-version: 2.2
     
     - name: Install dependencies
+      shell: cmd
       run: |
         cd Fortnox.NET
         dotnet restore
     
     - name: Build
+      shell: cmd
       run: |
         cd Fortnox.NET
         dotnet build --configuration Release --no-restore
     
     - name: Test
+      shell: cmd
       run: |
         cd Fortnox.NET.Tests\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AbsenceTransactionsTests
