@@ -16,8 +16,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v2
@@ -33,7 +32,11 @@ jobs:
         dotnet restore
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: |
+        cd Fortnox.NET
+        dotnet build --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: |
+        cd Fortnox.NET.Test\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AbsenceTransactionsTests
