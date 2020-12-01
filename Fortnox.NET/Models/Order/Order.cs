@@ -131,7 +131,7 @@ namespace FortnoxNET.Models.Order
         public bool? Sent { get; set; }
 
         [JsonReadOnly]
-        public float? TaxReduction { get; set; }
+        public decimal? TaxReduction { get; set; }
 
         public string TermsOfDelivery { get; set; }
 

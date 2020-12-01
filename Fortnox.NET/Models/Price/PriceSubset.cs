@@ -17,10 +17,10 @@ namespace FortnoxNET.Models.Price
 
         public string ArticleNumber { get; set; }
 
-        public float FromQuantity { get; set; }
+        public decimal FromQuantity { get; set; }
 
         public string PriceList { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
