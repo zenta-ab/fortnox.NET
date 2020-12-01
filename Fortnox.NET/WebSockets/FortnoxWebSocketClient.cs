@@ -36,7 +36,6 @@ namespace FortnoxNET.WebSockets
         /// <summary>
         /// Initializes a new instance of the <see cref="FortnoxWebSocketClient"/> class with the specified AccessToken, ClientSecret and optional BufferSize.
         /// </summary>
-        /// <param name="accessToken">The Fortnox passkey.</param>
         /// <param name="clientSecret">The integrators key for making requests to Fortnox.</param>
         /// <param name="bufferSize">Optional target buffer size when receiving messages from the socket connection.</param>
         public FortnoxWebSocketClient(string clientSecret, int bufferSize = DEFAULT_BUFFER_SIZE)
