@@ -104,4 +104,5 @@ jobs:
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.VoucherSeriesTests
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.VoucherTests
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.WayOfDeliveryTests
+        echo "Exited with '$?'"
 
