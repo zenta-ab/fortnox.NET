@@ -55,3 +55,8 @@ jobs:
         cd Fortnox.NET.Tests\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AbsenceTransactionsTests
         VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountChartTests
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AccountTests
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArchiveTest
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArticleFileConnectionsTest
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.ArticleTests
+        VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:FortnoxNET.Tests.AssetFileConnectionsTests
