@@ -66,7 +66,7 @@ jobs:
           VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:$CurrentTest
           if ($?)
           {
-            Error
+            ErrorOut
           }
         }
 
