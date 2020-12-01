@@ -94,8 +94,7 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public void SearchOrdersLastModifiedTest()
         {
-            var dateOfThisTest = DateTime.Parse("2019-10-09 15:25:31");
-            var halfYearPriorToWhenThisTestWasMade = dateOfThisTest.AddDays(-180);
+            var halfYearPriorToWhenThisTestWasMade = DateTime.Now.AddDays(-180);
 
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
             {
