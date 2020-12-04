@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>2.5.2</PackageVersion>
-        <Version>2.5.2</Version>
+        <PackageVersion>2.5.3</PackageVersion>
+        <Version>2.5.3</Version>
         <Title>Fortnox API SDK</Title>
         <Authors>Zenta AB</Authors>
         <Description>.NET bindings for the Fortnox API.</Description>
@@ -19,6 +19,11 @@
         <ApplicationIcon />
         <OutputType>Library</OutputType>
         <StartupObject />
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <NoWarn>$(NoWarn);1591</NoWarn> <!-- // NOTE(Oskar): Disables the warning "Missing XML comment for publicly visible type or member". -->
     </PropertyGroup>
 
     <ItemGroup>
