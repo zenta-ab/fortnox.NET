@@ -29,35 +29,42 @@ namespace FortnoxNET.Tests
             Assert.IsTrue(response.EmployeeId == "4");
         }
 
-        //[TestMethod]
-        //public void CreateAbsenceTransactionTest()
-        //{
-        //    //TODO: Get some proper test accounts to avoid cluttering Fortnox with data
-        //    var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-        //    var response = AbsenceTransactionsService.CreateAbsenceTransactionAsync(request,
-        //        new AbsenceTransaction
-        //        {
-        //            EmployeeId = "2",
-        //            CauseCode = "SJK",
-        //            Date = DateTime.Parse("2020-03-31"),
-        //            Extent = 100,
-        //            HolidayEntitling = false,
-        //            Hours = 2,
-        //            Project = "",
-        //        }).GetAwaiter().GetResult();
+        [TestMethod]
+        public async Task CreateAbsenceTransactionTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = await AbsenceTransactionsService.CreateAbsenceTransactionAsync(request,
+                new AbsenceTransaction
+                {
+                    EmployeeId = "2",
+                    CauseCode = "SJK",
+                    Date = DateTime.Parse("2020-03-1"),
+                    Extent = 100.0m,
+                });
 
-        //    Assert.AreEqual(100, response.Extent);
-        //}
+            Assert.AreEqual(100, response.Extent);
 
-        //[TestMethod]
-        //public void UpdateAbsenceTransactionTest()
-        //{
-        //    var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-        //    var absenceTransaction = new AbsenceTransaction { EmployeeId = "4", CauseCode = "SJK", Date = DateTime.Parse("2020-02-24"), Hours = 8 };
+            await AbsenceTransactionsService.DeleteAbsenceTransactionAsync(request, response.EmployeeId, "2020-03-1", response.CauseCode);
+        }
 
-        //    var updatedAbsenceTransaction = AbsenceTransactionsService.UpdateAbsenceTransactionAsync(request, absenceTransaction).GetAwaiter().GetResult();
+        [TestMethod]
+        public async Task UpdateAbsenceTransactionTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = await AbsenceTransactionsService.CreateAbsenceTransactionAsync(request,
+                new AbsenceTransaction
+                {
+                    EmployeeId = "2",
+                    CauseCode = "SJK",
+                    Date = DateTime.Parse("2020-03-6"),
+                    Extent = 50.0m,
+                });
 
-        //    Assert.AreEqual(8, updatedAbsenceTransaction.Hours);
-        //}
+            response.Hours = 8.0m;
+            var updatedAbsenceTransaction = await AbsenceTransactionsService.UpdateAbsenceTransactionAsync(request, response);
+
+            Assert.AreEqual(8.0m, updatedAbsenceTransaction.Hours);
+            await AbsenceTransactionsService.DeleteAbsenceTransactionAsync(request, response.EmployeeId, "2020-03-6", response.CauseCode);
+        }
     }
 }

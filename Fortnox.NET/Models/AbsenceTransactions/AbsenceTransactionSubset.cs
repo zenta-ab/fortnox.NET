@@ -4,8 +4,8 @@ using System;
 
 namespace FortnoxNET.Models.AbsenceTransactions
 {
-	[JsonPropertyClass("AbsenceTransaction")]
-	public class AbsenceTransaction
+	[JsonPropertyClass("AbsenceTransactions")]
+	public class AbsenceTransactionSubset
 	{
 		[JsonReadOnly]
 		[JsonProperty(PropertyName = "@url")]

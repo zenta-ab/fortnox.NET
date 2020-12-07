@@ -10,9 +10,9 @@ namespace FortnoxNET.Services
 {
 	public class AbsenceTransactionsService
 	{
-        public static async Task<ListedResourceResponse<AbsenceTransaction>> GetAbsenceTransactionsAsync(AbsenceTransactionListRequest listRequest)
+        public static async Task<ListedResourceResponse<AbsenceTransactionSubset>> GetAbsenceTransactionsAsync(AbsenceTransactionListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AbsenceTransaction>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AbsenceTransactionSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
                                                                                                 ApiEndpoints.AbsenceTransactions);
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
 
@@ -42,7 +42,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Put, request.AccessToken, request.ClientSecret, 
-                    $"{ApiEndpoints.AbsenceTransactions}/{absenceTransaction.EmployeeId}/{absenceTransaction.Date}/{absenceTransaction.CauseCode}")
+                    $"{ApiEndpoints.AbsenceTransactions}/{absenceTransaction.EmployeeId}/{absenceTransaction.Date?.ToString("yyyy-MM-dd")}/{absenceTransaction.CauseCode}")
                 {
                     Data = new SingleResource<AbsenceTransaction> { Data = absenceTransaction}
                 };
@@ -53,7 +53,7 @@ namespace FortnoxNET.Services
         public static async Task DeleteAbsenceTransactionAsync(FortnoxApiRequest request, string employeeId, string date, string causeCode)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<object>>(
+                new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
                     request.AccessToken,
                     request.ClientSecret,
