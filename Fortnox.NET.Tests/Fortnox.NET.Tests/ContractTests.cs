@@ -31,7 +31,7 @@ namespace FortnoxNET.Tests
             var response = ContractService.GetContractAsync(request, "1").GetAwaiter().GetResult();
 
             Assert.IsTrue(response.ContractLength == 1);
-            Assert.IsTrue(response.DocumentNumber == "1");
+            Assert.IsTrue(response.DocumentNumber == 1);
         }
 
         [TestMethod]
@@ -46,9 +46,9 @@ namespace FortnoxNET.Tests
                     { 
                         new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 } 
                     },
-                    ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                    PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    ContractDate = DateTime.Now,
+                    PeriodStart = DateTime.Now.AddDays(1),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
@@ -82,9 +82,9 @@ namespace FortnoxNET.Tests
                     {
                         new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 }
                     },
-                    ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                    PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    ContractDate = DateTime.Now,
+                    PeriodStart = DateTime.Now.AddDays(1),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
@@ -106,9 +106,9 @@ namespace FortnoxNET.Tests
                     {
                         new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 }
                     },
-                    ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                    PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    ContractDate = DateTime.Now,
+                    PeriodStart = DateTime.Now.AddDays(1),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
@@ -141,9 +141,9 @@ namespace FortnoxNET.Tests
                     {
                         new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 }
                     },
-                    ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                    PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    ContractDate = DateTime.Now,
+                    PeriodStart = DateTime.Now.AddDays(1),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);

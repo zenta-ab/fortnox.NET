@@ -1,4 +1,5 @@
 ﻿
+using System;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
 
@@ -14,7 +15,7 @@ namespace FortnoxNET.Models.Contract
         public bool? Continuous { get; set; }
 
         [JsonReadOnly]
-        public int? ContractLength { get; set; }
+        public long? ContractLength { get; set; }
 
         public string Currency { get; set; }
 
@@ -22,18 +23,18 @@ namespace FortnoxNET.Models.Contract
 
         public string CustomerNumber { get; set; }
 
-        public string DocumentNumber { get; set; }
+        public long? DocumentNumber { get; set; }
 
-        public int? InvoiceInterval { get; set; }
+        public long? InvoiceInterval { get; set; }
 
         [JsonReadOnly]
-        public int? InvoicesRemaining { get; set; }
+        public long? InvoicesRemaining { get; set; }
 
-        public string LastInvoiceDate { get; set; }
+        public DateTime? LastInvoiceDate { get; set; }
 
-        public string PeriodStart { get; set; }
+        public DateTime? PeriodStart { get; set; }
 
-        public string PeriodEnd { get; set; }
+        public DateTime? PeriodEnd { get; set; }
 
         public string Status { get; set; }
 

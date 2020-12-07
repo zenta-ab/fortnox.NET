@@ -1,6 +1,7 @@
 ﻿using FortnoxNET.Models.Invoice;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace FortnoxNET.Models.Contract
@@ -16,9 +17,7 @@ namespace FortnoxNET.Models.Contract
         [JsonProperty(PropertyName = "@urlTaxReductionList")]
         public string UrlTaxReductionList { get; set; }
 
-
         public bool? Active { get; set; }
-
 
         public decimal? AdministrationFee { get; set; }
 
@@ -26,9 +25,9 @@ namespace FortnoxNET.Models.Contract
 
         public bool? Continuous { get; set; }
 
-        public string ContractDate { get; set; }
+        public DateTime? ContractDate { get; set; }
 
-        public int? ContractLength { get; set; }
+        public long? ContractLength { get; set; }
 
         [JsonReadOnly]
         public decimal? ContributionPercent { get; private set; }
@@ -44,7 +43,7 @@ namespace FortnoxNET.Models.Contract
 
         public string CustomerNumber { get; set; }
 
-        public string DocumentNumber { get; set; }
+        public long? DocumentNumber { get; set; }
 
         public ContractEmailInformation EmailInformation { get; set; }
 
@@ -73,16 +72,16 @@ namespace FortnoxNET.Models.Contract
         public string Language { get; set; }
 
         [JsonReadOnly]
-        public string LastInvoiceDate { get; private set; }
+        public DateTime? LastInvoiceDate { get; private set; }
 
         [JsonReadOnly]
         public decimal? Net { get; private set; }
 
         public string OurReference { get; set; }
 
-        public string PeriodEnd { get; set; }
+        public DateTime? PeriodEnd { get; set; }
 
-        public string PeriodStart { get; set; }
+        public DateTime? PeriodStart { get; set; }
 
         public string PriceList { get; set; }
 
@@ -98,7 +97,7 @@ namespace FortnoxNET.Models.Contract
         [JsonReadOnly]
         public string TemplateName { get; private set; }
 
-        public string TemplateNumber { get; set; }
+        public long? TemplateNumber { get; set; }
 
         public string TermsOfDelivery { get; set; }
 
