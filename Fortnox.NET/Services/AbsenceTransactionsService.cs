@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Fortnox.NET.Models.AbsenceTransactions;
 using FortnoxNET.Communication;
 using FortnoxNET.Communication.AbsenceTransaction;
 using FortnoxNET.Constants;
@@ -50,7 +51,7 @@ namespace FortnoxNET.Services
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
 
-        public static async Task DeleteAbsenceTransactionAsync(FortnoxApiRequest request, string employeeId, string date, string causeCode)
+        public static async Task DeleteAbsenceTransactionAsync(FortnoxApiRequest request, string employeeId, string date, CauseCode causeCode)
         {
             var apiRequest =
                 new FortnoxApiClientRequest<object>(

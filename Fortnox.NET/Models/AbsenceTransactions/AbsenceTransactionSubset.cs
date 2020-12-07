@@ -1,5 +1,7 @@
-﻿using FortnoxNET.Utils;
+﻿using Fortnox.NET.Models.AbsenceTransactions;
+using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 
 namespace FortnoxNET.Models.AbsenceTransactions
@@ -19,7 +21,8 @@ namespace FortnoxNET.Models.AbsenceTransactions
 		/// <summary>
 		/// Cause code
 		/// </summary>
-		public string CauseCode { get; set; }
+		[JsonConverter(typeof(StringEnumConverter))]
+		public CauseCode CauseCode { get; set; }
 
 		/// <summary>
 		/// Date

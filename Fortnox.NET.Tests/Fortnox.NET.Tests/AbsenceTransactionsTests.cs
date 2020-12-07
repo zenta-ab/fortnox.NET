@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Fortnox.NET.Models.AbsenceTransactions;
 using FortnoxNET.Communication;
 using FortnoxNET.Communication.AbsenceTransaction;
 using FortnoxNET.Models.AbsenceTransactions;
@@ -37,14 +38,14 @@ namespace FortnoxNET.Tests
                 new AbsenceTransaction
                 {
                     EmployeeId = "2",
-                    CauseCode = "SJK",
-                    Date = DateTime.Parse("2020-03-1"),
+                    CauseCode = CauseCode.SJK,
+                    Date = DateTime.Parse("2020-03-7"),
                     Extent = 100.0m,
                 });
 
             Assert.AreEqual(100, response.Extent);
 
-            await AbsenceTransactionsService.DeleteAbsenceTransactionAsync(request, response.EmployeeId, "2020-03-1", response.CauseCode);
+            await AbsenceTransactionsService.DeleteAbsenceTransactionAsync(request, response.EmployeeId, "2020-03-7", response.CauseCode);
         }
 
         [TestMethod]
@@ -55,8 +56,8 @@ namespace FortnoxNET.Tests
                 new AbsenceTransaction
                 {
                     EmployeeId = "2",
-                    CauseCode = "SJK",
-                    Date = DateTime.Parse("2020-03-6"),
+                    CauseCode = CauseCode.SJK,
+                    Date = DateTime.Parse("2020-03-8"),
                     Extent = 50.0m,
                 });
 
@@ -64,7 +65,7 @@ namespace FortnoxNET.Tests
             var updatedAbsenceTransaction = await AbsenceTransactionsService.UpdateAbsenceTransactionAsync(request, response);
 
             Assert.AreEqual(8.0m, updatedAbsenceTransaction.Hours);
-            await AbsenceTransactionsService.DeleteAbsenceTransactionAsync(request, response.EmployeeId, "2020-03-6", response.CauseCode);
+            await AbsenceTransactionsService.DeleteAbsenceTransactionAsync(request, response.EmployeeId, "2020-03-8", response.CauseCode);
         }
     }
 }
