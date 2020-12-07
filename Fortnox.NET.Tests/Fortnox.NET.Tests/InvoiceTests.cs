@@ -326,7 +326,7 @@ namespace FortnoxNET.Tests
                         {
                             new InvoiceRow
                             {
-                                ArticleNumber = "1",
+                                ArticleNumber = "2",
                                 DeliveredQuantity = 1,
                                 Price = 99.5m
                             }
