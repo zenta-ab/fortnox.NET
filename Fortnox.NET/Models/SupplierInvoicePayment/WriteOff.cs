@@ -3,7 +3,7 @@
 
     public class WriteOff
     {
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public int AccountNumber { get; set; }
 

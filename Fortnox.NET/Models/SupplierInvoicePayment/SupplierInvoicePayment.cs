@@ -12,9 +12,9 @@ namespace FortnoxNET.Models.SupplierInvoicePayment
         [JsonProperty(PropertyName = "@Url")]
         public string Url { get; set; }
 
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
 
-        public float AmountCurrency { get; set; }
+        public decimal AmountCurrency { get; set; }
 
         [JsonReadOnly]
         public bool? Booked { get; set; }

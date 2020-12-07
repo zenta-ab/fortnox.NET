@@ -11,18 +11,18 @@ namespace FortnoxNET.Models.Order
         public string ArticleNumber { get; set; }
 
         [JsonReadOnly]
-        public float? ContributionPercent { get; set; }
+        public decimal? ContributionPercent { get; set; }
 
         [JsonReadOnly]
-        public float? ContributionValue { get; set; }
+        public decimal? ContributionValue { get; set; }
 
         public string CostCenter { get; set; }
 
-        public float? DeliveredQuantity { get; set; }
+        public decimal? DeliveredQuantity { get; set; }
 
         public string Description { get; set; }
 
-        public float? Discount { get; set; }
+        public decimal? Discount { get; set; }
 
         public string DiscountType { get; set; }
 
@@ -32,17 +32,17 @@ namespace FortnoxNET.Models.Order
 
         public string HouseWorkType { get; set; }
 
-        public float? OrderedQuantity { get; set; }
+        public decimal? OrderedQuantity { get; set; }
 
-        public float? Price { get; set; }
+        public decimal? Price { get; set; }
 
         public string Project { get; set; }
 
         [JsonReadOnly]
-        public float? Total { get; set; }
+        public decimal? Total { get; set; }
 
         public string Unit { get; set; }
 
-        public float? VAT { get; set; }
+        public decimal? VAT { get; set; }
     }
 }

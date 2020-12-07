@@ -44,7 +44,7 @@ namespace FortnoxNET.Tests
                     CustomerNumber = "1",
                     InvoiceRows = new List<InvoiceRow>() 
                     { 
-                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = "1000", AccountNumber = 3001 } 
+                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 } 
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
@@ -80,7 +80,7 @@ namespace FortnoxNET.Tests
                     CustomerNumber = "1",
                     InvoiceRows = new List<InvoiceRow>()
                     {
-                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = "1000", AccountNumber = 3001 }
+                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 }
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
@@ -104,7 +104,7 @@ namespace FortnoxNET.Tests
                     CustomerNumber = "1",
                     InvoiceRows = new List<InvoiceRow>()
                     {
-                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = "1000", AccountNumber = 3001 }
+                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 }
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
@@ -139,7 +139,7 @@ namespace FortnoxNET.Tests
                     CustomerNumber = "1",
                     InvoiceRows = new List<InvoiceRow>()
                     {
-                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = "1000", AccountNumber = 3001 }
+                        new InvoiceRow { ArticleNumber = "1", DeliveredQuantity = 1000, AccountNumber = 3001 }
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),

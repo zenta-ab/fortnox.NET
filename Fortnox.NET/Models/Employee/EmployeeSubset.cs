@@ -32,18 +32,18 @@ namespace FortnoxNET.Models.Employee
         public string PersonelType { get; set; }
         public string ScheduleId { get; set; }
         public string ForaType { get; set; }
-        public float? MonthlySalary { get; set; }
-        public float? HourlyPay { get; set; }
+        public decimal? MonthlySalary { get; set; }
+        public decimal? HourlyPay { get; set; }
         public string TaxAllowance { get; set; }
-        public float? TaxTable { get; set; }
+        public decimal? TaxTable { get; set; }
         public int? TaxColumn { get; set; }
         public bool? AutoNonRecurringTax { get; set; }
-        public float? NonRecurringTax { get; set; }
+        public decimal? NonRecurringTax { get; set; }
         public bool? Inactive { get; set; }
         public string ClearingNo { get; set; }
         public string BankAccountNo { get; set; }
-        public float? AverageWeeklyHours { get; set; }
-        public float? AverageHourlyWage { get; set; }
+        public decimal? AverageWeeklyHours { get; set; }
+        public decimal? AverageHourlyWage { get; set; }
         public DateTime? EmployedTo { get; set; }
 
     }

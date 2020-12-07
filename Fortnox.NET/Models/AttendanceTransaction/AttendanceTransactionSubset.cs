@@ -17,7 +17,7 @@ namespace FortnoxNET.Models.AttendanceTransaction
 		public string EmployeeId { get; set; }
 		public string CauseCode { get; set; }
 		public DateTime Date { get; set; }
-		public float Hours { get; set; }
+		public decimal Hours { get; set; }
 		public string CostCenter { get; set; }
 		public string Project { get; set; }
 	}

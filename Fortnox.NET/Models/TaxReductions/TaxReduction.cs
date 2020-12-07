@@ -8,9 +8,9 @@ namespace FortnoxNET.Models.TaxReduction
     {
         [JsonProperty(PropertyName = "@Url")]
         public string Url { get; set; }
-        public float? ApprovedAmount { get; set; }
-        public float AskedAmount { get; set; }
-        public float BilledAmount { get; set; }
+        public decimal? ApprovedAmount { get; set; }
+        public decimal AskedAmount { get; set; }
+        public decimal BilledAmount { get; set; }
         public string CustomerName { get; set; }
         public string Id { get; set; }
         public string PropertyDesignation { get; set; }
