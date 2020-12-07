@@ -9,6 +9,9 @@ namespace FortnoxNET.Models.AbsenceTransactions
 	[JsonPropertyClass("AbsenceTransaction")]
 	public class AbsenceTransaction
 	{
+		/// <summary>
+		/// Direct URL to the record
+		/// </summary>
 		[JsonReadOnly]
 		[JsonProperty(PropertyName = "@url")]
 		public string Url { get; set; }

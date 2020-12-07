@@ -6,9 +6,24 @@ namespace FortnoxNET.Models.Account
 {
     public class Account : AccountSubset
     {
-        public bool Active { get; set; }
-        public decimal BalanceBroughtForward { get; set; }
+        /// <summary>
+        /// If the account is actve
+        /// </summary>
+        public bool? Active { get; set; }
+
+        /// <summary>
+        /// Opening balance of the account
+        /// </summary>
+        public decimal? BalanceBroughtForward { get; set; }
+
+        /// <summary>
+        /// Account description
+        /// </summary>
         public string Description { get; set; }
-        public int SRU { get; set; }
+
+        /// <summary>
+        /// SRU code
+        /// </summary>
+        public int? SRU { get; set; }
     }
 }
