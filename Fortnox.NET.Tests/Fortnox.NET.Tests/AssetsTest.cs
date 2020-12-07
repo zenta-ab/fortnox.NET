@@ -185,7 +185,7 @@ namespace FortnoxNET.Tests
             var depreciatedAssetResponse = await AssetsService.DepreciateAssetAsync(request, assetDepreciation);
 
             var depreciationResult = depreciatedAssetResponse.Data.First();
-            Assert.IsTrue(depreciationResult.FinancialYear == 2);
+            Assert.IsTrue(depreciationResult.FinancialYear == 3);
             Assert.IsTrue(depreciationResult.VoucherSeries.Equals("G"));
         }
     }

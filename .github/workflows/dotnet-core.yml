@@ -1,0 +1,72 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - master
+    - feature/*
+    - hotfix/*
+    - patch/*
+  pull_request:
+    branches:
+    - master
+    - feature/*
+    - hotfix/*
+    - patch/*
+
+jobs:
+  netcore:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1
+
+    - name: Variable substitution
+      uses: microsoft/variable-substitution@v1 
+      with:
+        files: 'Fortnox.NET.Tests\Fortnox.NET.Tests\appsettings.json'
+      env:
+        AccessToken: ${{ secrets.ACCESSTOKEN }}
+        ClientSecret: ${{ secrets.CLIENTSECRET }}
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2
+    
+    - name: Install dependencies
+      shell: cmd
+      run: |
+        cd Fortnox.NET
+        dotnet restore
+    
+    - name: Build
+      shell: cmd
+      run: |
+        cd Fortnox.NET
+        dotnet build --configuration Release --no-restore
+    
+    - name: Test
+      shell: powershell
+      run: |
+        cd Fortnox.NET.Tests\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
+        
+        function ErrorOut
+        {
+          exit 1
+        }
+
+        $Tests = @("AbsenceTransactionsTests", "AccountChartTests", "AccountTests", "ArchiveTest", "ArticleFileConnectionsTest", "ArticleTests", "AssetFileConnectionsTests", "AssetsTest", "AssetTypeTests", "AttendanceTransactionTests", "CompanyInformationTests", "CompanySettingsTests", "ContractTemplateTests", "ContractTests", "CostCenterTests", "CurrencyTests", "CustomerInvoiceTests", "CustomerTests", "EmployeeTests", "ExpenseTest", "FinancialYearTests", "InboxTest", "InvoicePaymentTests", "InvoiceTests", "LabelTests", "LockedPeriodTests", "ModesOfPaymentsTests", "OfferTests", "OrderTests", "PredefinedAccountsTest", "PriceListTests", "PriceTests", "PrintTemplatesTests", "ProjectTests", "SalaryTransactionTests", "SIETests", "SupplierInvoiceExternalURLConnectionsServiceTests", "SupplierInvoiceFileConnectionsTests", "SupplierInvoicePaymentTests", "SupplierInvoiceTests", "SupplierTests", "TaxReductionTests", "TermsOfDeliveryTests", "TermsOfPaymentTests", "TrustedEmailDomainTests", "UnitTests", "VoucherSeriesTests", "VoucherTests", "WayOfDeliveryTests")
+        For($Index = 0; $Index -lt $Tests.Length; $Index++)
+        {
+          $CurrentTest = $Tests[$Index]
+          VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:$CurrentTest
+          if (!($?))
+          {
+            ErrorOut
+          }
+        }
+

@@ -48,7 +48,7 @@ namespace FortnoxNET.Tests
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month+1, 1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
@@ -84,7 +84,7 @@ namespace FortnoxNET.Tests
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
@@ -108,7 +108,7 @@ namespace FortnoxNET.Tests
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
@@ -143,7 +143,7 @@ namespace FortnoxNET.Tests
                     },
                     ContractDate = DateTime.Now.ToString("yyyy-MM-dd"),
                     PeriodStart = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
-                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1).ToString("yyyy-MM-dd"),
+                    PeriodEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd"),
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1", response.CustomerNumber);
