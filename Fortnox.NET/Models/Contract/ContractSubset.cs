@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
 

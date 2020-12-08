@@ -36,7 +36,7 @@ namespace FortnoxNET.Tests
             var request = new ContractTemplateListRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
             var response = await ContractTemplateService.GetContractTemplateAsync(
                 request,
-                templates.First().ContractTemplate
+                templates.First().ContractTemplate.Value
             );
             
             Assert.IsNotNull(response);
@@ -73,7 +73,7 @@ namespace FortnoxNET.Tests
                 return;
             }
 
-            var template = await GetTemplate(templates.First().ContractTemplate);
+            var template = await GetTemplate(templates.First().ContractTemplate.Value);
             var initialRemarks = template.Remarks;
             template.Remarks = $"CHANGED{(new Random()).Next(0, 1000000)}";
             

@@ -7,24 +7,48 @@ namespace FortnoxNET.Models.Currency
     [JsonPropertyClass("Currencies")]
     public class CurrencySubset
     {
+        /// <summary>
+        /// Direct URL to the record
+        /// </summary>
         [JsonReadOnly]
         [JsonProperty(PropertyName = "@url")]
         public string Url { get; set; }
 
-        public int BuyRate { get; set; }
+        /// <summary>
+        /// The buy rate of the currency
+        /// </summary>
+        public decimal? BuyRate { get; set; }
 
+        /// <summary>
+        /// The code of the currency
+        /// </summary>
         public string Code { get; set; }
 
+        /// <summary>
+        /// The date of retrieval of the buy/sell rates
+        /// </summary>
         [JsonReadOnly]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
+        /// <summary>
+        /// The description of the currency
+        /// </summary>
         public string Description { get; set; }
 
-        public int SellRate { get; set; }
+        /// <summary>
+        /// The sell rate of the currency
+        /// </summary>
+        public decimal? SellRate { get; set; }
 
-        public int Unit { get; set; }
+        /// <summary>
+        /// The unit of the currency
+        /// </summary>
+        public decimal? Unit { get; set; }
 
+        /// <summary>
+        /// If the currency has automatic updates on it
+        /// </summary>
         [JsonReadOnly]
-        public bool IsAutomatic { get; set; }
+        public bool? IsAutomatic { get; set; }
     }
 }
