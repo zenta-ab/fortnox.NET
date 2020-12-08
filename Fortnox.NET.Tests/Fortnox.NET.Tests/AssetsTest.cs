@@ -121,7 +121,7 @@ namespace FortnoxNET.Tests
 
             Assert.AreEqual(asset.Number, result.Number);
 
-            var scrapAsset = new AssetScrap { Percentage = 5, Comment = "Scrap comment", Date = currentDate.AddMonths(1).ToString("yyyy-MM-dd") };
+            var scrapAsset = new AssetScrap { Percentage = 5, Comment = "Scrap comment", Date = currentDate.AddMonths(1) };
             var scrappedAsset = await AssetsService.ScrapAssetAsync(request, $"{result.Id}", scrapAsset);
 
             await AssetsService.DeleteAssetAsync(request, result.Id.ToString());
@@ -181,7 +181,7 @@ namespace FortnoxNET.Tests
 
             var depreciationDate = currentDate.AddMonths(2);
             depreciationDate = new DateTime(depreciationDate.Year, depreciationDate.Month, DateTime.DaysInMonth(depreciationDate.Year, depreciationDate.Month));
-            var assetDepreciation = new DepreciateAssets { DepreciateUntil = depreciationDate.ToString("yyyy-MM-dd"), AssetIds = new List<int> { result.Id } };
+            var assetDepreciation = new DepreciateAssets { DepreciateUntil = depreciationDate, AssetIds = new List<int> { result.Id } };
             var depreciatedAssetResponse = await AssetsService.DepreciateAssetAsync(request, assetDepreciation);
 
             var depreciationResult = depreciatedAssetResponse.Data.First();
