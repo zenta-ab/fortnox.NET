@@ -1,9 +1,9 @@
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace FortnoxNET.Models.Customer
 {
-    [JsonConverter(typeof(CustomJsonConverter))]
     [JsonPropertyClass("Customer")]
     public class Customer
     {
@@ -293,6 +293,7 @@ namespace FortnoxNET.Models.Customer
         /// Type of the customer. 
         /// Can be PRIVATE or COMPANY.
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public CustomerType Type { get; set; }
 
         /// <summary>
@@ -304,7 +305,8 @@ namespace FortnoxNET.Models.Customer
         /// VAT type of the customer. 
         /// Can be SEVAT SEREVERSEDVAT EUREVERSEDVAT EUVAT or EXPORT.
         /// </summary>
-        public VatType? VATType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public VATType? VATType { get; set; }
 
         /// <summary>
         /// Visiting address of the customer.
