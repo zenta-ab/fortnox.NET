@@ -7,12 +7,6 @@ on:
     - feature/*
     - hotfix/*
     - patch/*
-  pull_request:
-    branches:
-    - master
-    - feature/*
-    - hotfix/*
-    - patch/*
 
 jobs:
   netcore:
