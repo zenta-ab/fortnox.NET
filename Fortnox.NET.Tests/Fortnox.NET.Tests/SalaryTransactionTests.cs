@@ -46,8 +46,8 @@ namespace FortnoxNET.Tests
 
             Assert.AreEqual("1593082874", response.EmployeeId);
 
-            var salaryTransaction = new SalaryTransaction { SalaryRow = response.SalaryRow, Number = "20" };
-            var updatedSalaryTransaction = SalaryTransactionService.UpdateSalaryTransactionAsync(request, salaryTransaction).GetAwaiter().GetResult();
+            response.Number = "20";
+            var updatedSalaryTransaction = SalaryTransactionService.UpdateSalaryTransactionAsync(request, response).GetAwaiter().GetResult();
 
             Assert.AreEqual("1593082874", updatedSalaryTransaction.EmployeeId);
             Assert.AreEqual("20", updatedSalaryTransaction.Number);

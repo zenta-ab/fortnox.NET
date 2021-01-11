@@ -7,16 +7,18 @@ namespace FortnoxNET.Models.SalaryTransaction
     [JsonPropertyClass("SalaryTransaction")]
     public class SalaryTransaction
     {
-        [JsonReadOnly]
         [JsonProperty(PropertyName = "@url")]
         public string Url { get; set; }
+
+        public bool ShouldSerializeUrl() => false;
 
         public string EmployeeId { get; set; }
 
         public string SalaryCode { get; set; }
 
-        [JsonReadOnly]
         public int? SalaryRow { get; set; }
+
+        public bool ShouldSerializeSalaryRow() => false;
 
         public DateTime? Date { get; set; }
 
