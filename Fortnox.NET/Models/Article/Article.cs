@@ -51,7 +51,6 @@ namespace FortnoxNET.Models.Article
         /// <summary>
         /// The type of house work.
         /// </summary> 
-        /// 
         [JsonConverter(typeof(StringEnumConverter))]
         public HouseworkType? HouseworkType { get; set; }
 
@@ -141,17 +140,17 @@ namespace FortnoxNET.Models.Article
         public int? StockAccount { get; set; }
 
         /// <summary>
-        /// Purchase price – Direct cost
+        /// Purchase price ï¿½ Direct cost
         /// </summary>
         public decimal? DirectCost { get; set; }
 
         /// <summary>
-        /// Purchase price – Freight cost
+        /// Purchase price ï¿½ Freight cost
         /// </summary>
         public decimal? FreightCost { get; set; }
 
         /// <summary>
-        /// Purchase price – Other cost
+        /// Purchase price ï¿½ Other cost
         /// </summary>
         public decimal? OtherCost { get; set; }
     }

@@ -122,7 +122,6 @@ namespace FortnoxNET.Models.Order
 
         public bool ShouldSerializeOrderType() => false;
 
-        [JsonReadOnly]
         public string OrganisationNumber { get; set; }
 
         public bool ShouldSerializeOrganisationNumber() => false;

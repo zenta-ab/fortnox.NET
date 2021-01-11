@@ -1,6 +1,8 @@
-﻿using FortnoxNET.Models.Invoice;
+﻿using Fortnox.NET.Models.Common;
+using FortnoxNET.Models.Invoice;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
@@ -216,7 +218,8 @@ namespace FortnoxNET.Models.Contract
         /// <summary>
         /// Tax Reduction Type
         /// </summary>
-        public string TaxReductionType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TaxReductionType? TaxReductionType { get; set; }
 
         /// <summary>
         /// Template name

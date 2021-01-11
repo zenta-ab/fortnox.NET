@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Communication;
+﻿using Fortnox.NET.Models.Common;
+using FortnoxNET.Communication;
 using FortnoxNET.Communication.Invoice;
 using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
@@ -74,6 +75,7 @@ namespace FortnoxNET.Tests
 
             var response = InvoiceService.GetInvoiceAsync(request, 12).GetAwaiter().GetResult();
             response.Comments = comment;
+            response.TaxReductionType = TaxReductionType.None;
 
             var updatedInvoice = InvoiceService.UpdateInvoiceAsync(request, response).GetAwaiter().GetResult();
 
