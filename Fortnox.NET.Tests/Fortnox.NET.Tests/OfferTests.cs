@@ -82,7 +82,7 @@ namespace FortnoxNET.Tests
             var comment = $"Comment: {DateTime.Now}";
             var request = new OfferListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             
-            var response = OfferService.GetOfferAsync(request, "3").GetAwaiter().GetResult();
+            var response = OfferService.GetOfferAsync(request, "2").GetAwaiter().GetResult();
             response.Comments = comment;
 
             var updatedOffer = OfferService.UpdateOfferAsync(request, response).GetAwaiter().GetResult();
