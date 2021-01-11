@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
 
@@ -18,7 +17,7 @@ namespace FortnoxNET.Models.Article
         /// Article number. If no article number is provided, 
         /// the next number in the series will be used. 
         /// Only alpha numeric characters, 
-        /// with the addition of – + /  . and _, are allowed.
+        /// with the addition of ï¿½ + /  . and _, are allowed.
         /// </summary>
         public string ArticleNumber { get; set; }
 
