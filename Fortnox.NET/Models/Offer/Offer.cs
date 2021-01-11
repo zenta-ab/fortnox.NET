@@ -1,48 +1,56 @@
-﻿using FortnoxNET.Utils;
+﻿using Fortnox.NET.Models.Common;
+using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
 namespace FortnoxNET.Models.Offer
 {
-
-    [JsonConverter(typeof(CustomJsonConverter))]
     [JsonPropertyClass("Offer")]
     public class Offer
     {
-        [JsonReadOnly]
         [JsonProperty(PropertyName = "@url")]
         public string Url { get; set; }
 
-        [JsonReadOnly]
+        public bool ShouldSerializeUrl() => false;
+
         [JsonProperty(PropertyName = "@urlTaxReductionList")]
         public string UrlTaxReductionList { get; set; }
-        
-        public int AdministrationFee { get; set; }
 
-        [JsonReadOnly]
-        public int AdministrationFeeVAT { get; set; }
-        
+        public bool ShouldSerializeUrlTaxReductionList() => false;
+
+        public int? AdministrationFee { get; set; }
+
+        public int? AdministrationFeeVAT { get; set; }
+
+        public bool ShouldSerializeAdministrationFeeVAT() => false;
+
         public string Address1 { get; set; }
         
         public string Address2 { get; set; }
 
-        [JsonReadOnly]
-        public int BasisTaxReduction { get; set; }
+        public int? BasisTaxReduction { get; set; }
 
-        [JsonReadOnly]
+        public bool ShouldSerializeBasisTaxReduction() => false;
+
+
         public bool Cancelled { get; set; }
-        
+
+        public bool ShouldSerializeCancelled() => false;
+
         public string City { get; set; }
         
         public string Comments { get; set; }
 
-        [JsonReadOnly]
-        public int ContributionPercent { get; set; }
+        public int? ContributionPercent { get; set; }
 
-        [JsonReadOnly]
-        public int ContributionValue { get; set; }
-        
+        public bool ShouldSerializeContributionPercent() => false;
+
+        public int? ContributionValue { get; set; }
+
+        public bool ShouldSerializeContributionValue() => false;
+
         public bool CopyRemarks { get; set; }
         
         public string Country { get; set; }
@@ -51,9 +59,9 @@ namespace FortnoxNET.Models.Offer
         
         public string Currency { get; set; }
         
-        public int CurrencyRate { get; set; }
+        public int? CurrencyRate { get; set; }
         
-        public int CurrencyUnit { get; set; }
+        public int? CurrencyUnit { get; set; }
         
         public string CustomerName { get; set; }
         
@@ -79,38 +87,44 @@ namespace FortnoxNET.Models.Offer
         
         public string ExpireDate { get; set; }
         
-        public int Freight { get; set; }
+        public int? Freight { get; set; }
 
-        [JsonReadOnly]
-        public int FreightVAT { get; set; }
+        public int? FreightVAT { get; set; }
 
-        [JsonReadOnly]
-        public int Gross { get; set; }
+        public bool ShouldSerializeFreightVAT() => false;
 
-        [JsonReadOnly]
-        public bool HouseWork { get; set; }
-        
-        public int InvoiceReference { get; set; }
+        public int? Gross { get; set; }
+
+        public bool ShouldSerializeGross() => false;
+
+        public bool? HouseWork { get; set; }
+
+        public bool ShouldSerializeHouseWork() => false;
+
+        public int? InvoiceReference { get; set; }
         
         public string Language { get; set; }
 
-        [JsonReadOnly]
-        public int Net { get; set; }
-        
+        public int? Net { get; set; }
+
+        public bool ShouldSerializeNet() => false;
+
         public bool NotCompleted { get; set; }
         
         public string OfferDate { get; set; }
         
         public List<OfferRow> OfferRows { get; set; }
 
-        [JsonReadOnly]
-        public int OrderReference { get; set; }
-        
+        public int? OrderReference { get; set; }
+
+        public bool ShouldSerializeOrderReference() => false;
+
         public string OrganisationNumber { get; set; }
 
-        [JsonReadOnly]
         public string OurReference { get; set; }
-        
+
+        public bool ShouldSerializeOurReference() => false;
+
         public string Phone1 { get; set; }
         
         public string Phone2 { get; set; }
@@ -123,28 +137,39 @@ namespace FortnoxNET.Models.Offer
         
         public string Remarks { get; set; }
 
-        [JsonReadOnly]
-        public int RoundOff { get; set; }
-        
-        [JsonReadOnly]
+        public decimal? RoundOff { get; set; }
+
+        public bool ShouldSerializeRoundOff() => false;
+
         public bool Sent { get; set; }
 
-        [JsonReadOnly]
+        public bool ShouldSerializeSent() => false;
+
         public decimal? TaxReduction { get; set; }
+
+        public bool ShouldSerializeTaxReduction() => false;
+        /// <summary>
+        /// Tax Reduction Type
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TaxReductionType? TaxReductionType { get; set; }
         
         public string TermsOfDelivery { get; set; }
         
         public string TermsOfPayment { get; set; }
 
-        [JsonReadOnly]
-        public int Total { get; set; }
+        public int? Total { get; set; }
 
-        [JsonReadOnly]
-        public int TotalToPay { get; set; }
+        public bool ShouldSerializeTotal() => false;
 
-        [JsonReadOnly]
-        public int TotalVAT { get; set; }
-        
+        public int? TotalToPay { get; set; }
+
+        public bool ShouldSerializeTotalToPay() => false;
+
+        public int? TotalVAT { get; set; }
+
+        public bool ShouldSerializeTotalVAT() => false;
+
         public bool VATIncluded { get; set; }
         
         public string WayOfDelivery { get; set; }
