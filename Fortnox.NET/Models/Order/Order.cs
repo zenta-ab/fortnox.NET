@@ -208,5 +208,9 @@ namespace FortnoxNET.Models.Order
         /// The date that the document was marked as ready in warehouse
         /// </summary>
         public DateTime? OutboundDate { get; set; }
+
+        public string StockPointId { get; set; }
+
+        public string StockPointCode { get; set; }
     }
 }

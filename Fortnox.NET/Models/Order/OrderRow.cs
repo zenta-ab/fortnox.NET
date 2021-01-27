@@ -20,6 +20,8 @@ namespace FortnoxNET.Models.Order
 
         public decimal? DeliveredQuantity { get; set; }
 
+        public decimal? ReservedQuantity { get; set; }
+
         public string Description { get; set; }
 
         public decimal? Discount { get; set; }
@@ -44,5 +46,9 @@ namespace FortnoxNET.Models.Order
         public string Unit { get; set; }
 
         public decimal? VAT { get; set; }
+
+        public string StockPointId { get; set; }
+
+        public string StockPointCode { get; set; }
     }
 }
