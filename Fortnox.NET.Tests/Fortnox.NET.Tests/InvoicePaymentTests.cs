@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fortnox.NET.Models.InvoicePayment;
 using FortnoxNET.Communication;
 using FortnoxNET.Constants.Search;
 using FortnoxNET.Models.InvoicePayment;
@@ -62,6 +63,70 @@ namespace FortnoxNET.Tests
             var response = await InvoicePaymentService.GetInvoicePaymentAsync(request, 3);
 
             Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public async Task CreateAndDeleteInvoicePaymentTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoicePaymentService.CreateInvoicePaymentAsync(request,
+                new CreateOrUpdateInvoicePayment
+                {
+                    Amount = 99,
+                    AmountCurrency = 99,
+                    InvoiceNumber = 2
+                }).GetAwaiter().GetResult();
+
+            await InvoicePaymentService.DeleteInvoicePaymentAsync(request, $"{response.Number}");
+
+            Assert.AreEqual("2", response.InvoiceCustomerNumber);
+            Assert.AreEqual(99, response.Amount);
+            Assert.AreEqual(99, response.AmountCurrency);
+        }
+
+        [TestMethod]
+        public async Task UpdateInvoicePaymentTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoicePaymentService.CreateInvoicePaymentAsync(request,
+                new CreateOrUpdateInvoicePayment
+                {
+                    Amount = 99,
+                    AmountCurrency = 99,
+                    InvoiceNumber = 2
+                }).GetAwaiter().GetResult();
+
+            var updatedInvoicePayment = InvoicePaymentService.UpdateInvoicePaymentAsync(request, response.Number,
+                new CreateOrUpdateInvoicePayment
+                {
+                    Amount = response.Amount + 1,
+                    AmountCurrency = response.AmountCurrency + 1,
+                    InvoiceNumber = response.InvoiceNumber
+                }).GetAwaiter().GetResult();
+
+            await InvoicePaymentService.DeleteInvoicePaymentAsync(request, $"{response.Number}");
+
+            Assert.AreEqual(updatedInvoicePayment.InvoiceCustomerNumber, response.InvoiceCustomerNumber);
+            Assert.AreEqual(updatedInvoicePayment.Amount, response.Amount + 1);
+            Assert.AreEqual(updatedInvoicePayment.AmountCurrency, response.AmountCurrency + 1);
+        }
+
+        [TestMethod]
+        public async Task BookkeepInvoicePaymentTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = InvoicePaymentService.CreateInvoicePaymentAsync(request,
+                new CreateOrUpdateInvoicePayment
+                {
+                    Amount = 99,
+                    AmountCurrency = 99,
+                    InvoiceNumber = 2
+                }).GetAwaiter().GetResult();
+
+            var bookkeeptInvoicePayment = await InvoicePaymentService.BookkeepInvoicePaymentAsync(request, response.Number);
+            
+            Assert.AreEqual(false, response.Booked);
+            Assert.AreEqual(true, bookkeeptInvoicePayment.Booked);
         }
     }
 }

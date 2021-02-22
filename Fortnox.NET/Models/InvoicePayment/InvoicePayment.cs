@@ -1,12 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using FortnoxNET.Models.Vouchers;
+using FortnoxNET.Utils;
+using Newtonsoft.Json;
 
 namespace FortnoxNET.Models.InvoicePayment
 {
-    public class InvoicePayment : InvoicePaymentSubset
+    [JsonPropertyClass("InvoicePayment")]
+    public class InvoicePayment
     {
-
+        [JsonProperty(PropertyName = "@Url")]
+        public string Url { get; set; }
+        public int Amount { get; set; }
+        public bool Booked { get; set; }
+        public string Currency { get; set; }
+        public int CurrencyRate { get; set; }
+        public int CurrencyUnit { get; set; }
+        public int InvoiceNumber { get; set; }
+        public int Number { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public string Source { get; set; }
         public int AmountCurrency { get; set; }
         public string ExternalInvoiceReference1 { get; set; }
         public string ExternalInvoiceReference2 { get; set; }

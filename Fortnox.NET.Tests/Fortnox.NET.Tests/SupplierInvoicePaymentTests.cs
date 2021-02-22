@@ -26,7 +26,7 @@ namespace FortnoxNET.Tests
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var response = SupplierInvoicePaymentService.GetSupplierInvoicePaymentAsync(request, "1").GetAwaiter().GetResult();
 
-            Assert.IsTrue(response.Amount == 3012.5);
+            Assert.IsTrue(response.Amount == 3012.5m);
         }
 
         //[TestMethod]

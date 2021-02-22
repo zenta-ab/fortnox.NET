@@ -18,9 +18,9 @@ namespace FortnoxNET.Models.AbsenceTransactions
 
 		public DateTime Date { get; set; }
 
-		public float Extent { get; set; }
+		public decimal Extent { get; set; }
 
-		public float Hours { get; set; }
+		public decimal Hours { get; set; }
 
 		public bool HolidayEntitling { get; set; }
 

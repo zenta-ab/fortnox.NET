@@ -26,7 +26,7 @@ namespace FortnoxNET.Communication
 
         public StringContent GetStringContent()
         {
-            var serializedString = JsonConvert.SerializeObject(Data, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+            var serializedString = JsonConvert.SerializeObject(Data, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore, DateFormatString = "yyyy-MM-dd"});
 
             return new StringContent(serializedString, Encoding.UTF8, "application/json");
         }

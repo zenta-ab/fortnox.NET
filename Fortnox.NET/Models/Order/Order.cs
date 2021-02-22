@@ -17,40 +17,40 @@ namespace FortnoxNET.Models.Order
         [JsonProperty(PropertyName = "@urlTaxReductionList")]
         public string UrlTaxReductionList { get; set; }
 
-        public float AdministrationFee { get; set; }
+        public decimal? AdministrationFee { get; set; }
 
         [JsonReadOnly]
-        public float AdministrationFeeVAT { get; set; }
+        public decimal? AdministrationFeeVAT { get; set; }
 
         public string Address1 { get; set; }
 
         public string Address2 { get; set; }
 
         [JsonReadOnly]
-        public float BasisTaxReduction { get; set; }
+        public decimal? BasisTaxReduction { get; set; }
 
         [JsonReadOnly]
-        public bool Cancelled { get; set; }
+        public bool? Cancelled { get; set; }
 
         public string City { get; set; }
 
         public string Comments { get; set; }
 
         [JsonReadOnly]
-        public float ContributionPercent { get; set; }
+        public decimal? ContributionPercent { get; set; }
 
         [JsonReadOnly]
-        public float ContributionValue { get; set; }
+        public decimal? ContributionValue { get; set; }
 
-        public bool CopyRemarks { get; set; }
+        public bool? CopyRemarks { get; set; }
 
         public string Country { get; set; }
 
         public string Currency { get; set; }
 
-        public float? CurrencyRate { get; set; }
+        public decimal? CurrencyRate { get; set; }
 
-        public float? CurrencyUnit { get; set; }
+        public decimal? CurrencyUnit { get; set; }
 
         public string CustomerName { get; set; }
 
@@ -78,29 +78,29 @@ namespace FortnoxNET.Models.Order
 
         public string ExternalInvoiceReference2 { get; set; }
 
-        public float Freight { get; set; }
+        public decimal? Freight { get; set; }
 
         [JsonReadOnly]
-        public float FreightVAT { get; set; }
+        public decimal FreightVAT { get; set; }
 
         [JsonReadOnly]
-        public float Gross { get; set; }
+        public decimal? Gross { get; set; }
 
         [JsonReadOnly]
-        public bool HouseWork { get; set; }
+        public bool? HouseWork { get; set; }
 
         [JsonReadOnly]
-        public int InvoiceReference { get; set; }
+        public int? InvoiceReference { get; set; }
 
         [JsonReadOnly]
-        public float Net { get; set; }
+        public decimal? Net { get; set; }
 
-        public bool NotCompleted { get; set; }
+        public bool? NotCompleted { get; set; }
 
         public DateTime? OrderDate { get; set; }
 
         [JsonReadOnly]
-        public int OfferReference { get; set; }
+        public int? OfferReference { get; set; }
 
         public List<OrderRow> OrderRows { get; set; }
 
@@ -125,25 +125,25 @@ namespace FortnoxNET.Models.Order
         public string Remarks { get; set; }
 
         [JsonReadOnly]
-        public float RoundOff { get; set; }
+        public decimal? RoundOff { get; set; }
 
         [JsonReadOnly]
-        public bool Sent { get; set; }
+        public bool? Sent { get; set; }
 
         [JsonReadOnly]
-        public float? TaxReduction { get; set; }
+        public decimal? TaxReduction { get; set; }
 
         public string TermsOfDelivery { get; set; }
 
         public string TermsOfPayment { get; set; }
 
         [JsonReadOnly]
-        public float Total { get; set; }
+        public decimal? Total { get; set; }
 
         [JsonReadOnly]
-        public float TotalVAT { get; set; }
+        public decimal? TotalVAT { get; set; }
 
-        public bool VATIncluded { get; set; }
+        public bool? VATIncluded { get; set; }
 
         public string WayOfDelivery { get; set; }
 
@@ -156,5 +156,29 @@ namespace FortnoxNET.Models.Order
         // NOTE(Oskar): Labels are not documented within the Order documentation on fortnox
         // but supported as you can read here: https://developer.fortnox.se/documentation/resources/labels/
         public List<OrderLabel> Labels { get; set; }
+
+        // Warehouse Resource specific fields
+        // When the Warehouse module is activated new fields are available
+        // https://developer.fortnox.se/documentation/resources/warehouse-resourse-specific-fields/
+
+        /// <summary>
+        /// Document delivery state 
+        /// Valid values:
+        /// registration    When the document is in this state no items will be reserved or delivered.
+        /// reservation     When the document is in this state items will be reserved when possible.
+        /// delivery        When the document is in this state items will be delivered when possible.
+        /// </summary>
+        public string DeliveryState { get; set; }
+
+        /// <summary>
+        /// Used to see if the document has been marked as ready in warehouse
+        /// </summary>
+        [JsonReadOnly]
+        public bool? WarehouseReady { get; set; }
+
+        /// <summary>
+        /// The date that the document was marked as ready in warehouse
+        /// </summary>
+        public DateTime? OutboundDate { get; set; }
     }
 }
