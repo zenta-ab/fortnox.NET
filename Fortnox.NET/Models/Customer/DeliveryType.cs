@@ -4,6 +4,7 @@ namespace FortnoxNET.Models.Customer
     {
         PRINT,
         EMAIL,
-        PRINTSERVICE
+        PRINTSERVICE,
+        ELECTRONICINVOICE
     }
 }
