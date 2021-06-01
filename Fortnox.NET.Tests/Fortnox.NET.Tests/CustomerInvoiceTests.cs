@@ -42,7 +42,7 @@ namespace FortnoxNET.Tests
             };
             var invoiceList = CustomerInvoiceService.GetCustomerInvoicesAsync(request).GetAwaiter().GetResult();
 
-            Assert.IsTrue(invoiceList.Data.ToList().First().CustomerName.StartsWith("I"));
+            Assert.IsTrue(invoiceList.Data.ToList().First().CustomerName.StartsWith("D"));
         }
 
         [TestMethod]
