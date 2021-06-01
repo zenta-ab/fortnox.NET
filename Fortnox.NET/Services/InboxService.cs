@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<Inbox> GetInboxAsync(FortnoxApiRequest request, string path)
         {
-            var apiRequest = new FortnoxApiClientRequest<Inbox>(HttpMethod.Get, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Inbox}?path={path}");
+            var apiRequest = new FortnoxApiClientRequest<Inbox>(HttpMethod.Get, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Inbox}/{path}");
       
             return (await FortnoxAPIClient.CallAsync(apiRequest));
         }

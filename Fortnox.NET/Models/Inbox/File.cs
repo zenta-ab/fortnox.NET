@@ -1,10 +1,4 @@
-﻿using FortnoxNET.Utils;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace FortnoxNET.Models.Inbox
 {
@@ -39,7 +33,6 @@ namespace FortnoxNET.Models.Inbox
         /// <summary>
         /// Size(in bytes) of the file
         /// </summary>
-        public string Size { get; set; }
-
+        public int Size { get; set; }
     }
 }
