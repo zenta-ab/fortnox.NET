@@ -34,7 +34,7 @@ namespace FortnoxNET.Tests
 
             foreach (var order in printTemplates.Data)
             {
-                Assert.IsTrue(order.Name == "Följesedel" || order.Name == "Orderbekräftelse - Levererat antal" || order.Name == "Orderbekräftelse - Beställt antal" || order.Name == "Plocklista - Reserverat antal");
+                Assert.IsTrue(order.Name == "Följesedel" || order.Name == "Orderbekräftelse" || order.Name == "Orderbekräftelse - Beställt antal" || order.Name == "Plocklista - Reserverat antal");
             }
         }
     }
