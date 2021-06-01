@@ -280,8 +280,12 @@ namespace FortnoxNET.Models.Invoice
         /// The type of invoice.
         /// Can be INVOICE AGREEMENTINVOICE INTRESTINVOICE SUMMARYINVOICE or CASHINVOICE
         /// </summary>
-        public string InvoiceType { get; set; }
-        
+        [JsonConverter(typeof(StringEnumConverter))]
+        public InvoiceType? InvoiceType { get; set; }
+
+        /// <summary>
+        /// The properties for the object in this array is listed in the table “Labels”
+        /// </summary>
         public List<Label> Labels { get; set; }
 
         /// <summary>

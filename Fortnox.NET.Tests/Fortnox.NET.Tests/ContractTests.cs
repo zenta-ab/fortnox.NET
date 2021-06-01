@@ -1,5 +1,6 @@
 ﻿using FortnoxNET.Communication;
 using FortnoxNET.Communication.Contract;
+using FortnoxNET.Communication.Invoice;
 using FortnoxNET.Constants.Sort;
 using FortnoxNET.Models.Contract;
 using FortnoxNET.Models.Invoice;
@@ -117,12 +118,12 @@ namespace FortnoxNET.Tests
             Assert.IsNotNull(contract);
             Assert.AreEqual(response.DocumentNumber, contract.DocumentNumber);
 
-            var invoiceRequest = new CustomerInvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
+            var invoiceRequest = new InvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
             {
-                SortBy = CustomerInvoiceSortableProperties.DocumentNumber,
+                SortBy = InvoiceSortableProperties.DocumentNumber,
                 SortOrder = SortOrder.Descending
             };
-            var invoiceList = await CustomerInvoiceService.GetCustomerInvoicesAsync(invoiceRequest);
+            var invoiceList = await InvoiceService.GetInvoicesAsync(invoiceRequest);
             var latestInvoice = invoiceList.Data.First();
 
             Assert.AreEqual(latestInvoice.CustomerName, contract.CustomerName);

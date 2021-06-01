@@ -9,7 +9,7 @@ namespace FortnoxNET.Constants
         public static readonly string WebSocketURI = $"wss://ws.fortnox.se/topics-{_webSocketApiVersion}";
 
         public static readonly string AbsenceTransactions = $"{_baseUri}/absencetransactions";
-		public static readonly string CustomerInvoices = $"{_baseUri}/invoices";
+		public static readonly string Invoices = $"{_baseUri}/invoices";
         public static readonly string Vouchers = $"{_baseUri}/vouchers";
         public static readonly string VoucherSublist = $"{_baseUri}/vouchers/sublist";
         public static readonly string Accounts = $"{_baseUri}/accounts";
@@ -34,7 +34,6 @@ namespace FortnoxNET.Constants
         public static readonly string Inbox = $"{_baseUri}/inbox";
         public static readonly string SIE = $"{_baseUri}/sie";
         public static readonly string Offers = $"{_baseUri}/offers";
-        public static readonly string Invoices = $"{_baseUri}/invoices";
         public static readonly string Expenses = $"{_baseUri}/expenses";
         public static readonly string Currencies = $"{_baseUri}/currencies";
         public static readonly string AccountCharts = $"{_baseUri}/accountcharts";
