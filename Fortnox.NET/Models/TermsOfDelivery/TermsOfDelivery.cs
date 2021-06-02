@@ -6,12 +6,21 @@ namespace FortnoxNET.Models.TermsOfDelivery
     [JsonPropertyClass("TermsOfDelivery")]
     public class TermsOfDelivery
     {
+        /// <summary>
+        /// Direct URL to the record
+        /// </summary>
         [JsonReadOnly]
-        [JsonProperty(PropertyName = "@Url")]
+        [JsonProperty(PropertyName = "@url")]
         public string Url { get; set; }
 
+        /// <summary>
+        /// Code of the term of delivery
+        /// </summary>
         public string Code { get; set; }
 
+        /// <summary>
+        /// Description of the term of delivery
+        /// </summary>
         public string Description { get; set; }
     }
 }
