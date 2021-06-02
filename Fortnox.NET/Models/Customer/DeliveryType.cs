@@ -11,6 +11,9 @@ namespace FortnoxNET.Models.Customer
         EMAIL,
 
         [EnumMember(Value = "PRINTSERVICE")]
-        PRINTSERVICE
+        PRINTSERVICE,
+
+        [EnumMember(Value = "ELECTRONICINVOICE")]
+        ELECTRONICINVOICE
     }
 }
