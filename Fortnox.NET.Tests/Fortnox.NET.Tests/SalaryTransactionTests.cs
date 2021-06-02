@@ -40,13 +40,13 @@ namespace FortnoxNET.Tests
                     EmployeeId = "1593082874",
                     SalaryCode = "1321",
                     Date = DateTime.UtcNow,
-                    Number = "10",
-                    Amount = "200",
+                    Number = 10,
+                    Amount = 200,
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual("1593082874", response.EmployeeId);
 
-            response.Number = "20";
+            response.Number = 20;
             var updatedSalaryTransaction = SalaryTransactionService.UpdateSalaryTransactionAsync(request, response).GetAwaiter().GetResult();
 
             Assert.AreEqual("1593082874", updatedSalaryTransaction.EmployeeId);
