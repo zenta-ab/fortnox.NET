@@ -70,8 +70,8 @@ namespace FortnoxNET.Tests
 
             Assert.IsTrue(orders.Count() >= 2);
 
-            var X = Int32.Parse(orders.ElementAt(0).DocumentNumber);
-            var Y = Int32.Parse(orders.ElementAt(1).DocumentNumber);
+            var X = orders.ElementAt(0).DocumentNumber;
+            var Y = orders.ElementAt(1).DocumentNumber;
 
             Assert.IsTrue(X < Y);
         }
