@@ -11,7 +11,7 @@ namespace FortnoxNET.Models.SupplierInvoicePayment
         /// Direct URL to the record
         /// </summary>
         [JsonReadOnly]
-        [JsonProperty(PropertyName = "@Url")]
+        [JsonProperty(PropertyName = "@url")]
         public string Url { get; set; }
 
         /// <summary>

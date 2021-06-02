@@ -16,14 +16,14 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public async Task GetSupplierInvoiceExternalUrlTest()
         {
-            var createdEntity = await CreateEntity(1);
+            var createdEntity = await CreateEntity(2);
             
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var response =
                 await SupplierInvoiceExternalURLConnectionsService
                     .GetSupplierInvoiceExternalURLConnectionsAsync(request, createdEntity.Id.ToString());
 
-            await DeleteEntity(response.Id);
+            await DeleteEntity((int)response.Id);
 
             Assert.AreEqual(createdEntity.Id, response.Id);
         }
@@ -37,22 +37,22 @@ namespace FortnoxNET.Tests
                     request,
                     new SupplierInvoiceExternalURLConnection
                     {
-                        SupplierInvoiceNumber = 1,
+                        SupplierInvoiceNumber = 2,
                         ExternalURLConnection = ExternalUrl,
                     }
                 );
 
-            await DeleteEntity(response.Id);
+            await DeleteEntity((int)response.Id);
             
             Assert.AreEqual(ExternalUrl, response.ExternalURLConnection);
-            Assert.AreEqual(1, response.SupplierInvoiceNumber);
+            Assert.AreEqual(2, response.SupplierInvoiceNumber);
         }
 
         [TestMethod]
         public async Task DeleteSupplierInvoiceExternalUrlConnectionTest()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = await CreateEntity(1);
+            var response = await CreateEntity(2);
 
             await SupplierInvoiceExternalURLConnectionsService
                 .DeleteSupplierInvoiceExternalURLConnectionsAsync(
@@ -64,7 +64,7 @@ namespace FortnoxNET.Tests
         [TestMethod]
         public async Task UpdateSupplierInvoiceExternalUrlConnectionTest()
         {
-            var id = 1;
+            var id = 2;
             var createdEntity = await CreateEntity(id);
             
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
@@ -81,7 +81,7 @@ namespace FortnoxNET.Tests
                     supplierInvoiceExternalURLConnection
                 );
 
-            await DeleteEntity(createdEntity.Id);
+            await DeleteEntity((int)createdEntity.Id);
 
             Assert.AreEqual("http://changed.com", updatedSupplierInvoiceExternalURLConnection.ExternalURLConnection);
             Assert.AreEqual(createdEntity.Id, updatedSupplierInvoiceExternalURLConnection.Id);
