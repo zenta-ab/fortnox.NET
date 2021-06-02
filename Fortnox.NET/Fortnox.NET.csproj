@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>3.0.0-alpha2</PackageVersion>
+        <PackageVersion>3.0.0-alpha3</PackageVersion>
         <Version>3.0.0-alpha2</Version>
         <Title>Fortnox API SDK</Title>
         <Authors>Zenta AB</Authors>
