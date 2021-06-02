@@ -2,7 +2,7 @@
 using FortnoxNET.Communication.LockedPeriod;
 using FortnoxNET.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System.Threading.Tasks;
 
 namespace FortnoxNET.Tests
 {
@@ -10,14 +10,11 @@ namespace FortnoxNET.Tests
     public class LockedPeriodTests : TestBase
     {
         [TestMethod]
-        public void GetLockedPeriodTests()
+        public async Task GetLockedPeriodTests()
         {
-            var response = LockedPeriodService.GetLockedPeriodAsync(new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
-            {
-
-            }).GetAwaiter().GetResult();
-            Assert.IsTrue(response != null);
-
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = await LockedPeriodService.GetLockedPeriodAsync(request);
+            Assert.IsNull(response.EndDate);
         }
     }
 }
