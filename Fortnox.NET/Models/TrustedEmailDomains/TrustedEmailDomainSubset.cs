@@ -12,9 +12,15 @@ namespace FortnoxNET.Models.TrustedEmailDomains
     [JsonPropertyClass("TrustedDomains")]
     public class TrustedEmailDomainSubset
     {
+        /// <summary>
+        /// Id of the record
+        /// </summary>
         [JsonReadOnly]
         public int? Id { get; set; }
 
+        /// <summary>
+        /// Domain address of trusted
+        /// </summary>
         public string Domain { get; set; }
     }
 }
