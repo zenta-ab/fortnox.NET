@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace FortnoxNET.Utils
 {
+    // NOTE(Oskar): We are working this class away. It will become obsolete in future versions.
     public class CustomJsonConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

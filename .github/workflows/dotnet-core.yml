@@ -7,12 +7,6 @@ on:
     - feature/*
     - hotfix/*
     - patch/*
-  pull_request:
-    branches:
-    - master
-    - feature/*
-    - hotfix/*
-    - patch/*
 
 jobs:
   netcore:
@@ -59,7 +53,7 @@ jobs:
           exit 1
         }
 
-        $Tests = @("AbsenceTransactionsTests", "AccountChartTests", "AccountTests", "ArchiveTest", "ArticleFileConnectionsTest", "ArticleTests", "AssetFileConnectionsTests", "AssetsTest", "AssetTypeTests", "AttendanceTransactionTests", "CompanyInformationTests", "CompanySettingsTests", "ContractTemplateTests", "ContractTests", "CostCenterTests", "CurrencyTests", "CustomerInvoiceTests", "CustomerTests", "EmployeeTests", "ExpenseTest", "FinancialYearTests", "InboxTest", "InvoicePaymentTests", "InvoiceTests", "LabelTests", "LockedPeriodTests", "ModesOfPaymentsTests", "OfferTests", "OrderTests", "PredefinedAccountsTest", "PriceListTests", "PriceTests", "PrintTemplatesTests", "ProjectTests", "SalaryTransactionTests", "SIETests", "SupplierInvoiceExternalURLConnectionsServiceTests", "SupplierInvoiceFileConnectionsTests", "SupplierInvoicePaymentTests", "SupplierInvoiceTests", "SupplierTests", "TaxReductionTests", "TermsOfDeliveryTests", "TermsOfPaymentTests", "TrustedEmailDomainTests", "UnitTests", "VoucherSeriesTests", "VoucherTests", "WayOfDeliveryTests")
+        $Tests = @("AbsenceTransactionsTests", "AccountChartTests", "AccountTests", "ArchiveTest", "ArticleFileConnectionsTest", "ArticleTests", "AssetFileConnectionsTests", "AssetsTest", "AssetTypeTests", "AttendanceTransactionTests", "CompanyInformationTests", "CompanySettingsTests", "ContractTemplateTests", "ContractTests", "CostCenterTests", "CurrencyTests", "CustomerTests", "EmployeeTests", "ExpenseTest", "FinancialYearTests", "InboxTest", "InvoicePaymentTests", "InvoiceTests", "LabelTests", "LockedPeriodTests", "ModesOfPaymentsTests", "OfferTests", "OrderTests", "PredefinedAccountsTest", "PriceListTests", "PriceTests", "PrintTemplatesTests", "ProjectTests", "SalaryTransactionTests", "SIETests", "SupplierInvoiceExternalURLConnectionsServiceTests", "SupplierInvoiceFileConnectionsTests", "SupplierInvoicePaymentTests", "SupplierInvoiceTests", "SupplierTests", "TaxReductionTests", "TermsOfDeliveryTests", "TermsOfPaymentTests", "TrustedEmailDomainTests", "UnitTests", "VoucherSeriesTests", "VoucherTests", "WayOfDeliveryTests")
         For($Index = 0; $Index -lt $Tests.Length; $Index++)
         {
           $CurrentTest = $Tests[$Index]

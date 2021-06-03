@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Communication;
+﻿using Fortnox.NET.Models.Common;
+using FortnoxNET.Communication;
 using FortnoxNET.Communication.Invoice;
 using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
@@ -40,7 +41,7 @@ namespace FortnoxNET.Tests
             var request = new InvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret) { SortBy = InvoiceSortableProperties.CustomerName };
             var invoiceList = InvoiceService.GetInvoicesAsync(request).GetAwaiter().GetResult();
 
-            Assert.IsTrue(invoiceList.Data.ToList().First().CustomerName.StartsWith("I"));
+            Assert.IsTrue(invoiceList.Data.ToList().First().CustomerName.StartsWith("D"));
         }
 
         [TestMethod]
@@ -74,6 +75,7 @@ namespace FortnoxNET.Tests
 
             var response = InvoiceService.GetInvoiceAsync(request, 12).GetAwaiter().GetResult();
             response.Comments = comment;
+            response.TaxReductionType = TaxReductionType.None;
 
             var updatedInvoice = InvoiceService.UpdateInvoiceAsync(request, response).GetAwaiter().GetResult();
 
@@ -326,7 +328,7 @@ namespace FortnoxNET.Tests
                         {
                             new InvoiceRow
                             {
-                                ArticleNumber = "1",
+                                ArticleNumber = "2",
                                 DeliveredQuantity = 1,
                                 Price = 99.5m
                             }

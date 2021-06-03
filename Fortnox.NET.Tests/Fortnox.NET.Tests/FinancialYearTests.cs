@@ -1,9 +1,8 @@
-﻿using FortnoxNET.Communication;
+﻿using Fortnox.NET.Models.FinancialYear;
+using FortnoxNET.Communication;
 using FortnoxNET.Communication.FinancialYear;
-using FortnoxNET.Models.FinancialYear;
 using FortnoxNET.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +27,7 @@ namespace FortnoxNET.Tests
             var response = FinancialYearService.GetFinancialYearAsync(request, 1).GetAwaiter().GetResult();
 
             Assert.IsTrue(response.Id == 1);
-            Assert.IsTrue(response.AccountingMethod == "ACCRUAL");
+            Assert.IsTrue(response.AccountingMethod == AccountingMethod.ACCRUAL);
         }
 
         //[TestMethod]

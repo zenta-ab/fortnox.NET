@@ -54,10 +54,18 @@ namespace FortnoxNET.Tests
                 new Employee 
                 { 
                     EmployeeId = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
-                    FirstName = employeeName
+                    FirstName = employeeName,
+                    PersonelType = PersonelType.ARB,
+                    SalaryForm = SalaryForm.TIM,
+                    TaxAllowance = TaxAllowance.TMP,
+                    EmploymentForm = EmploymentForm.VIK,
                 }).GetAwaiter().GetResult();
 
             Assert.AreEqual(employeeName, response.FirstName);
+            Assert.AreEqual(PersonelType.ARB, response.PersonelType);
+            Assert.AreEqual(SalaryForm.TIM, response.SalaryForm);
+            Assert.AreEqual(TaxAllowance.TMP, response.TaxAllowance);
+            Assert.AreEqual(EmploymentForm.VIK, response.EmploymentForm);
         }
 
         [TestMethod]

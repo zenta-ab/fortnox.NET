@@ -1,8 +1,7 @@
 ﻿using FortnoxNET.Communication;
 using FortnoxNET.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FortnoxNET.Models.Inbox;
-using System.IO;
+using System.Linq;
 
 namespace FortnoxNET.Tests
 {
@@ -13,9 +12,11 @@ namespace FortnoxNET.Tests
         public void GetInbox()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var articles = InboxService.GetInboxAsync(request, "inbox_a").GetAwaiter().GetResult();
+            var articles = InboxService.GetInboxAsync(request, "inbox_d").GetAwaiter().GetResult();
 
             Assert.IsNotNull(articles);
+            Assert.AreEqual(articles.Folder.Files.First().Name, "WebSocket Fortnox API.pdf");
+            Assert.AreEqual(articles.Folder.Files.First().Size, 101902);
         }
 
         //[TestMethod]

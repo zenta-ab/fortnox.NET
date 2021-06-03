@@ -1,9 +1,9 @@
 <img src=".github/Banner.png" style="width:100%;">
 
 # Fortnox.NET
-![Tests](https://github.com/zenta-ab/fortnox.NET/workflows/Tests/badge.svg)
-![Nuget](https://img.shields.io/nuget/v/Fortnox.NET)
 
+![Tests](https://github.com/zenta-ab/fortnox.NET/workflows/Tests/badge.svg?branch=master)
+![Nuget](https://img.shields.io/nuget/v/Fortnox.NET)
 
 .NET bindings for the <a href="https://developer.fortnox.se/documentation/">Fortnox</a> API.
 

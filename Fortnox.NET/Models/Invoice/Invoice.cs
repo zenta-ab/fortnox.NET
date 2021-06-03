@@ -1,27 +1,30 @@
 using System;
 using System.Collections.Generic;
+using Fortnox.NET.Models.Common;
 using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace FortnoxNET.Models.Invoice
 {
     [JsonPropertyClass("Invoice")]
-    [JsonConverter(typeof(CustomJsonConverter))]
     public class Invoice
     {
         /// <summary>
         /// Direct url to the record.
         /// </summary>
-        [JsonReadOnly]
         [JsonProperty(PropertyName = "@url")]
         public string Url { get; set; }
 
+        public bool ShouldSerializeUrl() => false;
+        
         /// <summary>
         /// Direct url to the tax reduction for the invoice. This is visible even if no tax reduction exists
         /// </summary>
-        [JsonReadOnly]
         [JsonProperty(PropertyName = "@urlTaxReductionList")]
         public string UrlTaxReductionList { get; set; }
+
+        public bool ShouldSerializeUrlTaxReductionList() => false;
 
         /// <summary>
         /// Invoice address line 1
@@ -41,33 +44,38 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// VAT of the invoice administration fee
         /// </summary>
-        [JsonReadOnly]
-        public decimal AdministrationFeeVAT { get; set; }
+        public decimal? AdministrationFeeVAT { get; set; }
+
+        public bool ShouldSerializeAdministrationFeeVAT() => false;
 
         /// <summary>
         /// Balance of the invoice
         /// </summary>
-        [JsonReadOnly]
         public decimal Balance { get; set; }
+
+        public bool ShouldSerializeBalance() => false;
 
         /// <summary>
         /// Basis of tax reduction
         /// </summary>
-        [JsonReadOnly]
         public decimal BasisTaxReduction { get; set; }
+
+        public bool ShouldSerializeBasisTaxReduction() => false;
 
         /// <summary>
         /// If the invoice is bookkept. This value can be changed by using the action "bookkeep"
         /// </summary>
-        [JsonReadOnly]
         public bool Booked { get; set; }
+
+        public bool ShouldSerializeBooked() => false;
 
         /// <summary>
         /// If the invoice is cancelled. This value can be changed by using the action "cancel"
         /// </summary>
-        [JsonReadOnly]
         public bool Cancelled { get; set; }
-        
+
+        public bool ShouldSerializeCancelled() => false;
+
         /// <summary>
         /// City for the invoice address
         /// </summary>
@@ -81,20 +89,23 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// Reference to the contract, if one exists
         /// </summary>
-        [JsonReadOnly]
         public int ContractReference { get; set; }
+
+        public bool ShouldSerializeContractReference() => false;
 
         /// <summary>
         /// Invoice contribution in percent
         /// </summary>
-        [JsonReadOnly]
         public decimal ContributionPercent { get; set; }
+
+        public bool ShouldSerializeContributionPercent() => false;
 
         /// <summary>
         /// Invoice contribution in amount
         /// </summary>
-        [JsonReadOnly]
         public decimal ContributionValue { get; set; }
+
+        public bool ShouldSerializeContributionValue() => false;
 
         /// <summary>
         /// Code of the cost center. The code must be of an existing cost center
@@ -109,14 +120,16 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// If the invoice is a credit invoice
         /// </summary>
-        [JsonReadOnly]
         public bool Credit { get; set; }
+
+        public bool ShouldSerializeCredit() => false;
 
         /// <summary>
         /// Reference to the credit invoice, if one exits. The reference must be a document number for an existing credit invoice
         /// </summary>
-        [JsonReadOnly]
         public int? CreditInvoiceReference { get; set; }
+
+        public bool ShouldSerializeCreditInvoiceReference() => false;
 
         /// <summary>
         /// Code of the currency. The code must be of an existing currency
@@ -210,8 +223,9 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// The date when the invoice became fully paid. Only available if the invoice is fully paid
         /// </summary>
-        [JsonReadOnly]
         public DateTime? FinalPayDate { get; set; }
+
+        public bool ShouldSerializeFinalPayDate() => false;
 
         /// <summary>
         /// Freight cost of the invoice
@@ -221,17 +235,20 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// VAT of the freight cost
         /// </summary>
-        [JsonReadOnly]
         public decimal FreightVAT { get; set; }
+
+        public bool ShouldSerializeFreightVAT() => false;
 
         /// <summary>
         /// Gross value of the invoice
         /// </summary>
-        [JsonReadOnly]
         public decimal Gross { get; set; }
-        
-        [JsonReadOnly]
+
+        public bool ShouldSerializeGross() => false;
+
         public bool HouseWork { get; set; }
+
+        public bool ShouldSerializeHouseWork() => false;
 
         /// <summary>
         /// Invoice date
@@ -241,15 +258,17 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// Start date of the invoice period, only applicable for contract invoices
         /// </summary>
-        [JsonReadOnly]
         public DateTime? InvoicePeriodEnd { get; set; }
+
+        public bool ShouldSerializeInvoicePeriodEnd() => false;
 
         /// <summary>
         /// End date of the invoice period, only applicable for contract invoices
         /// </summary>
-        [JsonReadOnly]
         public DateTime? InvoicePeriodStart { get; set; }
-        
+
+        public bool ShouldSerializeInvoicePeriodStart() => false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -261,8 +280,12 @@ namespace FortnoxNET.Models.Invoice
         /// The type of invoice.
         /// Can be INVOICE AGREEMENTINVOICE INTRESTINVOICE SUMMARYINVOICE or CASHINVOICE
         /// </summary>
-        public string InvoiceType { get; set; }
-        
+        [JsonConverter(typeof(StringEnumConverter))]
+        public InvoiceType? InvoiceType { get; set; }
+
+        /// <summary>
+        /// The properties for the object in this array is listed in the table “Labels”
+        /// </summary>
         public List<Label> Labels { get; set; }
 
         /// <summary>
@@ -274,14 +297,16 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// Date of last reminder
         /// </summary>
-        [JsonReadOnly]
         public DateTime? LastRemindDate { get; set; }
+
+        public bool ShouldSerializeLastRemindDate() => false;
 
         /// <summary>
         /// Net amount
         /// </summary>
-        [JsonReadOnly]
         public decimal Net { get; set; }
+
+        public bool ShouldSerializeNet() => false;
 
         /// <summary>
         /// If the invoice is set as not completed
@@ -291,8 +316,9 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// If the invoice is managed by NoxFinans
         /// </summary>
-        [JsonReadOnly]
         public bool NoxFinans { get; set; }
+
+        public bool ShouldSerializeNoxFinans() => false;
 
         /// <summary>
         /// OCR number of the invoice
@@ -302,20 +328,23 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// Reference to the offer, if one exists
         /// </summary>
-        [JsonReadOnly]
         public string OfferReference { get; set; }
+
+        public bool ShouldSerializeOfferReference() => false;
 
         /// <summary>
         /// Reference to the order, if one exists
         /// </summary>
-        [JsonReadOnly]
         public string OrderReference { get; set; }
+
+        public bool ShouldSerializeOrderReference() => false;
 
         /// <summary>
         /// Organisation number of the customer for the invoice
         /// </summary>
-        [JsonReadOnly]
         public string OrganisationNumber { get; set; }
+
+        public bool ShouldSerializeOrganisationNumber() => false;
 
         /// <summary>
         /// Our reference
@@ -360,26 +389,36 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// Number of reminders sent to the customer.
         /// </summary>
-        [JsonReadOnly]
         public int Reminders { get; set; }
+
+        public bool ShouldSerializeReminders() => false;
 
         /// <summary>
         /// Round off amount for the invoice.
         /// </summary>
-        [JsonReadOnly]
         public decimal RoundOff { get; set; }
+
+        public bool ShouldSerializeRoundOff() => false;
 
         /// <summary>
         /// If the document is printed or sent in any way.
         /// </summary>
-        [JsonReadOnly]
         public bool Sent { get; set; }
+
+        public bool ShouldSerializeSent() => false;
 
         /// <summary>
         /// The amount of tax reduction.
         /// </summary>
-        [JsonReadOnly]
         public int? TaxReduction { get; set; }
+
+        public bool ShouldSerializeTaxReduction() => false;
+
+        /// <summary>
+        /// Tax Reduction Type
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TaxReductionType? TaxReductionType { get; set; }
 
         /// <summary>
         /// Code of the terms of delivery. The code must be of an existing terms of delivery.
@@ -394,20 +433,23 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// The total amount of the invoice.
         /// </summary>
-        [JsonReadOnly]
         public decimal Total { get; set; }
+
+        public bool ShouldSerializeTotal() => false;
 
         /// <summary>
         /// The total amount to pay of the invoice.
         /// </summary>
-        [JsonReadOnly]
         public decimal TotalToPay { get; set; }
+
+        public bool ShouldSerializeTotalToPay() => false;
 
         /// <summary>
         /// The total VAT amount of the invoice.
         /// </summary>
-        [JsonReadOnly]
         public decimal TotalVAT { get; set; }
+
+        public bool ShouldSerializeTotalVAT() => false;
 
         /// <summary>
         /// If the price of the invoice is including VAT
@@ -417,20 +459,23 @@ namespace FortnoxNET.Models.Invoice
         /// <summary>
         /// Voucher number for the invoice. This is created when the invoice is bookkept.
         /// </summary>
-        [JsonReadOnly]
         public int? VoucherNumber { get; set; }
+
+        public bool ShouldSerializeVoucherNumber() => false;
 
         /// <summary>
         /// Voucher series for the invoice. This is created when the invoice is bookkept.
         /// </summary>
-        [JsonReadOnly]
         public string VoucherSeries { get; set; }
+
+        public bool ShouldSerializeVoucherSeries() => false;
 
         /// <summary>
         /// Voucher year for the invoice. This is created when the invoice is bookkept.
         /// </summary>
-        [JsonReadOnly]
         public int? VoucherYear { get; set; }
+
+        public bool ShouldSerializeVoucherYear() => false;
 
         /// <summary>
         /// Code of the way of delivery. The code must be of an existing way of delivery.

@@ -68,7 +68,7 @@ namespace FortnoxNET.Tests
             var request = new PredefinedAccountListRequest(connectionSettings.AccessToken, connectionSettings.ClientSecret);
             var response = await PredefinedAccountsService.UpdateAccountAsync(
                 request,
-                (accounts.ToArray())[randomIndex].Number,
+                accounts.ToArray()[randomIndex].Number.Value,
                 predefinedAccount.Name
             );
             

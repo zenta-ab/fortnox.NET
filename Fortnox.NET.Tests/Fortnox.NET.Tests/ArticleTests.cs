@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FortnoxNET.Communication;
 using FortnoxNET.Communication.Article;
 using FortnoxNET.Constants.Filter;
@@ -81,33 +82,35 @@ namespace FortnoxNET.Tests
         public void GetArticle()
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-            var response = ArticleService.GetArticleAsync(request, "100370").GetAwaiter().GetResult();
+            var response = ArticleService.GetArticleAsync(request, "1").GetAwaiter().GetResult();
 
-            Assert.IsTrue(response.ArticleNumber == "100370");
+            Assert.IsTrue(response.ArticleNumber == "1");
+            Assert.AreEqual(response.Type, ArticleType.STOCK);
         }
 
-        //[TestMethod]
-        //public void CreateArticle()
-        //{
-        // TODO: Get some proper test accounts to avoid cluttering Fortnox with data
-        // var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
-        // var response = ArticleService.CreateArticleAsync(request, new Article {Description = "TestArtikel"}).GetAwaiter().GetResult();
+        [TestMethod]
+        public async Task CreateArticle()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = await ArticleService.CreateArticleAsync(request, new Article { Description = "TestArtikel" });
 
-        // Assert.AreEqual("TestArtikel", response.Description);
-        //}
+            Assert.AreEqual("TestArtikel", response.Description);
 
-        //[TestMethod]
-        //public void UpdateArticle()
-        //{
-        //    var article = new Article {Description = "TestArtikel", ArticleNumber = "65005"};
-        //    var newArticleName = $"TestArtikel {DateTime.UtcNow}";
+            await ArticleService.DeleteArticleAsync(request, response.ArticleNumber);
+        }
 
-        //    article.Description = newArticleName;
-        //    var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+        [TestMethod]
+        public void UpdateArticle()
+        {
+            var article = new Article { Description = "TestArtikel", ArticleNumber = "100000" };
+            var newArticleName = $"TestArtikel {DateTime.UtcNow}";
 
-        //    var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
+            article.Description = newArticleName;
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
 
-        //    Assert.AreEqual(newArticleName, updatedArticle.Description);
-        //}
+            var updatedArticle = ArticleService.UpdateArticleAsync(request, article).GetAwaiter().GetResult();
+
+            Assert.AreEqual(newArticleName, updatedArticle.Description);
+        }
     }
 }

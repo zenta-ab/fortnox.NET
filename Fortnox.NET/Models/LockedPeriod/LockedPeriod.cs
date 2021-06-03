@@ -1,5 +1,6 @@
 ﻿using FortnoxNET.Utils;
 using Newtonsoft.Json;
+using System;
 
 namespace FortnoxNET.Models.LockedPeriod
 {
@@ -7,6 +8,9 @@ namespace FortnoxNET.Models.LockedPeriod
     [JsonPropertyClass("LockedPeriod")]
     public class LockedPeriod
     {
-        public string EndDate { get; set; }
+        /// <summary>
+        /// End date of the locked period
+        /// </summary>
+        public DateTime? EndDate { get; set; }
     }
 }

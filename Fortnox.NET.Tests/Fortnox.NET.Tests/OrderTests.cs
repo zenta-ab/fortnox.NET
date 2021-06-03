@@ -70,8 +70,8 @@ namespace FortnoxNET.Tests
 
             Assert.IsTrue(orders.Count() >= 2);
 
-            var X = Int32.Parse(orders.ElementAt(0).DocumentNumber);
-            var Y = Int32.Parse(orders.ElementAt(1).DocumentNumber);
+            var X = orders.ElementAt(0).DocumentNumber;
+            var Y = orders.ElementAt(1).DocumentNumber;
 
             Assert.IsTrue(X < Y);
         }
@@ -81,7 +81,7 @@ namespace FortnoxNET.Tests
         {
             var request = new OrderListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret)
             {
-                SearchParameters = new Dictionary<OrderSearchParameters, object> {{OrderSearchParameters.CustomerName, "Kund" }}
+                SearchParameters = new Dictionary<OrderSearchParameters, object> { { OrderSearchParameters.CustomerName, "Kund" } }
             };
 
             var orders = OrderService.GetOrdersAsync(request).GetAwaiter().GetResult();
@@ -334,6 +334,18 @@ namespace FortnoxNET.Tests
 
             Assert.IsTrue(updatedOrder.WarehouseReady.HasValue);
             Assert.IsTrue(updatedOrder.WarehouseReady.Value);
+        }
+
+        [TestMethod]
+        public void OrderStockPointTest()
+        {
+            var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
+            var response = OrderService.GetOrderAsync(request, 56753).GetAwaiter().GetResult();
+
+
+            Assert.IsTrue(response.StockPointCode.Equals("LAGER"));
+            Assert.IsTrue(response.OrderRows.First().StockPointCode.Equals("LAGER"));
+            Assert.IsTrue(response.OrderRows.First().ReservedQuantity == 1);
         }
     }
 }

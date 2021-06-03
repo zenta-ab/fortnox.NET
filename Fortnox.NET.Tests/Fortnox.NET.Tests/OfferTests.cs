@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Communication.Offer;
+﻿using Fortnox.NET.Models.Common;
+using FortnoxNET.Communication.Offer;
 using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
 using FortnoxNET.Constants.Sort;
@@ -82,8 +83,9 @@ namespace FortnoxNET.Tests
             var comment = $"Comment: {DateTime.Now}";
             var request = new OfferListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             
-            var response = OfferService.GetOfferAsync(request, "3").GetAwaiter().GetResult();
+            var response = OfferService.GetOfferAsync(request, "2").GetAwaiter().GetResult();
             response.Comments = comment;
+            response.TaxReductionType = TaxReductionType.ROT;
 
             var updatedOffer = OfferService.UpdateOfferAsync(request, response).GetAwaiter().GetResult();
 

@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fortnox.NET.Models.InvoicePayment;
 using FortnoxNET.Communication;
 using FortnoxNET.Constants.Search;
 using FortnoxNET.Models.InvoicePayment;
@@ -70,7 +68,7 @@ namespace FortnoxNET.Tests
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var response = InvoicePaymentService.CreateInvoicePaymentAsync(request,
-                new CreateOrUpdateInvoicePayment
+                new InvoicePayment
                 {
                     Amount = 99,
                     AmountCurrency = 99,
@@ -89,7 +87,7 @@ namespace FortnoxNET.Tests
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var response = InvoicePaymentService.CreateInvoicePaymentAsync(request,
-                new CreateOrUpdateInvoicePayment
+                new InvoicePayment
                 {
                     Amount = 99,
                     AmountCurrency = 99,
@@ -97,7 +95,7 @@ namespace FortnoxNET.Tests
                 }).GetAwaiter().GetResult();
 
             var updatedInvoicePayment = InvoicePaymentService.UpdateInvoicePaymentAsync(request, response.Number,
-                new CreateOrUpdateInvoicePayment
+                new InvoicePayment
                 {
                     Amount = response.Amount + 1,
                     AmountCurrency = response.AmountCurrency + 1,
@@ -116,7 +114,7 @@ namespace FortnoxNET.Tests
         {
             var request = new FortnoxApiRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret);
             var response = InvoicePaymentService.CreateInvoicePaymentAsync(request,
-                new CreateOrUpdateInvoicePayment
+                new InvoicePayment
                 {
                     Amount = 99,
                     AmountCurrency = 99,

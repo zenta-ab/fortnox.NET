@@ -7,6 +7,9 @@ namespace FortnoxNET.Models.Archive
 {
     public class Archive
     {
+        /// <summary>
+        /// An archive folder
+        /// </summary>
         public Folder Folder { get; set; }
     }
 }
