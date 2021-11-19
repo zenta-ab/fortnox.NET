@@ -11,5 +11,9 @@ namespace FortnoxNET.Communication.ModesOfPayments
         public ModesOfPaymentsListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
         {
         }
+
+        public ModesOfPaymentsListRequest(OAuthToken oAuthToken) : base(oAuthToken)
+        {
+        }
     }
 }

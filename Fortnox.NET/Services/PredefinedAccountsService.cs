@@ -16,8 +16,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<PredefinedAccounts>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret, 
+                listRequest, 
                 ApiEndpoints.PredefinedAccounts
             );
 
@@ -32,8 +31,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<PredefinedAccount>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret, 
+                listRequest, 
                 $"{ApiEndpoints.PredefinedAccounts}/{accountName.ToUpper()}"
             );
 
@@ -48,8 +46,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<PredefinedAccount>>(
                 HttpMethod.Put, 
-                request.AccessToken, 
-                request.ClientSecret, 
+                request, 
                 $"{ApiEndpoints.PredefinedAccounts}/{accountName.ToUpper()}"
             )
             {

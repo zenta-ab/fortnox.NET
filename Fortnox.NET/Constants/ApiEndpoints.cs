@@ -8,6 +8,10 @@ namespace FortnoxNET.Constants
         private const string _webSocketApiVersion = "v1";
         public static readonly string WebSocketURI = $"wss://ws.fortnox.se/topics-{_webSocketApiVersion}";
 
+        public static readonly string _oAuthbaseUri = $"https://apps.fortnox.se/oauth-v1";
+        public static readonly string OAuthAuth = $"{_oAuthbaseUri}/auth";
+        public static readonly string OAuthToken = $"{_oAuthbaseUri}/token";
+
         public static readonly string AbsenceTransactions = $"{_baseUri}/absencetransactions";
 		public static readonly string Invoices = $"{_baseUri}/invoices";
         public static readonly string Vouchers = $"{_baseUri}/vouchers";

@@ -13,8 +13,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<Currency>>(
                 HttpMethod.Get,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Currencies}/{code}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -24,8 +23,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<CurrencySubset>>(
                 HttpMethod.Get,
-                listRequest.AccessToken,
-                listRequest.ClientSecret,
+                listRequest,
                 ApiEndpoints.Currencies);
 
             return await FortnoxAPIClient.CallAsync(apiRequest);
@@ -36,8 +34,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<object>>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Currencies}/{code}")
                 {
                 };
@@ -50,8 +47,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<Currency>>(
                     HttpMethod.Post,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Currencies}")
                 {
                     Data = new SingleResource<Currency> { Data = currency }
@@ -65,8 +61,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<Currency>>(
                     HttpMethod.Put,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Currencies}/{currency.Code}")
                 {
                     Data = new SingleResource<Currency> { Data = currency }

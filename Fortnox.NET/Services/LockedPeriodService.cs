@@ -14,7 +14,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<LockedPeriod> GetLockedPeriodAsync(FortnoxApiRequest request)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<LockedPeriod>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<LockedPeriod>>(HttpMethod.Get, request,
                 $"{ApiEndpoints.LockedPeriod}/");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;

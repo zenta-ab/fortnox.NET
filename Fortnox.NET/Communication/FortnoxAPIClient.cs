@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using FortnoxApiSDK.Models.Authorization;
+using FortnoxNET.Constants;
 using FortnoxNET.Models.Authorization;
 using Newtonsoft.Json;
-using static System.Net.Http.HttpMethod;
 
 namespace FortnoxNET.Communication
 {
@@ -26,31 +29,89 @@ namespace FortnoxNET.Communication
             }
         }
 
+        internal static async Task<OAuthToken> GetAccessTokenAsync(string authorizationCode, string clientId, string clientSecret, string redirectUri = null)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+                var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+
+                var urlContent = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                    new KeyValuePair<string, string>("code", authorizationCode),
+                };
+
+                if (redirectUri != null)
+                {
+                    urlContent.Add(new KeyValuePair<string, string>("redirect_uri", redirectUri));
+                }
+
+                var content = new FormUrlEncodedContent(urlContent);
+
+                var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
+                var ss = (await response.Content.ReadAsStringAsync());
+                return await GetResponseAsync<OAuthToken>(response);
+            }
+        }
+
+        internal static async Task<OAuthToken> RefreshAccessToken(string clientId, string clientSecret, string refreshToken)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+                var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+
+                var urlContent = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                    new KeyValuePair<string, string>("refresh_token", refreshToken),
+                };
+
+                var content = new FormUrlEncodedContent(urlContent);
+
+                var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
+                var ss = (await response.Content.ReadAsStringAsync());
+                return await GetResponseAsync<OAuthToken>(response);
+            }
+        }
+
         internal static async Task<T> CallAsync<T>(FortnoxApiClientRequest<T> request) where T : class
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Access-Token", request.AccessToken);
-                client.DefaultRequestHeaders.Add("Client-Secret", request.ClientSecret);
+                if (request.UsesOAuth())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.GetAccessToken());
+                }
+                else
+                {
+                    client.DefaultRequestHeaders.Add("Access-Token", request.GetAccessToken());
+                    client.DefaultRequestHeaders.Add("Client-Secret", request.GetClientSecret());
+                }
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 HttpResponseMessage response;
 
                 switch (request.HttpMethod)
                 {
-                    case HttpMethod m when m == Get:
+                    case HttpMethod m when m == HttpMethod.Get:
                         response = await client.GetAsync(request.GetEndpoint());
                         break;
 
-                    case HttpMethod m when m == Delete:
+                    case HttpMethod m when m == HttpMethod.Delete:
                         response = await client.DeleteAsync(request.GetEndpoint());
                         break;
 
-                    case HttpMethod m when m == Post:
+                    case HttpMethod m when m == HttpMethod.Post:
                         response = await client.PostAsync(request.GetEndpoint(), request.GetStringContent());
                         break;
 
-                    case HttpMethod m when m == Put:
+                    case HttpMethod m when m == HttpMethod.Put:
                         response = await client.PutAsync(request.GetEndpoint(), request.GetStringContent());
                         break;
 
@@ -61,34 +122,41 @@ namespace FortnoxNET.Communication
                 return await GetResponseAsync<T>(response);
             }
         }
-        
+
         internal static async Task<TResponse> CallAsync<T, TResponse>(FortnoxApiClientRequest<T> request) 
             where T : class
             where TResponse: class
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Access-Token", request.AccessToken);
-                client.DefaultRequestHeaders.Add("Client-Secret", request.ClientSecret);
+                if (request.UsesOAuth())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.GetAccessToken());
+                }
+                else
+                {
+                    client.DefaultRequestHeaders.Add("Access-Token", request.GetAccessToken());
+                    client.DefaultRequestHeaders.Add("Client-Secret", request.GetClientSecret());
+                }
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 HttpResponseMessage response;
 
                 switch (request.HttpMethod)
                 {
-                    case HttpMethod m when m == Get:
+                    case HttpMethod m when m == HttpMethod.Get:
                         response = await client.GetAsync(request.GetEndpoint());
                         break;
 
-                    case HttpMethod m when m == Delete:
+                    case HttpMethod m when m == HttpMethod.Delete:
                         response = await client.DeleteAsync(request.GetEndpoint());
                         break;
 
-                    case HttpMethod m when m == Post:
+                    case HttpMethod m when m == HttpMethod.Post:
                         response = await client.PostAsync(request.GetEndpoint(), request.GetStringContent());
                         break;
 
-                    case HttpMethod m when m == Put:
+                    case HttpMethod m when m == HttpMethod.Put:
                         response = await client.PutAsync(request.GetEndpoint(), request.GetStringContent());
                         break;
 
@@ -104,8 +172,15 @@ namespace FortnoxNET.Communication
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Access-Token", request.AccessToken);
-                client.DefaultRequestHeaders.Add("Client-Secret", request.ClientSecret);
+                if (request.UsesOAuth())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.GetAccessToken());
+                }
+                else
+                {
+                    client.DefaultRequestHeaders.Add("Access-Token", request.GetAccessToken());
+                    client.DefaultRequestHeaders.Add("Client-Secret", request.GetClientSecret());
+                }
 
                 var content = new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture));
                 content.Add(new StreamContent(new MemoryStream(filedata)), "file", fileName);

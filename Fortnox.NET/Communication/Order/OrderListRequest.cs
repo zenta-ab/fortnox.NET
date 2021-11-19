@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Constants.Filter;
+﻿using FortnoxApiSDK.Models.Authorization;
+using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
 using FortnoxNET.Constants.Sort;
 using System.Collections.Generic;
@@ -8,6 +9,10 @@ namespace FortnoxNET.Communication.Order
     public class OrderListRequest : FortnoxApiListedResourceRequest
     {
         public OrderListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
+        {
+        }
+
+        public OrderListRequest(OAuthToken oAuthToken) : base(oAuthToken)
         {
         }
 

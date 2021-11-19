@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<FinancialYearSubset>> GetFinancialYearsAsync(FinancialYearListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<FinancialYearSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<FinancialYearSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.FinancialYears);
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
@@ -31,7 +31,7 @@ namespace FortnoxNET.Services
 
         public static async Task<FinancialYear> GetFinancialYearAsync(FortnoxApiRequest request, int id)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<FinancialYear>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<FinancialYear>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.FinancialYears}/{id}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -39,7 +39,7 @@ namespace FortnoxNET.Services
         public static async Task<FinancialYear> CreateFinancialYearAsync(FortnoxApiRequest request, FinancialYear financialYear)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<FinancialYear>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.FinancialYears}")
+                new FortnoxApiClientRequest<SingleResource<FinancialYear>>(HttpMethod.Post, request, $"{ApiEndpoints.FinancialYears}")
                 {
                     Data = new SingleResource<FinancialYear> { Data = financialYear }
                 };

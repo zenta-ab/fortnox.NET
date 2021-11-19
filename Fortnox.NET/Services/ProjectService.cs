@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<Project>> GetProjectsAsync(ProjectListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Project>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Project>>(HttpMethod.Get, listRequest,
                                                                                        ApiEndpoints.Projects);
             
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
@@ -31,7 +31,7 @@ namespace FortnoxNET.Services
         
         public static async Task<Project> GetProjectAsync(FortnoxApiRequest request, string projectNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Project>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Project>>(HttpMethod.Get, request,
                                                                                        $"{ApiEndpoints.Projects}/{projectNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;

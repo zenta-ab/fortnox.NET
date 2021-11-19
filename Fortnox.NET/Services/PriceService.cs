@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<PriceSubset>> GetPricesAsync(PriceListRequest listRequest, string priceList, string articleNumber = "")
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<PriceSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<PriceSubset>>(HttpMethod.Get, listRequest,
                                                                                         $"{ApiEndpoints.Prices}/sublist/{priceList}/{articleNumber}");
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -32,7 +32,7 @@ namespace FortnoxNET.Services
 
         public static async Task<Price> GetPriceForArticleAsync(FortnoxApiRequest request, string priceList, string articleNumber, string fromQuantity)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Price>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Price>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.Prices}/{priceList}/{articleNumber}/{fromQuantity}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -40,7 +40,7 @@ namespace FortnoxNET.Services
         public static async Task<Price> CreatePriceAsync(FortnoxApiRequest request, Price price)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Price>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Prices}")
+                new FortnoxApiClientRequest<SingleResource<Price>>(HttpMethod.Post, request, $"{ApiEndpoints.Prices}")
                 {
                     Data = new SingleResource<Price> { Data = price }
                 };
@@ -50,7 +50,7 @@ namespace FortnoxNET.Services
         public static async Task<Price> UpdatePriceAsync(FortnoxApiRequest request, Price price)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Price>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Price>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Prices}/{price.PriceList}/{price.ArticleNumber}/{price.FromQuantity}")
                 {
                     Data = new SingleResource<Price> { Data = price }
@@ -63,8 +63,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<object>>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Prices}/{priceList}/{articleNumber}/{fromQuantity}")
                 {
                 };

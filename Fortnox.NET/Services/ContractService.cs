@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<ContractSubset>> GetContractsAsync(ContractListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ContractSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ContractSubset>>(HttpMethod.Get, listRequest,
                                                                                         $"{ApiEndpoints.Contracts}");
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -33,7 +33,7 @@ namespace FortnoxNET.Services
 
         public static async Task<Contract> GetContractAsync(FortnoxApiRequest request, string documentNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.Contracts}/{documentNumber}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -41,7 +41,7 @@ namespace FortnoxNET.Services
         public static async Task<Contract> CreateContractAsync(FortnoxApiRequest request, Contract contract)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Contracts}")
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Post, request, $"{ApiEndpoints.Contracts}")
                 {
                     Data = new SingleResource<Contract> { Data = contract}
                 };
@@ -51,7 +51,7 @@ namespace FortnoxNET.Services
         public static async Task<Contract> UpdateContractAsync(FortnoxApiRequest request, Contract contract)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}")
                 {
                     Data = new SingleResource<Contract> { Data = contract}
@@ -62,7 +62,7 @@ namespace FortnoxNET.Services
         public static async Task<Contract> FinishContractAsync(FortnoxApiRequest request, Contract contract)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}/finish");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -70,7 +70,7 @@ namespace FortnoxNET.Services
         public static async Task<Contract> CreateInvoiceFromContractAsync(FortnoxApiRequest request, Contract contract)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}/createinvoice");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -78,7 +78,7 @@ namespace FortnoxNET.Services
         public static async Task<Contract> IncreaseInvoiceCountForContractAsync(FortnoxApiRequest request, Contract contract)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Contract>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Contracts}/{contract.DocumentNumber}/increaseinvoicecount");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }

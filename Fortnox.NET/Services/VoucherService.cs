@@ -14,7 +14,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<VoucherSubset>> GetVouchersAsync(VoucherListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<VoucherSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<VoucherSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.Vouchers);
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -30,7 +30,7 @@ namespace FortnoxNET.Services
         
         public static async Task<Voucher> GetVoucherAsync(FortnoxApiRequest request, int financialYear, string series, int voucherNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Voucher>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Voucher>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.Vouchers}/{series}/{voucherNumber}?financialyear={financialYear}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -38,7 +38,7 @@ namespace FortnoxNET.Services
         
         public static async Task<Voucher> GetVoucherAsync(FortnoxApiRequest request, string url)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Voucher>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,url);
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Voucher>>(HttpMethod.Get, request, url);
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }

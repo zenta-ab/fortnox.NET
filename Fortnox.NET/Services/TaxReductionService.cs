@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<TaxReduction>> GetTaxReductionsAsync(TaxReductionListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TaxReduction>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TaxReduction>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.TaxReductions);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -33,7 +33,7 @@ namespace FortnoxNET.Services
 
         public static async Task<TaxReduction> GetTaxReductionAsync(FortnoxApiRequest request, string taxReductionId)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<TaxReduction>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<TaxReduction>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.TaxReductions}/{taxReductionId}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -42,7 +42,7 @@ namespace FortnoxNET.Services
         public static async Task<TaxReduction> CreateTaxReductionAsync(FortnoxApiRequest request, TaxReduction taxReduction)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<TaxReduction>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.TaxReductions}")
+                new FortnoxApiClientRequest<SingleResource<TaxReduction>>(HttpMethod.Post, request, $"{ApiEndpoints.TaxReductions}")
                 {
                     Data = new SingleResource<TaxReduction> { Data = taxReduction }
                 };
@@ -55,8 +55,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<TaxReduction>>(
                     HttpMethod.Put,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.TaxReductions}/{taxReduction.Id}")
                 {
                     Data = new SingleResource<TaxReduction> { Data = taxReduction }
@@ -70,8 +69,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<object>>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.TaxReductions}/{taxReductionId}")
                 {
                 };

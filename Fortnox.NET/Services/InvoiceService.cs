@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<InvoiceSubset>> GetInvoicesAsync(InvoiceListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<InvoiceSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<InvoiceSubset>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.Invoices);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -33,7 +33,7 @@ namespace FortnoxNET.Services
 
         public static async Task<Invoice> GetInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Get, request,
                                                                                 $"{ApiEndpoints.Invoices}/{invoiceNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -42,7 +42,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> CreateInvoiceAsync(FortnoxApiRequest request, Invoice invoice)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Invoices}")
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Post, request, $"{ApiEndpoints.Invoices}")
                 {
                     Data = new SingleResource<Invoice> { Data = invoice }
                 };
@@ -53,7 +53,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> UpdateInvoiceAsync(FortnoxApiRequest request, Invoice invoice)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request,
                                                                    $"{ApiEndpoints.Invoices}/{invoice.DocumentNumber}")
                 {
                     Data = new SingleResource<Invoice> { Data = invoice }
@@ -65,7 +65,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> BookkeepInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/bookkeep");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -73,7 +73,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> CancelInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/cancel");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -81,7 +81,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> CreditInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/credit");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -89,7 +89,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> SendInvoiceEmailAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Get, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/email");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -97,7 +97,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> SendEInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Get, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/einvoice");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -105,7 +105,7 @@ namespace FortnoxNET.Services
         public static async Task<byte[]> PrintInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/print");
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }
@@ -113,7 +113,7 @@ namespace FortnoxNET.Services
         public static async Task<byte[]> PrintInvoiceReminderAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/printreminder");
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }
@@ -121,7 +121,7 @@ namespace FortnoxNET.Services
         public static async Task<Invoice> ExternalPrintInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Invoice>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/externalprint");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -129,7 +129,7 @@ namespace FortnoxNET.Services
         public static async Task<byte[]> PreviewInvoiceAsync(FortnoxApiRequest request, int invoiceNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request,
                     $"{ApiEndpoints.Invoices}/{invoiceNumber}/preview");
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }

@@ -10,7 +10,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<CompanySettings> GetCompanySettingsAsync(FortnoxApiRequest request)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<CompanySettings>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<CompanySettings>>(HttpMethod.Get, request,
                 $"{ApiEndpoints.CompanySettings}/");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;

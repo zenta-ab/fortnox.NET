@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<AccountChart>> GetAccountChartsAsync(AccountChartListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AccountChart>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AccountChart>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.AccountCharts);
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }

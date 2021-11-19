@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<TermsOfDeliverySubset>> GetTermsOfDeliveriesAsync(TermsOfDeliveryListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TermsOfDeliverySubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TermsOfDeliverySubset>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.TermsOfDeliveries);
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -32,7 +32,7 @@ namespace FortnoxNET.Services
 
         public static async Task<TermsOfDelivery> GetTermsOfDeliveryAsync(FortnoxApiRequest request, string code)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<TermsOfDelivery>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<TermsOfDelivery>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.TermsOfDeliveries}/{code}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -40,7 +40,7 @@ namespace FortnoxNET.Services
         public static async Task<TermsOfDelivery> CreateTermsOfDeliveryAsync(FortnoxApiRequest request, TermsOfDelivery termsOfDelivery)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<TermsOfDelivery>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.TermsOfDeliveries}")
+                new FortnoxApiClientRequest<SingleResource<TermsOfDelivery>>(HttpMethod.Post, request, $"{ApiEndpoints.TermsOfDeliveries}")
                 {
                     Data = new SingleResource<TermsOfDelivery> { Data = termsOfDelivery }
                 };
@@ -50,7 +50,7 @@ namespace FortnoxNET.Services
         public static async Task<TermsOfDelivery> UpdateTermsOfDeliveryAsync(FortnoxApiRequest request, TermsOfDelivery termsOfDelivery)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<TermsOfDelivery>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<TermsOfDelivery>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.TermsOfDeliveries}/{termsOfDelivery.Code}/")
                 {
                     Data = new SingleResource<TermsOfDelivery> { Data = termsOfDelivery }

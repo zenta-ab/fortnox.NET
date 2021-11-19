@@ -15,8 +15,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<Archive>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 ApiEndpoints.Archive
             );
 
@@ -29,8 +28,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<Archive>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 $"{ApiEndpoints.Archive}/{id}"
             );
 
@@ -43,8 +41,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<byte[]>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 $"{ApiEndpoints.Archive}/{id}"
             );
 
@@ -58,8 +55,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<Archive>(
                     HttpMethod.Post, 
-                    request.AccessToken, 
-                    request.ClientSecret, 
+                    request, 
                     $"{ApiEndpoints.Archive}")
                 {
                     Data = new Archive
@@ -84,8 +80,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<File>>(
                     HttpMethod.Post,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Archive}/?folderid={folderId}");
 
             return (await FortnoxAPIClient.UploadAsync(apiRequest, fileName, fileData)).Data;
@@ -96,8 +91,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Archive}/{archiveId}");
 
             await FortnoxAPIClient.CallAsync(apiRequest);

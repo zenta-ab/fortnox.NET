@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Constants.Filter;
+﻿using FortnoxApiSDK.Models.Authorization;
+using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
 using FortnoxNET.Constants.Sort;
 using System;
@@ -12,6 +13,10 @@ namespace FortnoxNET.Communication.Invoice
     public class InvoiceListRequest : FortnoxApiListedResourceRequest
     {
         public InvoiceListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
+        {
+        }
+
+        public InvoiceListRequest(OAuthToken oAuthToken) : base(oAuthToken)
         {
         }
 

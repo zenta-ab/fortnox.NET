@@ -13,7 +13,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<AccountSubset>> GetAccountsAsync(AccountListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AccountSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret, ApiEndpoints.Accounts);
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AccountSubset>>(HttpMethod.Get, listRequest, ApiEndpoints.Accounts);
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
@@ -28,14 +28,14 @@ namespace FortnoxNET.Services
         
         public static async Task<Account> GetAccountAsync(FortnoxApiRequest request, int financialYear, int AccountNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Account>>(HttpMethod.Get, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Accounts}/{AccountNumber}?financialyear={financialYear}");
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Account>>(HttpMethod.Get, request, $"{ApiEndpoints.Accounts}/{AccountNumber}?financialyear={financialYear}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
         
         public static async Task<Account> GetAccountAsync(FortnoxApiRequest request, string url)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Account>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,url);
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Account>>(HttpMethod.Get, request, url);
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }

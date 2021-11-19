@@ -15,8 +15,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AssetSubset>>(
                 HttpMethod.Get,
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 ApiEndpoints.Assets
             );
 
@@ -27,8 +26,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<Asset>>(
                 HttpMethod.Get, 
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/{identifier}"
             );
 
@@ -39,8 +37,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<Asset>>(
                 HttpMethod.Post,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 ApiEndpoints.Assets
             )
             {
@@ -54,8 +51,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<Asset>>(
                 HttpMethod.Put,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/{asset.Id}"
             )
             {
@@ -69,8 +65,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<string>(
                 HttpMethod.Delete,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/{identifier}"
             );
 
@@ -81,8 +76,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<WriteUpOrDownAsset>>(
                 HttpMethod.Put,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/writeup/{identifier}"
             )
             {
@@ -96,8 +90,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<WriteUpOrDownAsset>>(
                 HttpMethod.Put,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/writedown/{identifier}"
             )
             {
@@ -111,8 +104,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<AssetScrap>>(
                 HttpMethod.Put,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/scrap/{identifier}"
             )
             {
@@ -126,8 +118,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<SellAsset>>(
                 HttpMethod.Put,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/sell/{identifier}"
             )
             {
@@ -141,8 +132,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<DepreciateAssets>>(
                 HttpMethod.Post,
-                request.AccessToken,
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.Assets}/depreciate"
             )
             {

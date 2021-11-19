@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FortnoxApiSDK.Models.Authorization;
 using FortnoxNET.Constants.Search;
 
 namespace FortnoxNET.Communication.Project
@@ -8,7 +9,11 @@ namespace FortnoxNET.Communication.Project
         public ProjectListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
         {
         }
-        
+
+        public ProjectListRequest(OAuthToken oAuthToken) : base(oAuthToken)
+        {
+        }
+
         public Dictionary<ProjectSearchParameters, object> SearchParameters { get; set; }
     }
 }

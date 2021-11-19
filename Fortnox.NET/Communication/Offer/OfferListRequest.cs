@@ -1,4 +1,5 @@
 ﻿
+using FortnoxApiSDK.Models.Authorization;
 using FortnoxNET.Constants.Filter;
 using FortnoxNET.Constants.Search;
 using FortnoxNET.Constants.Sort;
@@ -9,6 +10,10 @@ namespace FortnoxNET.Communication.Offer
     public class OfferListRequest : FortnoxApiListedResourceRequest
     {
         public OfferListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
+        {
+        }
+
+        public OfferListRequest(OAuthToken oAuthToken) : base(oAuthToken)
         {
         }
 

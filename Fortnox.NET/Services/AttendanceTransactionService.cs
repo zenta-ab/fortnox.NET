@@ -15,7 +15,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<AttendanceTransactionSubset>> GetAttendanceTransactionsAsync(AttendanceTransactionListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AttendanceTransactionSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AttendanceTransactionSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.AttendanceTransactions);
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
             
@@ -23,14 +23,14 @@ namespace FortnoxNET.Services
         }
         public static async Task<AttendanceTransaction> GetAttendanceTransactionAsync(FortnoxApiRequest request, string employeeId, string date, string causeCode)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<AttendanceTransaction>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<AttendanceTransaction>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.AttendanceTransactions}/{employeeId}/{date}/{causeCode}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
         public static async Task<AttendanceTransaction> CreateAttendanceTransactionAsync(FortnoxApiRequest request, AttendanceTransaction attendanceTransaction)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<AttendanceTransaction>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.AttendanceTransactions}")
+                new FortnoxApiClientRequest<SingleResource<AttendanceTransaction>>(HttpMethod.Post, request, $"{ApiEndpoints.AttendanceTransactions}")
                 {
                     Data = new SingleResource<AttendanceTransaction> { Data = attendanceTransaction }
                 };
@@ -39,7 +39,7 @@ namespace FortnoxNET.Services
         public static async Task<AttendanceTransaction> UpdateAttendanceTransactionAsync(FortnoxApiRequest request, AttendanceTransaction attendanceTransaction)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<AttendanceTransaction>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<AttendanceTransaction>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.AttendanceTransactions}/{attendanceTransaction.EmployeeId}/{attendanceTransaction.Date}/{attendanceTransaction.CauseCode}")
                 {
                     Data = new SingleResource<AttendanceTransaction> { Data = attendanceTransaction }
@@ -51,8 +51,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<string>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.AttendanceTransactions}/{employeeId}/{date}/{causeCode}")
                 {
                 };

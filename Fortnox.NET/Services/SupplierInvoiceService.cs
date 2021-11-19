@@ -13,7 +13,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<SupplierInvoiceSubset>> GetSupplierInvoicesAsync(SupplierInvoiceListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierInvoiceSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierInvoiceSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.SupplierInvoices);
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -34,7 +34,7 @@ namespace FortnoxNET.Services
         
         public static async Task<SupplierInvoice> GetSupplierInvoiceAsync(FortnoxApiRequest request, int givenNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.SupplierInvoices}/{givenNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -42,7 +42,7 @@ namespace FortnoxNET.Services
         
         public static async Task<SupplierInvoice> GetSupplierInvoiceAsync(FortnoxApiRequest request, string url)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,url);
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(HttpMethod.Get, request, url);
         
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -52,8 +52,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoice>>(
                 HttpMethod.Post, 
-                request.AccessToken, 
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.SupplierInvoices}")
             {
                 Data = new SingleResource<SupplierInvoice>()
