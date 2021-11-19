@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FortnoxApiSDK.Models.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
