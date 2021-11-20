@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Fortnox.NET.Communication.Error;
 using FortnoxApiSDK.Models.Authorization;
 using FortnoxNET.Constants;
 using FortnoxNET.Models.Authorization;
@@ -52,7 +53,21 @@ namespace FortnoxNET.Communication
                 var content = new FormUrlEncodedContent(urlContent);
 
                 var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
-                var ss = (await response.Content.ReadAsStringAsync());
+                if (!response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var errorResponse = JsonConvert.DeserializeObject<AuthorizationError>((await response.Content.ReadAsStringAsync()),
+                                                                                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+                        throw new Exception($"Error: {errorResponse.Error} Message: {errorResponse.Description}");
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"Could not get resource. Status Code: {response.StatusCode}, Reason: {response.ReasonPhrase}, {e.Message}");
+                    }
+                }
+
                 return await GetResponseAsync<OAuthToken>(response);
             }
         }
@@ -75,7 +90,21 @@ namespace FortnoxNET.Communication
                 var content = new FormUrlEncodedContent(urlContent);
 
                 var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
-                var ss = (await response.Content.ReadAsStringAsync());
+                if (!response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var errorResponse = JsonConvert.DeserializeObject<AuthorizationError>((await response.Content.ReadAsStringAsync()),
+                                                                                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+                        throw new Exception($"Error: {errorResponse.Error} Message: {errorResponse.Description}");
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"Could not get resource. Status Code: {response.StatusCode}, Reason: {response.ReasonPhrase}, {e.Message}");
+                    }
+                }
+
                 return await GetResponseAsync<OAuthToken>(response);
             }
         }
