@@ -31,11 +31,6 @@ namespace FortnoxNET.Tests
 
             Assert.IsNotNull(printTemplates.Data.ToList());
             Assert.IsTrue(printTemplates.Data.Count() > 0);
-
-            foreach (var order in printTemplates.Data)
-            {
-                Assert.IsTrue(order.Name == "Följesedel" || order.Name == "Orderbekräftelse" || order.Name == "Orderbekräftelse - Beställt antal" || order.Name == "Plocklista - Reserverat antal");
-            }
         }
     }
 }
