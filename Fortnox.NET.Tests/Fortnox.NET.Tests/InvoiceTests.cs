@@ -41,7 +41,7 @@ namespace FortnoxNET.Tests
             var request = new InvoiceListRequest(this.connectionSettings.AccessToken, this.connectionSettings.ClientSecret) { SortBy = InvoiceSortableProperties.CustomerName };
             var invoiceList = InvoiceService.GetInvoicesAsync(request).GetAwaiter().GetResult();
 
-            Assert.IsTrue(invoiceList.Data.ToList().First().CustomerName.StartsWith("D"));
+            Assert.IsTrue(invoiceList.Data.ToList().First().CustomerName.StartsWith("C"));
         }
 
         [TestMethod]
