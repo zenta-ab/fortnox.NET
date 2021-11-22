@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<Label>> GetLabelsAsync(LabelListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Label>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Label>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.Labels);
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }

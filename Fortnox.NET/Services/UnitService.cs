@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<Unit>> GetUnitsAsync(UnitListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Unit>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Unit>>(HttpMethod.Get, listRequest,
                                                                                                  ApiEndpoints.Units);
             
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -32,7 +32,7 @@ namespace FortnoxNET.Services
         
         public static async Task<Unit> GetUnitAsync(FortnoxApiRequest request, string unitCode)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Unit>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Unit>>(HttpMethod.Get, request,
                                                                                            $"{ApiEndpoints.Units}/{unitCode}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;

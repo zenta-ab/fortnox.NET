@@ -10,7 +10,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<InvoicePaymentSubset>> GetInvoicePaymentsAsync(InvoicePaymentListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<InvoicePaymentSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret, ApiEndpoints.InvoicePayments);
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<InvoicePaymentSubset>>(HttpMethod.Get, listRequest, ApiEndpoints.InvoicePayments);
 
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
             
@@ -24,14 +24,14 @@ namespace FortnoxNET.Services
         
         public static async Task<InvoicePayment> GetInvoicePaymentAsync(FortnoxApiRequest request, int InvoicePaymentNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Get, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.InvoicePayments}/{InvoicePaymentNumber}");
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Get, request, $"{ApiEndpoints.InvoicePayments}/{InvoicePaymentNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
         
         public static async Task<InvoicePayment> GetInvoicePaymentAsync(FortnoxApiRequest request, string url)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,url);
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Get, request,url);
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -39,7 +39,7 @@ namespace FortnoxNET.Services
         public static async Task<InvoicePayment> CreateInvoicePaymentAsync(FortnoxApiRequest request, InvoicePayment invoicePayment)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.InvoicePayments}")
+                new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Post, request, $"{ApiEndpoints.InvoicePayments}")
                 {
                     Data = new SingleResource<InvoicePayment> { Data = invoicePayment }
                 };
@@ -49,7 +49,7 @@ namespace FortnoxNET.Services
         public static async Task<InvoicePayment> UpdateInvoicePaymentAsync(FortnoxApiRequest request, string invoicePaymentNumber, InvoicePayment invoicePayment)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.InvoicePayments}/{invoicePaymentNumber}")
                 {
                     Data = new SingleResource<InvoicePayment> { Data = invoicePayment }
@@ -62,8 +62,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.InvoicePayments}/{articleNumber}");
 
             await FortnoxAPIClient.CallAsync(apiRequest);
@@ -72,7 +71,7 @@ namespace FortnoxNET.Services
         public static async Task<InvoicePayment> BookkeepInvoicePaymentAsync(FortnoxApiRequest request, string invoicePaymentNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<InvoicePayment>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.InvoicePayments}/{invoicePaymentNumber}/bookkeep");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }

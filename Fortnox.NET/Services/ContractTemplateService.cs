@@ -15,8 +15,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ContractTemplates>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 ApiEndpoints.ContractTemplates
             );
 
@@ -32,8 +31,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<ContractTemplate>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 $"{ApiEndpoints.ContractTemplates}/{contractTemplate}"
             );
 
@@ -47,8 +45,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<ContractTemplate>>(
                 HttpMethod.Post, 
-                request.AccessToken, 
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.ContractTemplates}"
             )
             {
@@ -68,8 +65,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<ContractTemplate>>(
                 HttpMethod.Put, 
-                request.AccessToken, 
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.ContractTemplates}/{contractTemplate.TemplateNumber}"
             )
             {

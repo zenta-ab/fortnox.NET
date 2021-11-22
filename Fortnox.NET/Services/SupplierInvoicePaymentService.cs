@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<SupplierInvoicePaymentSubset>> GetSupplierInvoicePaymentsAsync(SupplierInvoicePaymentListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierInvoicePaymentSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierInvoicePaymentSubset>>(HttpMethod.Get, listRequest,
                                                                                         $"{ApiEndpoints.SupplierInvoicePayments}");
 
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
@@ -31,7 +31,7 @@ namespace FortnoxNET.Services
 
         public static async Task<SupplierInvoicePayment> GetSupplierInvoicePaymentAsync(FortnoxApiRequest request, string number)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoicePayment>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoicePayment>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.SupplierInvoicePayments}/{number}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -39,7 +39,7 @@ namespace FortnoxNET.Services
         public static async Task<SupplierInvoicePayment> CreateSupplierInvoicePaymentAsync(FortnoxApiRequest request, SupplierInvoicePayment supplierInvoicePayment)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<SupplierInvoicePayment>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.SupplierInvoicePayments}")
+                new FortnoxApiClientRequest<SingleResource<SupplierInvoicePayment>>(HttpMethod.Post, request, $"{ApiEndpoints.SupplierInvoicePayments}")
                 {
                     Data = new SingleResource<SupplierInvoicePayment> { Data = supplierInvoicePayment }
                 };
@@ -49,7 +49,7 @@ namespace FortnoxNET.Services
         public static async Task<SupplierInvoicePayment> UpdateSupplierInvoicePaymentAsync(FortnoxApiRequest request, SupplierInvoicePayment supplierInvoicePayment)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<SupplierInvoicePayment>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<SupplierInvoicePayment>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.SupplierInvoicePayments}/{supplierInvoicePayment.Number}")
                 {
                     Data = new SingleResource<SupplierInvoicePayment> { Data = supplierInvoicePayment }
@@ -62,8 +62,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<string>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.SupplierInvoicePayments}/{number}")
                 {
                 };

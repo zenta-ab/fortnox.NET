@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FortnoxApiSDK.Models.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,10 @@ namespace FortnoxNET.Communication.AbsenceTransaction
     public class AbsenceTransactionListRequest : FortnoxApiListedResourceRequest
     {
         public AbsenceTransactionListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
+        {
+        }
+
+        public AbsenceTransactionListRequest(OAuthToken oAuthToken) : base(oAuthToken)
         {
         }
     }

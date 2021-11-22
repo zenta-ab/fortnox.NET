@@ -22,7 +22,7 @@ namespace FortnoxNET.Services
                 route = $"{route}?financialyear={finnancialYear.Value}";
             }
 
-            var apiRequest = new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request.AccessToken, request.ClientSecret, route);
+            var apiRequest = new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request, route);
 
             return (await FortnoxAPIClient.CallAsync(apiRequest));
         }
@@ -37,7 +37,7 @@ namespace FortnoxNET.Services
                 route = $"{route}?financialyear={finnancialYear.Value}";
             }
 
-            var apiRequest = new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request.AccessToken, request.ClientSecret, route);
+            var apiRequest = new FortnoxApiClientRequest<byte[]>(HttpMethod.Get, request, route);
             var resultingByteArray =  await FortnoxAPIClient.CallAsync(apiRequest);
 
             File.WriteAllBytes(filePath, resultingByteArray);

@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<ExpenseSubset>> GetExpensesAsync(ExpenseListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ExpenseSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ExpenseSubset>>(HttpMethod.Get, listRequest,
                 ApiEndpoints.Expenses);
 
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
@@ -21,7 +21,7 @@ namespace FortnoxNET.Services
 
         public static async Task<ExpenseSubset> GetExpenseAsync(FortnoxApiRequest request, string expenseCode)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<ExpenseSubset>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<ExpenseSubset>>(HttpMethod.Get, request,
                 $"{ApiEndpoints.Expenses}/{expenseCode}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -30,7 +30,7 @@ namespace FortnoxNET.Services
         public static async Task<Expense> CreateExpenseAsync(FortnoxApiRequest request, Expense expense)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Expense>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Expenses}")
+                new FortnoxApiClientRequest<SingleResource<Expense>>(HttpMethod.Post, request, $"{ApiEndpoints.Expenses}")
                 {
                     Data = new SingleResource<Expense> { Data = expense }
                 };

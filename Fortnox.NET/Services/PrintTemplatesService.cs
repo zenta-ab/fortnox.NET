@@ -15,7 +15,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<PrintTemplates>> GetTemplatesAsync(PrintTemplatesListRequest request)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<PrintTemplates>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<PrintTemplates>>(HttpMethod.Get, request,
                 $"{ApiEndpoints.PrintTemplates}/");
             apiRequest.SetType(request.Filter?.ToString());
             return (await FortnoxAPIClient.CallAsync(apiRequest));

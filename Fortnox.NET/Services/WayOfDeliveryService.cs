@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<WayOfDeliverySubset>> GetWayOfDeliveriesAsync(WayOfDeliveryListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<WayOfDeliverySubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<WayOfDeliverySubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.WayOfDeliveries);
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
@@ -21,7 +21,7 @@ namespace FortnoxNET.Services
 
         public static async Task<WayOfDelivery> GetWayOfDeliveryAsync(FortnoxApiRequest request, string code)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<WayOfDelivery>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<WayOfDelivery>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.WayOfDeliveries}/{code}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -29,7 +29,7 @@ namespace FortnoxNET.Services
         public static async Task<WayOfDelivery> CreateWayOfDeliveryAsync(FortnoxApiRequest request, WayOfDelivery wayOfDelivery)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<WayOfDelivery>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.WayOfDeliveries}")
+                new FortnoxApiClientRequest<SingleResource<WayOfDelivery>>(HttpMethod.Post, request, $"{ApiEndpoints.WayOfDeliveries}")
                 {
                     Data = new SingleResource<WayOfDelivery> { Data = wayOfDelivery }
                 };
@@ -39,7 +39,7 @@ namespace FortnoxNET.Services
         public static async Task<WayOfDelivery> UpdateWayOfDeliveryAsync(FortnoxApiRequest request, WayOfDelivery wayOfDelivery)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<WayOfDelivery>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<WayOfDelivery>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.WayOfDeliveries}/{wayOfDelivery.Code}/")
                 {
                     Data = new SingleResource<WayOfDelivery> { Data = wayOfDelivery }
@@ -52,8 +52,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<string>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.WayOfDeliveries}/{code}")
                 {
                 };

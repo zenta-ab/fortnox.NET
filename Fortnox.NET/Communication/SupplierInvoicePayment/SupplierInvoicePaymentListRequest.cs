@@ -1,4 +1,5 @@
-﻿using FortnoxNET.Constants.Search;
+﻿using FortnoxApiSDK.Models.Authorization;
+using FortnoxNET.Constants.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,11 @@ namespace FortnoxNET.Communication.SupplierInvoicePayment
     public class SupplierInvoicePaymentListRequest : FortnoxApiListedResourceRequest
     {
         public SupplierInvoicePaymentListRequest(string accessToken, string clientSecret) : base(accessToken, clientSecret)
+        {
+            SearchParameters = new Dictionary<SupplierInvoicePaymentSearchParameters, object>();
+        }
+
+        public SupplierInvoicePaymentListRequest(OAuthToken oAuthToken) : base(oAuthToken)
         {
             SearchParameters = new Dictionary<SupplierInvoicePaymentSearchParameters, object>();
         }

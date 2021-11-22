@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
 
         public static async Task<ListedResourceResponse<Employees>> GetEmployeesAsync(EmployeeListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Employees>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<Employees>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.Employees);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -21,7 +21,7 @@ namespace FortnoxNET.Services
 
         public static async Task<Employee> GetEmployeeAsync(FortnoxApiRequest request, string employeeNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Employee>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Employee>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.Employees}/{employeeNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -30,7 +30,7 @@ namespace FortnoxNET.Services
         public static async Task<Employee> CreateEmployeeAsync(FortnoxApiRequest request, Employee employee)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Employee>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Employees}")
+                new FortnoxApiClientRequest<SingleResource<Employee>>(HttpMethod.Post, request, $"{ApiEndpoints.Employees}")
                 {
                     Data = new SingleResource<Employee> { Data = employee }
                 };
@@ -41,7 +41,7 @@ namespace FortnoxNET.Services
         public static async Task<Employee> UpdateEmployeeAsync(FortnoxApiRequest request, Employee employee)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Employee>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Employee>>(HttpMethod.Put, request,
                                                                    $"{ApiEndpoints.Employees}/{employee.EmployeeId}")
                 {
                     Data = new SingleResource<Employee> { Data = employee }

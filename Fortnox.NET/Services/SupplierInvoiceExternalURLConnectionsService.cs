@@ -15,8 +15,7 @@ namespace FortnoxNET.Services
                 ListedResourceResponse<SupplierInvoiceExternalURLConnection>
             >(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret,
+                listRequest,
                 ApiEndpoints.SupplierInvoiceExternalURLConnections);
 
             return await FortnoxAPIClient.CallAsync(apiRequest);
@@ -30,8 +29,7 @@ namespace FortnoxNET.Services
                 SingleResource<SupplierInvoiceExternalURLConnection>
             >(
                 HttpMethod.Get, 
-                request.AccessToken, 
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.SupplierInvoiceExternalURLConnections}/{id}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -45,8 +43,7 @@ namespace FortnoxNET.Services
                 SingleResource<SupplierInvoiceExternalURLConnection>
             >(
                 HttpMethod.Post, 
-                request.AccessToken, 
-                request.ClientSecret, 
+                request, 
                 $"{ApiEndpoints.SupplierInvoiceExternalURLConnections}")
                 {
                     Data = new SingleResource<SupplierInvoiceExternalURLConnection>
@@ -66,8 +63,7 @@ namespace FortnoxNET.Services
                 SingleResource<SupplierInvoiceExternalURLConnection>
             >(
                 HttpMethod.Put, 
-                request.AccessToken, 
-                request.ClientSecret,
+                request,
                 $"{ApiEndpoints.SupplierInvoiceExternalURLConnections}/{supplierInvoiceExternalURLConnection.Id}/")
                 {
                     Data = new SingleResource<SupplierInvoiceExternalURLConnection>
@@ -84,8 +80,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<string>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.SupplierInvoiceExternalURLConnections}/{id}")
                 {
                 };

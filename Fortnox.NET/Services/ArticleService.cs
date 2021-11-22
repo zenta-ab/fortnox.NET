@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<ArticleSubset>> GetArticlesAsync(ArticleListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ArticleSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ArticleSubset>>(HttpMethod.Get, listRequest,
                                                                                                  ApiEndpoints.Articles);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -33,7 +33,7 @@ namespace FortnoxNET.Services
         
         public static async Task<Article> GetArticleAsync(FortnoxApiRequest request, string articleNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Article>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Article>>(HttpMethod.Get, request,
                                                                                            $"{ApiEndpoints.Articles}/{articleNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -42,7 +42,7 @@ namespace FortnoxNET.Services
         public static async Task<Article> CreateArticleAsync(FortnoxApiRequest request, Article article)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Article>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Articles}")
+                new FortnoxApiClientRequest<SingleResource<Article>>(HttpMethod.Post, request, $"{ApiEndpoints.Articles}")
                 {
                     Data = new SingleResource<Article> {Data = article}
                 };
@@ -53,7 +53,7 @@ namespace FortnoxNET.Services
         public static async Task<Article> UpdateArticleAsync(FortnoxApiRequest request, Article article)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Article>>(HttpMethod.Put, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Articles}/{article.ArticleNumber}")
+                new FortnoxApiClientRequest<SingleResource<Article>>(HttpMethod.Put, request, $"{ApiEndpoints.Articles}/{article.ArticleNumber}")
                 {
                     Data = new SingleResource<Article> {Data = article}
                 };
@@ -66,8 +66,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.Articles}/{articleNumber}");
 
             await FortnoxAPIClient.CallAsync(apiRequest);

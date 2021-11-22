@@ -10,7 +10,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<CustomerSubset>> GetCustomersAsync(CustomerListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<CustomerSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<CustomerSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.Customers);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -32,7 +32,7 @@ namespace FortnoxNET.Services
         
         public static async Task<Customer> GetCustomerAsync(FortnoxApiRequest request, string customerNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Customer>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Customer>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.Customers}/{customerNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -41,7 +41,7 @@ namespace FortnoxNET.Services
         public static async Task<Customer> CreateCustomerAsync(FortnoxApiRequest request, Customer customer)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Customer>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Customers}")
+                new FortnoxApiClientRequest<SingleResource<Customer>>(HttpMethod.Post, request, $"{ApiEndpoints.Customers}")
                 {
                     Data = new SingleResource<Customer> {Data = customer}
                 };
@@ -52,7 +52,7 @@ namespace FortnoxNET.Services
         public static async Task<Customer> UpdateCustomerAsync(FortnoxApiRequest request, Customer customer)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Customer>>(HttpMethod.Put, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Customers}/{customer.CustomerNumber}")
+                new FortnoxApiClientRequest<SingleResource<Customer>>(HttpMethod.Put, request, $"{ApiEndpoints.Customers}/{customer.CustomerNumber}")
                 {
                     Data = new SingleResource<Customer> {Data = customer}
                 };

@@ -12,7 +12,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<ModesOfPaymentsSubset>> GetModesOfPaymentsAsync(ModesOfPaymentsListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ModesOfPaymentsSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ModesOfPaymentsSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.ModesOfPayments);
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
 
@@ -21,7 +21,7 @@ namespace FortnoxNET.Services
 
         public static async Task<ModesOfPayment> GetModesOfPaymentAsync(FortnoxApiRequest request, string code)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<ModesOfPayment>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<ModesOfPayment>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.ModesOfPayments}/{code}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -30,7 +30,7 @@ namespace FortnoxNET.Services
         public static async Task<ModesOfPayment> CreateModesOfPaymentAsync(FortnoxApiRequest request, ModesOfPayment modesOfPayments)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<ModesOfPayment>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.ModesOfPayments}")
+                new FortnoxApiClientRequest<SingleResource<ModesOfPayment>>(HttpMethod.Post, request, $"{ApiEndpoints.ModesOfPayments}")
                 {
                     Data = new SingleResource<ModesOfPayment> { Data = modesOfPayments }
                 };
@@ -41,7 +41,7 @@ namespace FortnoxNET.Services
         public static async Task<ModesOfPayment> UpdateModesOfPaymentAsync(FortnoxApiRequest request, ModesOfPayment modesOfPayments)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<ModesOfPayment>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<ModesOfPayment>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.ModesOfPayments}/{modesOfPayments.Code}")
                 {
                     Data = new SingleResource<ModesOfPayment> { Data = modesOfPayments }

@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Fortnox.NET.Models.AbsenceTransactions;
@@ -13,7 +12,7 @@ namespace FortnoxNET.Services
 	{
         public static async Task<ListedResourceResponse<AbsenceTransactionSubset>> GetAbsenceTransactionsAsync(AbsenceTransactionListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AbsenceTransactionSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<AbsenceTransactionSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.AbsenceTransactions);
             apiRequest.SetPageAndLimit(listRequest.Page, listRequest.Limit);
 
@@ -22,7 +21,7 @@ namespace FortnoxNET.Services
 
         public static async Task<AbsenceTransaction> GetAbsenceTransactionAsync(FortnoxApiRequest request, string employeeId, string date, string causeCode)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.AbsenceTransactions}/{employeeId}/{date}/{causeCode}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -31,7 +30,7 @@ namespace FortnoxNET.Services
         public static async Task<AbsenceTransaction> CreateAbsenceTransactionAsync(FortnoxApiRequest request, AbsenceTransaction absenceTransaction)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.AbsenceTransactions}")
+                new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Post, request, $"{ApiEndpoints.AbsenceTransactions}")
                 {
                     Data = new SingleResource<AbsenceTransaction> { Data = absenceTransaction }
                 };
@@ -42,7 +41,7 @@ namespace FortnoxNET.Services
         public static async Task<AbsenceTransaction> UpdateAbsenceTransactionAsync(FortnoxApiRequest request, AbsenceTransaction absenceTransaction)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Put, request.AccessToken, request.ClientSecret, 
+                new FortnoxApiClientRequest<SingleResource<AbsenceTransaction>>(HttpMethod.Put, request, 
                     $"{ApiEndpoints.AbsenceTransactions}/{absenceTransaction.EmployeeId}/{absenceTransaction.Date?.ToString("yyyy-MM-dd")}/{absenceTransaction.CauseCode}")
                 {
                     Data = new SingleResource<AbsenceTransaction> { Data = absenceTransaction}
@@ -56,13 +55,12 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.AbsenceTransactions}/{employeeId}/{date}/{causeCode}")
                 {
                 };
 
-            await FortnoxAPIClient.CallAsync(apiRequest);
+            object p = await FortnoxAPIClient.CallAsync<object>(apiRequest);
         }
     }
 }

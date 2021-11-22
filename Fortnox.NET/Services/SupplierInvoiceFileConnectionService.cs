@@ -16,8 +16,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierInvoiceFileConnections>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret, 
+                listRequest, 
                 ApiEndpoints.SupplierInvoiceFileConnections
             );
 
@@ -32,8 +31,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<SupplierInvoiceFileConnection>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret, 
+                listRequest, 
                 $"{ApiEndpoints.SupplierInvoiceFileConnections}/{fileId}"
             );
 
@@ -48,8 +46,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<SupplierInvoiceFileConnection>>(
                     HttpMethod.Post,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.SupplierInvoiceFileConnections}")
                 {
                     Data = new SingleResource<SupplierInvoiceFileConnection>()
@@ -72,8 +69,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.SupplierInvoiceFileConnections}/{fileId}");
 
             await FortnoxAPIClient.CallAsync(apiRequest);

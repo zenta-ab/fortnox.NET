@@ -8,21 +8,42 @@ namespace FortnoxNET.Communication
 {
     internal class FortnoxApiClientRequest<T>
     {
-        public FortnoxApiClientRequest(HttpMethod httpMethod, string accessToken, string clientSecret, string endpoint)
+        public FortnoxApiClientRequest(HttpMethod httpMethod, FortnoxApiRequest request, string endpoint)
         {
             HttpMethod = httpMethod;
-            AccessToken = accessToken;
-            ClientSecret = clientSecret;
             _endpoint = endpoint;
             QueryStringParameters = new Dictionary<string, object>();
+            Request = request;
         }
 
         private string _endpoint { get; set; }
         public HttpMethod HttpMethod { get; private set; }
-        public string AccessToken { get; private set; }
         private Dictionary<string, object> QueryStringParameters { get; set; }
         public T Data { private get; set; }
-        public string ClientSecret { get; private set; }
+
+        private FortnoxApiRequest Request;
+
+        public bool UsesOAuth()
+        {
+            return Request.UsesOAuth();
+        }
+
+        public string GetAccessToken()
+        {
+            if (UsesOAuth())
+            {
+                return Request.OAuthToken.AccessToken;
+            }
+            else
+            {
+                return Request.AccessToken;
+            }
+        }
+
+        public string GetClientSecret()
+        {
+            return Request.ClientSecret;
+        }
 
         public StringContent GetStringContent()
         {

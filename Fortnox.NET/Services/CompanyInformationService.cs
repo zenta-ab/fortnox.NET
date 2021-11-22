@@ -14,7 +14,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<CompanyInformation> GetCompanyInformationAsync(FortnoxApiRequest request)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<CompanyInformation>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<CompanyInformation>>(HttpMethod.Get, request,
                 $"{ApiEndpoints.CompanyInformation}/");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;

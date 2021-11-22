@@ -16,7 +16,7 @@ namespace FortnoxNET.Services
         /// <returns>Listed Resource Response of Fortnox orders</returns>
         public static async Task<ListedResourceResponse<OrderSubset>> GetOrdersAsync(OrderListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<OrderSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<OrderSubset>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.Orders);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -44,7 +44,7 @@ namespace FortnoxNET.Services
         /// <returns>Fortnox order object</returns>
         public static async Task<Order> GetOrderAsync(FortnoxApiRequest request, int orderNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Get, request,
                                                                                 $"{ApiEndpoints.Orders}/{orderNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -59,7 +59,7 @@ namespace FortnoxNET.Services
         public static async Task<Order> UpdateOrderAsync(FortnoxApiRequest request, Order order)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request,
                                                                    $"{ApiEndpoints.Orders}/{order.DocumentNumber}")
                 {
                     Data = new SingleResource<Order> { Data = order }
@@ -77,7 +77,7 @@ namespace FortnoxNET.Services
         public static async Task<Order> CreateOrderAsync(FortnoxApiRequest request, Order order)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Orders}")
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Post, request, $"{ApiEndpoints.Orders}")
                 {
                     Data = new SingleResource<Order> { Data = order }
                 };
@@ -94,7 +94,7 @@ namespace FortnoxNET.Services
         public static async Task<Order> ExternalPrintAsync(FortnoxApiRequest request, int orderNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Orders}/{orderNumber}/externalprint");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -108,7 +108,7 @@ namespace FortnoxNET.Services
         public static async Task<Order> CancelAsync(FortnoxApiRequest request, int orderNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Orders}/{orderNumber}/cancel");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -122,7 +122,7 @@ namespace FortnoxNET.Services
         public static async Task<Order> CreateInvoiceAsync(FortnoxApiRequest request, int orderNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Orders}/{orderNumber}/createinvoice");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -137,7 +137,7 @@ namespace FortnoxNET.Services
         public static async Task<Order> WarehouseReadyAsync(FortnoxApiRequest request, int orderNumber)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Order>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.Orders}/{orderNumber}/warehouseready");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }

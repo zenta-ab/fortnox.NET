@@ -11,14 +11,14 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<TrustedEmailDomainSubset>> GetTrustedEmailDomainsAsync(TrustedEmailDomainListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TrustedEmailDomainSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TrustedEmailDomainSubset>>(HttpMethod.Get, listRequest,
                                                                                                 ApiEndpoints.EmailTrustedDomains);
             return await FortnoxAPIClient.CallAsync(apiRequest);
         }
 
         public static async Task<TrustedEmailDomain> GetTrustedEmailDomainAsync(FortnoxApiRequest request, string id)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<TrustedEmailDomain>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<TrustedEmailDomain>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.EmailTrustedDomains}/{id}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -27,7 +27,7 @@ namespace FortnoxNET.Services
         public static async Task<TrustedEmailDomain> CreateTrustedEmailDomainAsync(FortnoxApiRequest request, TrustedEmailDomain trustedEmailDomain)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<TrustedEmailDomain>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.EmailTrustedDomains}")
+                new FortnoxApiClientRequest<SingleResource<TrustedEmailDomain>>(HttpMethod.Post, request, $"{ApiEndpoints.EmailTrustedDomains}")
                 {
                     Data = new SingleResource<TrustedEmailDomain> { Data = trustedEmailDomain }
                 };
@@ -39,8 +39,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<string>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.EmailTrustedDomains}/{id}")
                 {
                 };

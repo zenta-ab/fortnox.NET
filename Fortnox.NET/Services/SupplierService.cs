@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<SupplierSubset>> GetSuppliersAsync(SupplierListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<SupplierSubset>>(HttpMethod.Get, listRequest,
                                                                                                  ApiEndpoints.Suppliers);
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -32,7 +32,7 @@ namespace FortnoxNET.Services
 
         public static async Task<Supplier> GetSupplierAsync(FortnoxApiRequest request, string supplierNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Supplier>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Supplier>>(HttpMethod.Get, request,
                                                                                     $"{ApiEndpoints.Suppliers}/{supplierNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;

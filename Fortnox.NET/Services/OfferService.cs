@@ -15,7 +15,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<OfferSubset>> GetOffersAsync(OfferListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<OfferSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<OfferSubset>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.Offers);
 
             apiRequest.SetFilter(listRequest.Filter?.ToString());
@@ -37,7 +37,7 @@ namespace FortnoxNET.Services
 
         public static async Task<Offer> GetOfferAsync(FortnoxApiRequest request, string offerNumber)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<Offer>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<Offer>>(HttpMethod.Get, request,
                                                                                 $"{ApiEndpoints.Offers}/{offerNumber}");
 
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
@@ -46,7 +46,7 @@ namespace FortnoxNET.Services
         public static async Task<Offer> CreateOfferAsync(FortnoxApiRequest request, Offer offer)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Offer>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.Offers}")
+                new FortnoxApiClientRequest<SingleResource<Offer>>(HttpMethod.Post, request, $"{ApiEndpoints.Offers}")
                 {
                     Data = new SingleResource<Offer> { Data = offer }
                 };
@@ -57,7 +57,7 @@ namespace FortnoxNET.Services
         public static async Task<Offer> UpdateOfferAsync(FortnoxApiRequest request, Offer offer)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<Offer>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<Offer>>(HttpMethod.Put, request,
                                                                    $"{ApiEndpoints.Offers}/{offer.DocumentNumber}")
                 {
                     Data = new SingleResource<Offer> { Data = offer }

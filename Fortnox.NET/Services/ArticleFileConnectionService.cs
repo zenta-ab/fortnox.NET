@@ -14,8 +14,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<ArticleFileConnections>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret, 
+                listRequest, 
                 ApiEndpoints.ArticleFileConnections
             );
 
@@ -30,8 +29,7 @@ namespace FortnoxNET.Services
         {
             var apiRequest = new FortnoxApiClientRequest<SingleResource<ArticleFileConnections>>(
                 HttpMethod.Get, 
-                listRequest.AccessToken, 
-                listRequest.ClientSecret, 
+                listRequest, 
                 $"{ApiEndpoints.ArticleFileConnections}/{fileId}"
             );
 
@@ -46,8 +44,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<SingleResource<ArticleFileConnection>>(
                     HttpMethod.Post,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.ArticleFileConnections}")
                 {
                     Data = new SingleResource<ArticleFileConnection>()
@@ -68,8 +65,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<object>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.ArticleFileConnections}/{fileId}");
 
             await FortnoxAPIClient.CallAsync(apiRequest);

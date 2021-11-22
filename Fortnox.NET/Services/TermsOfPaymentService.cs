@@ -11,7 +11,7 @@ namespace FortnoxNET.Services
     {
         public static async Task<ListedResourceResponse<TermsOfPaymentSubset>> GetTermsOfPaymentsAsync(TermsOfPaymentListRequest listRequest)
         {
-            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TermsOfPaymentSubset>>(HttpMethod.Get, listRequest.AccessToken, listRequest.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<ListedResourceResponse<TermsOfPaymentSubset>>(HttpMethod.Get, listRequest,
                                                                                         ApiEndpoints.TermsOfPayments);
 
             apiRequest.SetSortOrder(listRequest.SortBy?.ToString(), listRequest.SortOrder.ToString());
@@ -22,7 +22,7 @@ namespace FortnoxNET.Services
 
         public static async Task<TermsOfPayment> GetTermsOfPaymentAsync(FortnoxApiRequest request, string code)
         {
-            var apiRequest = new FortnoxApiClientRequest<SingleResource<TermsOfPayment>>(HttpMethod.Get, request.AccessToken, request.ClientSecret,
+            var apiRequest = new FortnoxApiClientRequest<SingleResource<TermsOfPayment>>(HttpMethod.Get, request,
                                                                                           $"{ApiEndpoints.TermsOfPayments}/{code}");
             return (await FortnoxAPIClient.CallAsync(apiRequest)).Data;
         }
@@ -30,7 +30,7 @@ namespace FortnoxNET.Services
         public static async Task<TermsOfPayment> CreateTermsOfPaymentAsync(FortnoxApiRequest request, TermsOfPayment termsOfPayment)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<TermsOfPayment>>(HttpMethod.Post, request.AccessToken, request.ClientSecret, $"{ApiEndpoints.TermsOfPayments}")
+                new FortnoxApiClientRequest<SingleResource<TermsOfPayment>>(HttpMethod.Post, request, $"{ApiEndpoints.TermsOfPayments}")
                 {
                     Data = new SingleResource<TermsOfPayment> { Data = termsOfPayment }
                 };
@@ -40,7 +40,7 @@ namespace FortnoxNET.Services
         public static async Task<TermsOfPayment> UpdateTermsOfPaymentAsync(FortnoxApiRequest request, TermsOfPayment termsOfPayment)
         {
             var apiRequest =
-                new FortnoxApiClientRequest<SingleResource<TermsOfPayment>>(HttpMethod.Put, request.AccessToken, request.ClientSecret,
+                new FortnoxApiClientRequest<SingleResource<TermsOfPayment>>(HttpMethod.Put, request,
                     $"{ApiEndpoints.TermsOfPayments}/{termsOfPayment.Code}/")
                 {
                     Data = new SingleResource<TermsOfPayment> { Data = termsOfPayment }
@@ -53,8 +53,7 @@ namespace FortnoxNET.Services
             var apiRequest =
                 new FortnoxApiClientRequest<string>(
                     HttpMethod.Delete,
-                    request.AccessToken,
-                    request.ClientSecret,
+                    request,
                     $"{ApiEndpoints.TermsOfPayments}/{code}")
                 {
                 };
