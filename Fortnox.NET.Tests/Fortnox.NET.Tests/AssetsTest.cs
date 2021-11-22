@@ -58,7 +58,8 @@ namespace FortnoxNET.Tests
             
             Assert.AreEqual(asset.Number, result.Number);
         }
-        
+
+        // TODO(Oskar): Flaky test. Commented out for now untill we provide a stable testing environment.
         //[TestMethod]
         //public async Task ItCanUpdateAnAsset()
         //{
@@ -75,6 +76,7 @@ namespace FortnoxNET.Tests
         //    Assert.AreEqual(updatedDescription, result.Description);
         //}
 
+        // TODO(Oskar): Flaky test. Commented out for now untill we provide a stable testing environment.
         //[TestMethod]
         //public async Task ItCanWriteUpAndDownAnAsset()
         //{
@@ -155,6 +157,7 @@ namespace FortnoxNET.Tests
             var soldAsset = await AssetsService.SellAssetAsync(request, $"{result.Id}", sellAsset);
         }
 
+        // TODO(Oskar): Flaky tests. Commented out for now untill we provide a stable testing environment.
         //[TestMethod]
         //public async Task ItCanDepreciateAnAsset()
         //{
