@@ -27,9 +27,12 @@ jobs:
         ClientSecret: ${{ secrets.CLIENTSECRET }}
 
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 2.2
+        dotnet-version: |
+          5.0.x
+          6.0.x
+
     
     - name: Install dependencies
       shell: cmd
@@ -42,25 +45,3 @@ jobs:
       run: |
         cd Fortnox.NET
         dotnet build --configuration Release --no-restore
-    
-    - name: Test
-      shell: powershell
-      run: |
-        cd Fortnox.NET.Tests\Fortnox.NET.Tests\bin\Release\netcoreapp2.2
-        
-        function ErrorOut
-        {
-          exit 1
-        }
-
-        $Tests = @("AbsenceTransactionsTests", "AccountChartTests", "AccountTests", "ArchiveTest", "ArticleFileConnectionsTest", "ArticleTests", "AssetFileConnectionsTests", "AssetsTest", "AssetTypeTests", "AttendanceTransactionTests", "CompanyInformationTests", "CompanySettingsTests", "ContractTemplateTests", "ContractTests", "CostCenterTests", "CurrencyTests", "CustomerTests", "EmployeeTests", "ExpenseTest", "FinancialYearTests", "InboxTest", "InvoicePaymentTests", "InvoiceTests", "LabelTests", "LockedPeriodTests", "ModesOfPaymentsTests", "OfferTests", "OrderTests", "PredefinedAccountsTest", "PriceListTests", "PriceTests", "PrintTemplatesTests", "ProjectTests", "SalaryTransactionTests", "SIETests", "SupplierInvoiceExternalURLConnectionsServiceTests", "SupplierInvoiceFileConnectionsTests", "SupplierInvoicePaymentTests", "SupplierInvoiceTests", "SupplierTests", "TaxReductionTests", "TermsOfDeliveryTests", "TermsOfPaymentTests", "TrustedEmailDomainTests", "UnitTests", "VoucherSeriesTests", "VoucherTests", "WayOfDeliveryTests")
-        For($Index = 0; $Index -lt $Tests.Length; $Index++)
-        {
-          $CurrentTest = $Tests[$Index]
-          VSTest.Console.exe Fortnox.NET.Tests.dll /Tests:$CurrentTest
-          if (!($?))
-          {
-            ErrorOut
-          }
-        }
-
