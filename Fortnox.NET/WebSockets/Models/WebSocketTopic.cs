@@ -41,5 +41,25 @@ namespace FortnoxNET.WebSockets.Models
         WaysOfDeliveries,
         [WebSocketTopicStringValue("termsofpayments")]
         TermsOfPayments,
+        [WebSocketTopicStringValue("bureau-activities")]
+        BureauActivities,
+        [WebSocketTopicStringValue("bureau-assignments")]
+        BureauAssignments,
+        [WebSocketTopicStringValue("cost-centers")]
+        CostCenters,
+        [WebSocketTopicStringValue("financial-years")]
+        FinancialYears,
+        [WebSocketTopicStringValue("messages")]
+        Messages,
+        [WebSocketTopicStringValue("projects")]
+        Projects,
+        [WebSocketTopicStringValue("suppliers")]
+        Suppliers,
+        [WebSocketTopicStringValue("supplier-invoices")]
+        SupplierInvoices,
+        [WebSocketTopicStringValue("vouchers")]
+        Vouchers,
+        [WebSocketTopicStringValue("warehouse-stockbalances")]
+        WarehouseStockBalances,
     }
 }

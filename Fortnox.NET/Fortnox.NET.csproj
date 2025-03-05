@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>3.3.0</PackageVersion>
-    <Version>3.3.0</Version>
+    <PackageVersion>3.4.0</PackageVersion>
+    <Version>3.4.0</Version>
     <Title>Fortnox API SDK</Title>
     <Authors>Zenta AB</Authors>
     <Company>Zenta AB</Company>

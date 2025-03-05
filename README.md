@@ -160,6 +160,16 @@ The supported topics to subscribe to for changes are the following:
 * TermsOfDeliveries
 * WaysOfDeliveries
 * TermsOfPayments
+* BureauActivities
+* BureauAssignments
+* CostCenters
+* FinancialYears
+* Messages
+* Projects
+* Suppliers
+* SupplierInvoices
+* Vouchers
+* WarehouseStockBalances
 
 ## Contributing
 

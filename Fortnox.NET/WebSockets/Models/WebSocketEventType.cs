@@ -37,6 +37,8 @@ namespace Fortnox.NET.WebSockets.Models
         OfferCreated,
         [EnumMember(Value = "offer-updated-v1")]
         OfferUpdated,
+        [EnumMember(Value = "offer-canceled-v1")]
+        OfferCanceled,
 
         [EnumMember(Value = "article-created-v1")]
         ArticleCreated,
@@ -112,8 +114,6 @@ namespace Fortnox.NET.WebSockets.Models
         [EnumMember(Value = "send-push-notification-queued-v1")]
         SendPushNotificationQueued,
 
-        [EnumMember(Value = "offer-canceled-v1")]
-        OfferCanceled,
 
         [EnumMember(Value = "project-created-v1")]
         ProjectCreated,
