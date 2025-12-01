@@ -126,25 +126,26 @@ namespace FortnoxNET.Communication
                     new KeyValuePair<string, string>("tenant_id", tenantId.ToString()),
                 };
 
-                var content = new FormUrlEncodedContent(urlContent);
-
-                var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
-                if (!response.IsSuccessStatusCode)
+                using (var content = new FormUrlEncodedContent(urlContent))
                 {
-                    try
+                    var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
+                    if (!response.IsSuccessStatusCode)
                     {
-                        var errorResponse = JsonConvert.DeserializeObject<AuthorizationError>(await response.Content.ReadAsStringAsync(),
-                                                                                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                        try
+                        {
+                            var errorResponse = JsonConvert.DeserializeObject<AuthorizationError>(await response.Content.ReadAsStringAsync(),
+                                                                                             new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-                        throw new Exception($"Error: {errorResponse.Error} Message: {errorResponse.Description}");
+                            throw new Exception($"Error: {errorResponse.Error} Message: {errorResponse.Description}");
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception($"Could not get resource. Status Code: {response.StatusCode}, Reason: {response.ReasonPhrase}, {e.Message}");
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        throw new Exception($"Could not get resource. Status Code: {response.StatusCode}, Reason: {response.ReasonPhrase}, {e.Message}");
-                    }
+
+                    return await GetResponseAsync<ServiceAccountToken>(response);
                 }
-
-                return await GetResponseAsync<ServiceAccountToken>(response);
             }
         }
 
