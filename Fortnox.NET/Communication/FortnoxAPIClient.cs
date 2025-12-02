@@ -109,6 +109,46 @@ namespace FortnoxNET.Communication
             }
         }
 
+        /// <summary>
+        /// Gets an access token using Client Credentials Flow for service accounts.
+        /// </summary>
+        internal static async Task<ServiceAccountToken> GetServiceAccountTokenAsync(string clientId, string clientSecret, long tenantId)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+
+                var urlContent = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                    new KeyValuePair<string, string>("client_id", clientId),
+                    new KeyValuePair<string, string>("client_secret", clientSecret),
+                    new KeyValuePair<string, string>("tenant_id", tenantId.ToString()),
+                };
+
+                using (var content = new FormUrlEncodedContent(urlContent))
+                {
+                    var response = await client.PostAsync(ApiEndpoints.OAuthToken, content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        try
+                        {
+                            var errorResponse = JsonConvert.DeserializeObject<AuthorizationError>(await response.Content.ReadAsStringAsync(),
+                                                                                             new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+                            throw new Exception($"Error: {errorResponse.Error} Message: {errorResponse.Description}");
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception($"Could not get resource. Status Code: {response.StatusCode}, Reason: {response.ReasonPhrase}, {e.Message}");
+                        }
+                    }
+
+                    return await GetResponseAsync<ServiceAccountToken>(response);
+                }
+            }
+        }
+
         internal static async Task<T> CallAsync<T>(FortnoxApiClientRequest<T> request) where T : class
         {
             using (var client = new HttpClient())
@@ -152,9 +192,9 @@ namespace FortnoxNET.Communication
             }
         }
 
-        internal static async Task<TResponse> CallAsync<T, TResponse>(FortnoxApiClientRequest<T> request) 
+        internal static async Task<TResponse> CallAsync<T, TResponse>(FortnoxApiClientRequest<T> request)
             where T : class
-            where TResponse: class
+            where TResponse : class
         {
             using (var client = new HttpClient())
             {

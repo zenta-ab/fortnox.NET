@@ -24,8 +24,9 @@ namespace FortnoxNET.Services
         /// <param name="redirectUri">URL-encoded URI that must match the Redirect URI for the app set in the Developer Portal. If omitted, it will default to the registered Redirect URI.</param>
         /// <param name="scopes">The request should have one or more scope values indicating access requested by the application. </param>
         /// <param name="state">The state parameter is used by the application to store request-specific data and/or prevent CSRF attacks.</param>
+        /// <param name="accountType">Optional. Set to "service" to create a service account instead of a user account. Service accounts are not tied to individual users and support Client Credentials Flow.</param>
         /// <returns>A string with the URL to redirect to in order to initiate the OAuth flow.</returns>
-        public static string GetAuthorizationUrl(string clientId, string redirectUri, string scopes, string state)
+        public static string GetAuthorizationUrl(string clientId, string redirectUri, string scopes, string state, string accountType = null)
         {
             var urlContent = new List<KeyValuePair<string, string>>
             {
@@ -39,6 +40,11 @@ namespace FortnoxNET.Services
             if (redirectUri != null)
             {
                 urlContent.Add(new KeyValuePair<string, string>("redirect_uri", redirectUri));
+            }
+
+            if (accountType != null)
+            {
+                urlContent.Add(new KeyValuePair<string, string>("account_type", accountType));
             }
 
             var sb = new StringBuilder();
@@ -76,6 +82,24 @@ namespace FortnoxNET.Services
         public static async Task<OAuthToken> RefreshTokenAsync(string clientId, string clientSecret, string refreshToken)
         {
             return await FortnoxAPIClient.RefreshAccessToken(clientId, clientSecret, refreshToken);
+        }
+
+        /// <summary>
+        /// Gets an access token using Client Credentials Flow for service accounts.
+        /// This is the recommended flow for integrations that use service accounts instead of user accounts.
+        /// Service accounts are not tied to individual users and are ideal for server-to-server integrations.
+        /// </summary>
+        /// <remarks>
+        /// <para>To use this flow, the integration must first be activated with account_type=service parameter.</para>
+        /// <para>Access tokens are valid for 1 hour (3600 seconds). When expired, simply request a new token - no refresh token is used.</para>
+        /// </remarks>
+        /// <param name="clientId">The client_id is the public identifier for the app.</param>
+        /// <param name="clientSecret">The client secret is the secret identifier.</param>
+        /// <param name="tenantId">The customer's tenant ID</param>
+        /// <returns>A ServiceAccountToken containing access_token, token_type, and expires_in.</returns>
+        public static async Task<ServiceAccountToken> GetServiceAccountTokenAsync(string clientId, string clientSecret, long tenantId)
+        {
+            return await FortnoxAPIClient.GetServiceAccountTokenAsync(clientId, clientSecret, tenantId);
         }
     }
 }
