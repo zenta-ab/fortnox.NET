@@ -114,5 +114,10 @@ namespace FortnoxNET.Models.Order
         /// Stock point code
         /// </summary>
         public string StockPointCode { get; set; }
+
+        /// <summary>
+        /// Used for updating a specific row. If not specified, the row will be handled as a new one.
+        /// </summary>
+        public long? RowId { get; set; }
     }
 }

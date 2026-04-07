@@ -116,5 +116,10 @@ namespace FortnoxNET.Models.Invoice
         /// VAT percentage of the row. The percentage needs to be of an existing VAT percentage.
         /// </summary>
         public decimal VAT { get; set; }
+
+        /// <summary>
+        /// Used for updating a specific row. If not specified, the row will be handled as a new one.
+        /// </summary>
+        public long? RowId { get; set; }
     }
 }
