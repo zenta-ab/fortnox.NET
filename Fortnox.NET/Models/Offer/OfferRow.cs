@@ -92,5 +92,10 @@ namespace FortnoxNET.Models.Offer
         /// Vat percent code
         /// </summary>
         public decimal? VAT { get; set; }
+
+        /// <summary>
+        /// Used for updating a specific row. If not specified, the row will be handled as a new one.
+        /// </summary>
+        public long? RowId { get; set; }
     }
 }
